@@ -1,0 +1,93 @@
+<svg width="1200" height="920" viewBox="0 0 1200 920" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Ilustracion editorial VetKathia</title>
+  <desc id="desc">Placeholder propio con una veterinaria, un perro, un gato y elementos de plan nutricional en tonos calidos VetKathia.</desc>
+  <defs>
+    <linearGradient id="bg" x1="168" y1="84" x2="1018" y2="858" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF9F6"/>
+      <stop offset="0.55" stop-color="#FFF1F5"/>
+      <stop offset="1" stop-color="#FFF9F6"/>
+    </linearGradient>
+    <linearGradient id="rose" x1="396" y1="232" x2="826" y2="674" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E83E73"/>
+      <stop offset="1" stop-color="#BE185D"/>
+    </linearGradient>
+    <filter id="softShadow" x="130" y="82" width="984" height="784" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="28"/>
+      <feGaussianBlur stdDeviation="44"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.231 0 0 0 0 0.153 0 0 0 0 0.141 0 0 0 0.13 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_hero"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_hero" result="shape"/>
+    </filter>
+    <filter id="cardShadow" x="584" y="150" width="388" height="344" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="18"/>
+      <feGaussianBlur stdDeviation="22"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.231 0 0 0 0 0.153 0 0 0 0 0.141 0 0 0 0.12 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_card"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_card" result="shape"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="920" rx="72" fill="url(#bg)"/>
+  <circle cx="260" cy="218" r="162" fill="#FFFFFF" opacity="0.55"/>
+  <circle cx="974" cy="176" r="188" fill="#F7B9C9" opacity="0.42"/>
+  <circle cx="944" cy="746" r="214" fill="#FFFFFF" opacity="0.48"/>
+
+  <g filter="url(#softShadow)">
+    <rect x="176" y="118" width="820" height="652" rx="56" fill="#FFFFFF" opacity="0.86"/>
+    <rect x="197" y="139" width="778" height="610" rx="42" stroke="#F7B9C9" stroke-width="2"/>
+  </g>
+
+  <path d="M222 620C306 494 420 430 563 428C742 425 848 512 928 620V706H222V620Z" fill="#FFF1F5"/>
+  <path d="M254 635C332 535 432 484 553 481C708 477 815 542 898 635" stroke="#F7B9C9" stroke-width="8" stroke-linecap="round"/>
+
+  <g>
+    <path d="M508 370C471 406 450 459 444 531C442 559 464 583 492 583H650C680 583 703 557 699 527C689 455 663 404 621 369C591 343 538 342 508 370Z" fill="url(#rose)"/>
+    <path d="M514 454C546 478 593 480 628 454" stroke="#FFF9F6" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="565" cy="284" r="82" fill="#FFF1F5" stroke="#F7B9C9" stroke-width="6"/>
+    <path d="M488 282C510 217 586 192 646 240C639 212 610 189 570 184C503 176 458 224 456 286C468 284 479 282 488 282Z" fill="#3B2724"/>
+    <path d="M612 340C630 354 646 376 654 405" stroke="#3B2724" stroke-width="9" stroke-linecap="round"/>
+    <path d="M482 418C450 404 422 380 407 346" stroke="#3B2724" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="405" cy="342" r="18" fill="#FFF9F6" stroke="#3B2724" stroke-width="7"/>
+    <path d="M654 406C679 420 691 446 685 475" stroke="#3B2724" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="684" cy="478" r="16" fill="#FFF9F6" stroke="#3B2724" stroke-width="7"/>
+  </g>
+
+  <g>
+    <path d="M300 585C315 527 368 488 431 493C491 498 536 544 542 603L536 654H304L300 585Z" fill="#FFF9F6" stroke="#F7B9C9" stroke-width="6"/>
+    <path d="M343 496C328 466 337 437 368 414C376 448 401 470 431 480" fill="#FFF1F5"/>
+    <path d="M491 520C527 526 556 554 566 591" stroke="#7A625C" stroke-width="8" stroke-linecap="round"/>
+    <path d="M369 583C397 606 435 606 466 583" stroke="#7A625C" stroke-width="7" stroke-linecap="round"/>
+    <path d="M327 650H540" stroke="#F7B9C9" stroke-width="8" stroke-linecap="round"/>
+  </g>
+
+  <g>
+    <path d="M728 621C742 564 790 528 846 534C901 540 941 583 944 640L931 684H736L728 621Z" fill="#FFF1F5" stroke="#F7B9C9" stroke-width="6"/>
+    <path d="M774 542L758 492L811 524" fill="#FFF9F6" stroke="#F7B9C9" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M888 544L908 495L855 523" fill="#FFF9F6" stroke="#F7B9C9" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M796 616C824 636 858 636 884 616" stroke="#7A625C" stroke-width="7" stroke-linecap="round"/>
+    <path d="M754 683H933" stroke="#F7B9C9" stroke-width="8" stroke-linecap="round"/>
+  </g>
+
+  <g filter="url(#cardShadow)">
+    <rect x="632" y="184" width="292" height="230" rx="30" fill="#FFF9F6"/>
+    <rect x="653" y="205" width="250" height="188" rx="22" stroke="#F7B9C9" stroke-width="2"/>
+    <rect x="678" y="234" width="74" height="74" rx="22" fill="#FFF1F5"/>
+    <path d="M701 272C713 255 732 251 748 262C746 280 732 293 711 295C705 290 702 282 701 272Z" fill="#E83E73" opacity="0.78"/>
+    <path d="M789 246H867" stroke="#3B2724" stroke-width="9" stroke-linecap="round"/>
+    <path d="M789 281H852" stroke="#E83E73" stroke-width="8" stroke-linecap="round"/>
+    <path d="M678 342H874" stroke="#F7B9C9" stroke-width="9" stroke-linecap="round"/>
+    <path d="M678 366H834" stroke="#F7B9C9" stroke-width="9" stroke-linecap="round"/>
+  </g>
+
+  <g>
+    <rect x="255" y="192" width="172" height="74" rx="24" fill="#FFF9F6" stroke="#F7B9C9" stroke-width="2"/>
+    <path d="M286 230H397" stroke="#E83E73" stroke-width="9" stroke-linecap="round"/>
+    <path d="M286 248H358" stroke="#F7B9C9" stroke-width="8" stroke-linecap="round"/>
+    <rect x="824" y="468" width="126" height="54" rx="27" fill="#FFFFFF" opacity="0.88"/>
+    <path d="M852 495H921" stroke="#BE185D" stroke-width="8" stroke-linecap="round"/>
+  </g>
+</svg>

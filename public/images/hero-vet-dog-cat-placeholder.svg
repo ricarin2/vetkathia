@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
+  <title id="title">Placeholder visual de valoración veterinaria para perro y gato</title>
+  <desc id="desc">Ilustración propia con una veterinaria, un perro, un gato y una ficha nutricional.</desc>
+  <defs>
+    <linearGradient id="heroBg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#FFF9F6"/>
+      <stop offset="1" stop-color="#FFF1F5"/>
+    </linearGradient>
+    <linearGradient id="heroAccent" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#E83E73"/>
+      <stop offset="1" stop-color="#BE185D"/>
+    </linearGradient>
+    <filter id="heroShadow" color-interpolation-filters="sRGB" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="24" stdDeviation="26" flood-color="#3B2724" flood-opacity=".12"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="900" rx="72" fill="url(#heroBg)"/>
+  <path d="M88 732C224 603 300 719 430 636c129-82 143-276 310-273 166 2 205 205 371 150" fill="none" stroke="#F7B9C9" stroke-width="8" stroke-linecap="round"/>
+  <g filter="url(#heroShadow)">
+    <rect x="112" y="116" width="448" height="588" rx="56" fill="#FFFFFF"/>
+    <rect x="162" y="172" width="348" height="80" rx="28" fill="#FFF1F5"/>
+    <circle cx="248" cy="386" r="92" fill="#FFF1F5"/>
+    <path d="M214 368c18-54 83-54 102 0" fill="none" stroke="#3B2724" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="236" cy="384" r="8" fill="#3B2724"/>
+    <circle cx="294" cy="384" r="8" fill="#3B2724"/>
+    <path d="M250 416c16 12 30 12 46 0" fill="none" stroke="#E83E73" stroke-width="10" stroke-linecap="round"/>
+    <path d="M224 308l-58-52 12 86" fill="#FFFFFF" stroke="#E83E73" stroke-width="10" stroke-linejoin="round"/>
+    <path d="M310 308l58-52-12 86" fill="#FFFFFF" stroke="#E83E73" stroke-width="10" stroke-linejoin="round"/>
+    <rect x="214" y="510" width="244" height="30" rx="15" fill="#F7B9C9"/>
+    <rect x="214" y="568" width="178" height="30" rx="15" fill="#F7B9C9"/>
+    <rect x="214" y="626" width="212" height="30" rx="15" fill="#F7B9C9"/>
+  </g>
+  <g filter="url(#heroShadow)">
+    <rect x="626" y="174" width="430" height="544" rx="56" fill="#FFFFFF"/>
+    <rect x="690" y="238" width="302" height="56" rx="28" fill="#FFF1F5"/>
+    <circle cx="776" cy="422" r="82" fill="#FFF1F5"/>
+    <path d="M724 442c12-58 94-58 106 0" fill="none" stroke="#3B2724" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="748" cy="426" r="8" fill="#3B2724"/>
+    <circle cx="806" cy="426" r="8" fill="#3B2724"/>
+    <path d="M758 460c14 10 28 10 42 0" fill="none" stroke="#E83E73" stroke-width="10" stroke-linecap="round"/>
+    <path d="M710 390c-40-4-70 20-78 54 42 0 73-17 78-54z" fill="#FFFFFF" stroke="#BE185D" stroke-width="10" stroke-linejoin="round"/>
+    <path d="M842 390c40-4 70 20 78 54-42 0-73-17-78-54z" fill="#FFFFFF" stroke="#BE185D" stroke-width="10" stroke-linejoin="round"/>
+    <rect x="700" y="554" width="288" height="34" rx="17" fill="#F7B9C9"/>
+    <rect x="700" y="622" width="224" height="34" rx="17" fill="#F7B9C9"/>
+  </g>
+  <g>
+    <circle cx="575" cy="182" r="54" fill="url(#heroAccent)"/>
+    <path d="M555 179h40M575 159v40" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round"/>
+  </g>
+</svg>

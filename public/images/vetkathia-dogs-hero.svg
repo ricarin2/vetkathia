@@ -1,0 +1,78 @@
+<svg width="1440" height="1680" viewBox="0 0 1440 1680" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Tres perros mirando hacia arriba</title>
+  <desc id="desc">Ilustracion editorial temporal inspirada en una foto de tres perros, preparada para sustituirse por la fotografia real.</desc>
+  <defs>
+    <linearGradient id="floor" x1="120" y1="0" x2="1240" y2="1680" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF9F6"/>
+      <stop offset="0.55" stop-color="#FFF1F5"/>
+      <stop offset="1" stop-color="#F7B9C9"/>
+    </linearGradient>
+    <radialGradient id="light" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(510 520) rotate(76) scale(880 690)">
+      <stop stop-color="#FFFFFF" stop-opacity="0.92"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softShadow" x="-80" y="-80" width="1600" height="1840" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="36" stdDeviation="42" flood-color="#3B2724" flood-opacity="0.18"/>
+    </filter>
+    <filter id="eye" x="-12" y="-12" width="60" height="60" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#3B2724" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+
+  <rect width="1440" height="1680" fill="url(#floor)"/>
+  <rect width="1440" height="1680" fill="url(#light)"/>
+  <path d="M0 760H1440" stroke="#F7B9C9" stroke-width="4" opacity="0.45"/>
+  <path d="M0 1096H1440" stroke="#F7B9C9" stroke-width="4" opacity="0.36"/>
+  <path d="M386 0V1680" stroke="#F7B9C9" stroke-width="4" opacity="0.34"/>
+  <path d="M812 0V1680" stroke="#F7B9C9" stroke-width="4" opacity="0.28"/>
+  <path d="M1118 0V1680" stroke="#F7B9C9" stroke-width="4" opacity="0.24"/>
+
+  <g filter="url(#softShadow)">
+    <g transform="translate(210 815) rotate(-12)">
+      <path d="M94 420C28 324 22 160 97 63C172 -34 318 -14 389 86C457 183 448 346 381 432C313 519 160 516 94 420Z" fill="#B9783E"/>
+      <path d="M100 165C53 117 21 48 32 17C78 19 143 61 176 112L100 165Z" fill="#8F562F"/>
+      <path d="M373 150C419 96 474 73 510 82C511 136 462 205 403 229L373 150Z" fill="#8F562F"/>
+      <path d="M116 416C166 502 309 510 367 426C327 469 163 462 116 416Z" fill="#FFFFFF" opacity="0.28"/>
+      <ellipse cx="183" cy="238" rx="31" ry="38" fill="#2F221F" filter="url(#eye)"/>
+      <ellipse cx="321" cy="210" rx="31" ry="38" fill="#2F221F" filter="url(#eye)"/>
+      <circle cx="193" cy="224" r="9" fill="#FFFFFF" opacity="0.9"/>
+      <circle cx="330" cy="196" r="9" fill="#FFFFFF" opacity="0.9"/>
+      <path d="M246 294C262 278 292 276 309 291C302 319 270 334 246 294Z" fill="#2A1C19"/>
+      <path d="M275 318C252 354 218 350 201 335" stroke="#5A3830" stroke-width="10" stroke-linecap="round"/>
+      <path d="M278 318C307 350 342 338 356 315" stroke="#5A3830" stroke-width="10" stroke-linecap="round"/>
+      <path d="M70 394C151 451 286 464 391 390C381 476 321 538 230 536C142 535 85 477 70 394Z" fill="#B9D8E8"/>
+    </g>
+
+    <g transform="translate(748 746) rotate(8)">
+      <path d="M83 399C25 305 28 154 92 62C161 -37 300 -21 370 71C439 162 436 319 371 404C306 489 142 493 83 399Z" fill="#8E4F2D"/>
+      <path d="M95 111C46 72 12 22 14 0C65 -4 134 35 165 86L95 111Z" fill="#743B24"/>
+      <path d="M346 104C389 60 454 43 487 58C472 108 420 156 363 174L346 104Z" fill="#743B24"/>
+      <path d="M102 216C123 129 183 76 246 78C313 81 357 139 372 226C302 193 179 194 102 216Z" fill="#C98B52"/>
+      <ellipse cx="168" cy="226" rx="29" ry="36" fill="#2F221F" filter="url(#eye)"/>
+      <ellipse cx="308" cy="225" rx="29" ry="36" fill="#2F221F" filter="url(#eye)"/>
+      <circle cx="178" cy="212" r="8" fill="#FFFFFF" opacity="0.9"/>
+      <circle cx="318" cy="211" r="8" fill="#FFFFFF" opacity="0.9"/>
+      <path d="M229 294C245 276 277 276 294 294C287 320 252 334 229 294Z" fill="#2A1C19"/>
+      <path d="M259 319C240 351 203 349 187 329" stroke="#5A3830" stroke-width="10" stroke-linecap="round"/>
+      <path d="M261 319C292 348 326 341 342 319" stroke="#5A3830" stroke-width="10" stroke-linecap="round"/>
+      <path d="M78 386C170 453 295 452 380 388C374 474 312 534 223 531C141 528 91 472 78 386Z" fill="#24314D"/>
+    </g>
+
+    <g transform="translate(515 295) rotate(0)">
+      <path d="M71 381C4 286 13 126 96 43C179 -40 306 -5 366 92C424 187 402 331 323 401C249 467 131 467 71 381Z" fill="#D9C3A3"/>
+      <path d="M100 83C61 52 35 12 43 -12C90 -11 147 30 168 80L100 83Z" fill="#9A5E38"/>
+      <path d="M332 96C376 64 430 58 459 78C442 126 392 165 337 176L332 96Z" fill="#9A5E38"/>
+      <path d="M80 168C122 112 171 90 224 92C278 94 322 126 354 183C282 170 167 169 80 168Z" fill="#F6EEE8" opacity="0.82"/>
+      <ellipse cx="158" cy="208" rx="28" ry="36" fill="#2F221F" filter="url(#eye)"/>
+      <ellipse cx="294" cy="211" rx="28" ry="36" fill="#2F221F" filter="url(#eye)"/>
+      <circle cx="168" cy="194" r="8" fill="#FFFFFF" opacity="0.9"/>
+      <circle cx="304" cy="197" r="8" fill="#FFFFFF" opacity="0.9"/>
+      <path d="M220 270C236 252 266 254 281 273C272 301 240 312 220 270Z" fill="#2A1C19"/>
+      <path d="M249 295C226 329 190 324 176 305" stroke="#6A4A40" stroke-width="10" stroke-linecap="round"/>
+      <path d="M251 295C277 326 314 322 330 303" stroke="#6A4A40" stroke-width="10" stroke-linecap="round"/>
+      <path d="M57 360C142 431 270 436 343 370C333 457 275 512 191 506C110 501 66 446 57 360Z" fill="#253452"/>
+    </g>
+  </g>
+
+  <path d="M0 0H1440V1680H0V0Z" fill="url(#light)" opacity="0.22"/>
+</svg>

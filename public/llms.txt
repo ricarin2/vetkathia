@@ -1,0 +1,30 @@
+# VetKathia
+
+VetKathia es una marca personal veterinaria especializada en nutrición natural para perros y gatos.
+
+## Para quién es
+
+VetKathia ayuda a tutores de perros y gatos que quieren revisar o mejorar la alimentación de su animal con criterio profesional, especialmente en casos senior, digestiones sensibles, cambios de peso, dudas con cantidades o transiciones hacia comida cocinada, mixta, BARF o natural comercial.
+
+## Servicios
+
+- Valoración nutricional online.
+- Plan nutricional personalizado.
+- Plan con acompañamiento y seguimiento.
+- Orientación para transiciones alimentarias seguras.
+
+## Enfoque
+
+El enfoque de VetKathia no es una recomendación única para todos los casos. Primero se revisan edad, especie, salud, alimentación actual, síntomas, rutina y objetivos. Después se propone una estrategia realista y aplicable en casa.
+
+## Qué no sustituye
+
+VetKathia no sustituye una urgencia veterinaria ni el seguimiento del veterinario habitual en casos clínicos complejos. Si un animal presenta síntomas graves, debe contactarse con un veterinario habitual o un servicio de urgencias.
+
+## URLs principales
+
+- https://vetkathia.com/
+- https://vetkathia.com/planes
+- https://vetkathia.com/solicitar-valoracion
+- https://vetkathia.com/sobre-mi
+- https://vetkathia.com/faq
