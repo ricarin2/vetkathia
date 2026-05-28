@@ -16,6 +16,10 @@ import {
   siteConfig,
   type SiteSocialLink,
 } from '../../data/site'
+import {
+  hasDemoTestimonialCases,
+  hasPublicTestimonialCases,
+} from '../../data/testimonials'
 import { cn } from '../../lib/cn'
 import { Button, Container, Input } from '../ui'
 
@@ -33,9 +37,17 @@ const socialIcons: Partial<Record<SiteSocialLink['label'], LucideIcon>> = {
 }
 
 export function Footer() {
+  const showCasesLink = hasPublicTestimonialCases || hasDemoTestimonialCases
   const footerNavigation = [
     ...mainNavigation,
-    { href: '/casos', label: 'Casos reales' },
+    ...(showCasesLink
+      ? [
+          {
+            href: '/casos',
+            label: hasPublicTestimonialCases ? 'Casos reales' : 'Casos demo',
+          },
+        ]
+      : []),
   ]
   const availableSocialLinks = (siteConfig.socialLinks ?? []).filter(
     (item) => item.href && item.href !== '#',

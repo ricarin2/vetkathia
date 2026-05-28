@@ -4,7 +4,7 @@ import {
   ShieldCheck,
   Stethoscope,
 } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { aboutTrustPillars, kathiaProfile } from '../data/about'
 import {
@@ -12,12 +12,7 @@ import {
   nutritionOptions,
   trustBenefits,
 } from '../data/home'
-import {
-  createFaqStructuredData,
-  homeOfferCatalogStructuredData,
-  kathiaPersonStructuredData,
-  vetKathiaServiceStructuredData,
-} from '../data/structuredData'
+import { createHomeStructuredData } from '../data/structuredData'
 import { StructuredData } from '../components/common/StructuredData'
 import { HeroPremium } from '../components/sections/HeroPremium'
 import { PricingSection } from '../components/sections/PricingSection'
@@ -26,6 +21,7 @@ import { useGsapReveal } from '../hooks/useGsapReveal'
 import {
   trackCTAClick,
   trackFAQOpen,
+  trackViewHome,
 } from '../lib/analytics'
 import {
   Accordion,
@@ -136,36 +132,35 @@ export function HomePage() {
 
   useGsapReveal(trustRef, { duration: 0.55, stagger: 0.05, y: 12 })
 
+  useEffect(() => {
+    trackViewHome()
+  }, [])
+
   const visibleHomeFaq = visibleHomeFaqBase
 
   return (
     <>
       <SEOHead
         canonicalPath="/"
-        description="Valoración nutricional online y planes personalizados para perros y gatos. Dieta cocinada, BARF o transición segura con criterio veterinario."
-        title="Nutrición natural veterinaria para perros y gatos | VetKathia"
+        description="Valoración nutricional y planes personalizados para perros y gatos. Dieta cocinada, mixta, BARF o transición gradual con criterio veterinario."
+        title="Nutrición natural veterinaria online | VetKathia"
       />
       <StructuredData
-        data={[
-          vetKathiaServiceStructuredData,
-          kathiaPersonStructuredData,
-          homeOfferCatalogStructuredData,
-          createFaqStructuredData(
-            visibleHomeFaq.map((item) => ({
-              answer: item.content,
-              question: item.title,
-            })),
-          ),
-        ]}
+        data={createHomeStructuredData(
+          visibleHomeFaq.map((item) => ({
+            answer: item.content,
+            question: item.title,
+          })),
+        )}
       />
 
       <HeroPremium
         id="nutricion"
         onPrimaryCtaClick={() =>
-          trackCTAClick('Elegir plan', 'home hero')
+          trackCTAClick('Ver planes y contratar', 'home hero')
         }
         onSecondaryCtaClick={() =>
-          trackCTAClick('Ver planes y precios', 'home hero')
+          trackCTAClick('Cómo funciona', 'home hero')
         }
       />
 
@@ -439,14 +434,14 @@ export function HomePage() {
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-vetkathia-muted sm:text-lg sm:leading-8">
                 Elige el plan que encaja mejor y después completa el
-                cuestionario inicial. La revisión manual se realiza según el
-                servicio contratado.
+                cuestionario nutricional. Podrás pagar con Stripe y reservar
+                tu cita online con Calendly.
               </p>
               <Button
                 className="mt-7"
                 onClick={() =>
                   trackCTAClick(
-                    'Elegir plan',
+                    'Ver planes y contratar',
                     'home final',
                   )
                 }
@@ -456,7 +451,7 @@ export function HomePage() {
                 size="lg"
                 to="/#planes"
               >
-                Elegir plan
+                Ver planes y contratar
               </Button>
             </div>
           </div>

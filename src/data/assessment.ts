@@ -40,8 +40,9 @@ export const symptomOptions = [
 
 export const nextSteps = [
   'Eliges el plan.',
-  'Pagas o reservas.',
+  'Pagas de forma segura con Stripe.',
   'Rellenas el cuestionario.',
+  'Reservas la consulta online si corresponde.',
   'Recibes valoración, pauta o seguimiento según corresponda.',
 ]
 

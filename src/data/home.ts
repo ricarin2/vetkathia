@@ -67,20 +67,24 @@ export const idealForProfiles = [
 
 export const methodSteps = [
   {
-    description: 'Cuestionario sobre salud, hábitos y alimentación actual.',
-    title: 'Valoración inicial',
+    description: 'Revisa precio, condiciones y qué incluye cada servicio.',
+    title: 'Elige el plan',
   },
   {
-    description: 'Revisamos el caso y resolvemos dudas.',
-    title: 'Consulta online',
+    description: 'La contratación online se gestiona con Stripe.',
+    title: 'Paga de forma segura con Stripe',
   },
   {
-    description: 'Recibes una pauta clara, con recomendaciones y guía práctica.',
-    title: 'Plan personalizado',
+    description: 'Comparte alimentación, rutina, salud y objetivo.',
+    title: 'Completa el cuestionario nutricional',
   },
   {
-    description: 'Ajustes y acompañamiento según el plan contratado.',
-    title: 'Seguimiento',
+    description: 'Elige el horario que mejor encaje con Calendly.',
+    title: 'Reserva tu cita online',
+  },
+  {
+    description: 'Recibe valoración, pauta o seguimiento según el plan.',
+    title: 'Recibe el servicio contratado',
   },
 ]
 
@@ -119,10 +123,10 @@ export const familyStoriesPlaceholder = {
 export const homePlans = [
   {
     bestFor: 'Quieres una primera orientación profesional antes de cambiar la alimentación.',
-    cta: 'Reservar valoración',
+    cta: 'Contratar valoración',
     description: 'Para saber si conviene cambiar y por dónde empezar.',
     includes: [
-      'Cuestionario inicial',
+      'Cuestionario nutricional',
       'Consulta online',
       'Revisión de alimentación actual',
       'Orientación profesional',
@@ -219,7 +223,7 @@ export const homeFaq = [
   },
   {
     content:
-      'Sí. Para iniciar el servicio eliges un plan y completas el pago o la reserva. Después rellenas el cuestionario inicial para que pueda revisar el caso con el contexto necesario.',
+      'Sí. Para iniciar el servicio eliges un plan y completas el pago seguro con Stripe. Después rellenas el cuestionario nutricional y puedes reservar tu cita online con Calendly.',
     id: 'pago-web',
     title: '¿Se paga antes de empezar?',
   },

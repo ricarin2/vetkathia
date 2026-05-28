@@ -11,7 +11,14 @@ import {
   UserRound,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import { useMemo, useRef, useState, type ReactNode } from 'react'
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type FormEvent,
+  type ReactNode,
+} from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router'
 import type { FieldErrors, FieldPath } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
@@ -25,18 +32,24 @@ import {
   symptomOptions,
 } from '../data/assessment'
 import {
-  assessmentResolver,
   type AssessmentFormValues,
+  assessmentResolver,
 } from '../lib/assessmentSchema'
-import { trackCTAClick, trackFormStart, trackFormSubmit } from '../lib/analytics'
+import {
+  trackCTAClick,
+  trackFormStart,
+  trackQuestionnaireStepCompleted,
+  trackQuestionnaireSubmitError,
+  trackQuestionnaireSubmitSuccess,
+  trackQuestionnaireView,
+} from '../lib/analytics'
 import { submitAssessment } from '../lib/submitAssessment'
 import { getTrafficAttribution } from '../lib/trafficAttribution'
-import { integrations } from '../lib/integrations'
+import { getIntegrationStatus, integrations } from '../lib/integrations'
 import { getSelectedPlan, planLabels, type PlanKey } from '../lib/planCheckout'
-import { createBreadcrumbStructuredData } from '../data/structuredData'
-import { CalendlyPlaceholder } from '../components/common/CalendlyPlaceholder'
+import { readSessionStorage, writeSessionStorage } from '../lib/browserStorage'
+import { CalendlyEmbed } from '../components/common/CalendlyEmbed'
 import { SEOHead } from '../components/common/SEOHead'
-import { StructuredData } from '../components/common/StructuredData'
 import {
   Badge,
   Button,
@@ -53,6 +66,7 @@ const baseDefaultValues: AssessmentFormValues = {
   additionalComments: '',
   age: '',
   breed: '',
+  calendlyScheduled: false,
   cityCountry: '',
   currentFood: '',
   diagnosticConditions: '',
@@ -66,8 +80,10 @@ const baseDefaultValues: AssessmentFormValues = {
   phone: '',
   privacyAccepted: false,
   recentBloodwork: '',
+  checkoutPlan: '',
   selectedPlan: '',
   species: '',
+  stripeSessionId: '',
   symptoms: [],
   urgencyAccepted: false,
   weight: '',
@@ -160,9 +176,42 @@ function scrollAndFocusField(field: string) {
 export function RequestAssessmentPage() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const selectedPlan = getSelectedPlan(searchParams.get('plan'))
+  const queryPlan = getSelectedPlan(searchParams.get('plan'))
+  const storedPaidPlan = readSessionStorage('vetkathia_paid_plan')
+  const storedCheckoutSessionId = readSessionStorage(
+    'vetkathia_checkout_session_id',
+  )
+  const storedPlan = getSelectedPlan(storedPaidPlan)
+  const selectedPlan = queryPlan ?? storedPlan
+  const stripeSessionId =
+    searchParams.get('session_id')?.trim() ||
+    storedCheckoutSessionId ||
+    ''
   const selectedPlanLabel = selectedPlan ? planLabels[selectedPlan] : ''
+  const canUseDevBypass = import.meta.env.DEV
+  const hasStoredPaidPlan =
+    selectedPlan &&
+    storedPaidPlan === selectedPlan &&
+    Boolean(storedCheckoutSessionId)
+  const hasCheckoutSession = Boolean(stripeSessionId)
+  const calendlyScheduled =
+    readSessionStorage('vetkathia_calendly_scheduled') === 'true'
+  const canStartAfterCheckout =
+    hasCheckoutSession ||
+    hasStoredPaidPlan ||
+    canUseDevBypass
+  const shouldRequireCheckoutFirst =
+    Boolean(selectedPlan) &&
+    integrations.requirePaymentBeforeForm &&
+    !canStartAfterCheckout
+  const integrationStatus = getIntegrationStatus()
+  const showFormEndpointWarning = !integrationStatus.formConfigured
+  const isFormEndpointMissing = !integrationStatus.canAcceptQuestionnaires
   const [currentStep, setCurrentStep] = useState(0)
+  const [contactPrefill, setContactPrefill] = useState({
+    email: '',
+    name: '',
+  })
   const currentFormStep = formSteps[currentStep]
   const hasTrackedFormStart = useRef(false)
   const attributionValues = useMemo(() => getTrafficAttribution(), [])
@@ -183,11 +232,47 @@ export function RequestAssessmentPage() {
       ...baseDefaultValues,
       ...attributionValues,
       ...caseSelectorDefaults,
+      calendlyScheduled,
+      checkoutPlan: selectedPlan ?? '',
       objective: getObjectiveForPlan(selectedPlan),
       selectedPlan: selectedPlan ?? '',
+      stripeSessionId,
     },
     resolver: assessmentResolver,
   })
+
+  useEffect(() => {
+    trackQuestionnaireView({
+      hasCheckoutSession,
+      paymentRequired: integrations.requirePaymentBeforeForm,
+      planKey: selectedPlan ?? undefined,
+      planName: selectedPlanLabel || undefined,
+    })
+  }, [hasCheckoutSession, selectedPlan, selectedPlanLabel])
+
+  const storeContactPrefill = (event: FormEvent<HTMLFormElement>) => {
+    const target = event.target
+    if (!(target instanceof HTMLInputElement)) return
+    if (target.name !== 'name' && target.name !== 'email') return
+
+    const value = target.value.trim()
+    setContactPrefill((currentContact) => ({
+      ...currentContact,
+      [target.name]: value,
+    }))
+
+    try {
+      if (value && target.name === 'name') {
+        writeSessionStorage('vetkathia_contact_name', value)
+      }
+
+      if (value && target.name === 'email') {
+        writeSessionStorage('vetkathia_contact_email', value)
+      }
+    } catch {
+      // Calendly prefill is optional and should not block the form.
+    }
+  }
 
   const handleFormStart = () => {
     if (hasTrackedFormStart.current) return
@@ -206,6 +291,11 @@ export function RequestAssessmentPage() {
     handleFormStart()
 
     if (!currentFormStep.fields.length) {
+      trackQuestionnaireStepCompleted({
+        planKey: selectedPlan ?? undefined,
+        step: currentFormStep.title,
+        stepIndex: currentStep + 1,
+      })
       setCurrentStep((step) => Math.min(step + 1, formSteps.length - 1))
       return
     }
@@ -218,6 +308,11 @@ export function RequestAssessmentPage() {
     }
 
     clearErrors(currentFormStep.fields)
+    trackQuestionnaireStepCompleted({
+      planKey: selectedPlan ?? undefined,
+      step: currentFormStep.title,
+      stepIndex: currentStep + 1,
+    })
     setCurrentStep((step) => Math.min(step + 1, formSteps.length - 1))
   }
 
@@ -241,22 +336,47 @@ export function RequestAssessmentPage() {
   const onSubmit = handleSubmit(async (values) => {
     try {
       await submitAssessment(values)
-      trackFormSubmit({
+      trackQuestionnaireSubmitSuccess({
+        calendlyScheduled: values.calendlyScheduled,
         current_path: values.current_path,
+        fbclid: values.fbclid,
+        first_touch_landing_page: values.first_touch_landing_page,
+        first_touch_referrer: values.first_touch_referrer,
+        first_touch_timestamp: values.first_touch_timestamp,
+        gbraid: values.gbraid,
+        gclid: values.gclid,
         landing_page: values.landing_page,
+        last_touch_landing_page: values.last_touch_landing_page,
+        last_touch_timestamp: values.last_touch_timestamp,
+        msclkid: values.msclkid,
+        planKey: selectedPlan ?? values.selectedPlan,
         referrer: values.referrer,
         selectedPlan: values.selectedPlan,
+        stripeSessionId: values.stripeSessionId,
+        ttclid: values.ttclid,
         utm_campaign: values.utm_campaign,
         utm_content: values.utm_content,
+        utm_id: values.utm_id,
         utm_medium: values.utm_medium,
         utm_source: values.utm_source,
         utm_term: values.utm_term,
+        wbraid: values.wbraid,
       })
-      navigate('/gracias')
-    } catch {
+      navigate(
+        `/gracias?plan=${selectedPlan ?? values.selectedPlan}&questionnaire=sent`,
+      )
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'No he podido enviar el cuestionario ahora mismo. Revisa tu conexión e inténtalo de nuevo.'
+
+      trackQuestionnaireSubmitError({
+        message,
+        planKey: selectedPlan ?? undefined,
+      })
       setError('root', {
-        message:
-          'No he podido enviar el cuestionario ahora mismo. Revisa tu conexión e inténtalo de nuevo.',
+        message,
         type: 'submit',
       })
     }
@@ -266,17 +386,9 @@ export function RequestAssessmentPage() {
     <>
       <SEOHead
         canonicalPath="/solicitar-valoracion"
-        description="Cuestionario inicial para revisar el caso de tu perro o gato según el plan de nutrición elegido."
-        title="Cuestionario inicial | VetKathia"
-      />
-      <StructuredData
-        data={createBreadcrumbStructuredData([
-          { name: 'Inicio', path: '/' },
-          {
-            name: 'Cuestionario inicial',
-            path: '/solicitar-valoracion',
-          },
-        ])}
+        description="Cuestionario nutricional para preparar el servicio contratado de nutrición veterinaria."
+        noindex
+        title="Cuestionario nutricional | VetKathia"
       />
 
       <Section className="pb-8 pt-10 sm:pt-14 lg:pt-18">
@@ -284,37 +396,72 @@ export function RequestAssessmentPage() {
           <div className="mx-auto max-w-3xl text-center">
             <Badge tone="soft">Cuestionario posterior</Badge>
             <h1 className="mt-5 text-4xl font-semibold leading-tight text-vetkathia-text sm:text-5xl lg:text-6xl">
-              Cuestionario inicial
+              Cuestionario nutricional
             </h1>
             <p className="mt-6 text-lg leading-8 text-vetkathia-muted">
-              Completa la información necesaria para revisar el caso según el
-              plan elegido.
+              Completa la información de tu perro o gato para preparar la
+              valoración, el plan o el acompañamiento contratado.
             </p>
           </div>
         </Container>
       </Section>
 
-      {!selectedPlan ? (
+      {shouldRequireCheckoutFirst ? (
+        <Section className="pt-0">
+          <Container size="md">
+            <Card className="text-center" tone="highlight">
+              <Badge tone="soft">Pago previo</Badge>
+              <h2 className="mx-auto mt-5 max-w-2xl font-sans text-3xl font-black leading-tight text-vetkathia-text sm:text-4xl">
+                Primero completa la contratación online
+              </h2>
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-vetkathia-muted sm:text-lg sm:leading-8">
+                Primero completa la contratación del plan para acceder al
+                cuestionario.
+              </p>
+              <Button
+                className="mt-7"
+                onClick={() =>
+                  trackCTAClick('Volver a planes', 'cuestionario pago previo')
+                }
+                to={selectedPlan ? `/contratar?plan=${selectedPlan}` : '/planes'}
+              >
+                {selectedPlan ? 'Contratar plan' : 'Volver a planes'}
+              </Button>
+            </Card>
+          </Container>
+        </Section>
+      ) : !selectedPlan ? (
         <Section className="pt-0">
           <Container size="md">
             <Card className="text-center" tone="highlight">
               <Badge tone="soft">Primero elige un plan</Badge>
               <h2 className="mx-auto mt-5 max-w-2xl font-sans text-3xl font-black leading-tight text-vetkathia-text sm:text-4xl">
-                Primero elige un plan
+                Primero elige o contrata un plan
               </h2>
               <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-vetkathia-muted sm:text-lg sm:leading-8">
-                Para revisar el caso, primero selecciona el servicio que quieres
-                contratar. Después podrás completar el cuestionario inicial.
+                Para completar el cuestionario nutricional, selecciona el
+                servicio que corresponde a tu caso y revisa los pasos de
+                contratación.
               </p>
-              <Button
-                className="mt-7"
-                onClick={() =>
-                  trackCTAClick('Ver planes y precios', 'cuestionario sin plan')
-                }
-                to="/#planes"
-              >
-                Ver planes y precios
-              </Button>
+              <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+                <Button
+                  onClick={() =>
+                    trackCTAClick('Ver planes y precios', 'cuestionario sin plan')
+                  }
+                  to="/planes"
+                >
+                  Ver planes y precios
+                </Button>
+                <Button
+                  onClick={() =>
+                    trackCTAClick('Ir a contratar', 'cuestionario sin plan')
+                  }
+                  to="/contratar"
+                  variant="outline"
+                >
+                  Ir a contratar
+                </Button>
+              </div>
             </Card>
           </Container>
         </Section>
@@ -331,13 +478,20 @@ export function RequestAssessmentPage() {
 	                {selectedPlanLabel}
 	              </h2>
 	              <p className="mt-4 text-lg leading-8 text-vetkathia-text">
-	                Completa el cuestionario inicial para que pueda revisar el caso
-	                según el plan elegido.
+	                Completa el cuestionario nutricional para que pueda preparar
+                  el servicio contratado.
 	              </p>
 	              <p className="mt-3 leading-7 text-vetkathia-muted">
-	                La revisión manual se realiza con el contexto de salud,
-	                alimentación actual, rutina y objetivo que compartas aquí.
+	                La información se usa para preparar el servicio contratado.
+                  Si detecto señales que requieren atención clínica presencial,
+                  te lo indicaré.
 	              </p>
+              {canUseDevBypass && integrations.requirePaymentBeforeForm ? (
+                <p className="mt-4 rounded-2xl border border-vetkathia-border bg-vetkathia-surface/70 px-4 py-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark">
+                  Modo desarrollo: el cuestionario permite continuar aunque no
+                  haya pago confirmado.
+                </p>
+              ) : null}
               <Button
                 className="mt-5"
                 href="#formulario-valoracion"
@@ -364,11 +518,14 @@ export function RequestAssessmentPage() {
               </div>
 
               <form
-	                aria-label="Cuestionario inicial"
+	                aria-label="Cuestionario nutricional"
                 className="space-y-4 sm:space-y-5"
                 id="formulario-valoracion"
                 noValidate
-                onChangeCapture={handleFormStart}
+                onChangeCapture={(event) => {
+                  handleFormStart()
+                  storeContactPrefill(event)
+                }}
                 onFocusCapture={handleFormStart}
                 onSubmit={onSubmit}
               >
@@ -376,11 +533,36 @@ export function RequestAssessmentPage() {
                 <input type="hidden" {...register('utm_medium')} />
                 <input type="hidden" {...register('utm_campaign')} />
                 <input type="hidden" {...register('utm_content')} />
+                <input type="hidden" {...register('utm_id')} />
                 <input type="hidden" {...register('utm_term')} />
+                <input type="hidden" {...register('gclid')} />
+                <input type="hidden" {...register('gbraid')} />
+                <input type="hidden" {...register('wbraid')} />
+                <input type="hidden" {...register('fbclid')} />
+                <input type="hidden" {...register('ttclid')} />
+                <input type="hidden" {...register('msclkid')} />
                 <input type="hidden" {...register('referrer')} />
 	                <input type="hidden" {...register('landing_page')} />
 	                <input type="hidden" {...register('current_path')} />
+                <input
+                  type="hidden"
+                  {...register('first_touch_landing_page')}
+                />
+                <input type="hidden" {...register('first_touch_referrer')} />
+                <input type="hidden" {...register('first_touch_timestamp')} />
+                <input
+                  type="hidden"
+                  {...register('last_touch_landing_page')}
+                />
+                <input type="hidden" {...register('last_touch_timestamp')} />
 	                <input type="hidden" {...register('selectedPlan')} />
+                <input
+                  type="hidden"
+                  value={calendlyScheduled ? 'true' : 'false'}
+                  {...register('calendlyScheduled')}
+                />
+                <input type="hidden" {...register('checkoutPlan')} />
+                <input type="hidden" {...register('stripeSessionId')} />
 
                 {currentStep === 0 ? (
                   <>
@@ -625,11 +807,11 @@ export function RequestAssessmentPage() {
                         <CreditCard
                           className="mt-0.5 h-5 w-5 shrink-0 text-vetkathia-primary-dark"
                           aria-hidden="true"
-                        />
+	                        />
 	                        <p className="text-sm leading-6 text-vetkathia-muted">
-	                          Este cuestionario corresponde al plan seleccionado.
-	                          La revisión manual empieza con la información que
-	                          envías aquí.
+	                          Este cuestionario corresponde al servicio
+                            contratado. La información de salud del animal se
+                            usará para preparar el servicio contratado.
 	                        </p>
                       </div>
                     </div>
@@ -647,7 +829,8 @@ export function RequestAssessmentPage() {
                             >
                               política de privacidad
                             </Link>
-                            .
+                            . Entiendo que la información de salud del animal
+                            se usará para preparar el servicio contratado.
                           </>
                         }
                         required
@@ -656,7 +839,19 @@ export function RequestAssessmentPage() {
                       <Checkbox
                         disabled={isSubmitting}
                         error={errors.urgencyAccepted?.message}
-                        label="Entiendo que este formulario no sustituye una consulta veterinaria urgente."
+                        label={
+                          <>
+                            Entiendo el{' '}
+                            <Link
+                              className="font-semibold text-vetkathia-primary-dark underline-offset-4 hover:underline"
+                              to="/condiciones#no-urgencias-veterinarias"
+                            >
+                              aviso de urgencias
+                            </Link>{' '}
+                            y que este formulario no sustituye una consulta
+                            veterinaria urgente.
+                          </>
+                        }
                         required
                         {...register('urgencyAccepted')}
                       />
@@ -667,6 +862,16 @@ export function RequestAssessmentPage() {
                 {errors.root?.message ? (
                   <div className="rounded-2xl border border-vetkathia-primary/30 bg-vetkathia-surface px-4 py-3 text-sm font-medium text-vetkathia-primary-dark">
                     {errors.root.message}
+                  </div>
+                ) : null}
+
+                {showFormEndpointWarning ? (
+                  <div className="rounded-2xl border border-vetkathia-primary/30 bg-vetkathia-surface px-4 py-3 text-sm font-medium text-vetkathia-primary-dark">
+                    El formulario no está configurado para recibir
+                    cuestionarios.
+                    {import.meta.env.DEV
+                      ? ' En desarrollo puedes revisar la pantalla sin enviar datos reales.'
+                      : ''}
                   </div>
                 ) : null}
 
@@ -697,11 +902,12 @@ export function RequestAssessmentPage() {
                     <Button
                       className="sm:w-auto"
                       fullWidth
+                      disabled={isFormEndpointMissing || isSubmitting}
                       isLoading={isSubmitting}
                       size="lg"
                       type="submit"
                     >
-	                      Enviar cuestionario inicial
+	                      Enviar cuestionario nutricional
                     </Button>
                   )}
                 </div>
@@ -757,7 +963,13 @@ export function RequestAssessmentPage() {
 	              </p>
             </Card>
 
-            {integrations.calendlyUrl ? <CalendlyPlaceholder /> : null}
+            {selectedPlan ? (
+              <CalendlyEmbed
+                email={contactPrefill.email}
+                name={contactPrefill.name}
+                planKey={selectedPlan}
+              />
+            ) : null}
           </aside>
         </Container>
       </Section>

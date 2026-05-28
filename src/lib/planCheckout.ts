@@ -1,18 +1,6 @@
-import { siteConfig } from '../data/site'
+import { getIntegrationStatus } from './integrations'
 
 export type PlanKey = 'valuation' | 'personalized' | 'accompaniment'
-
-type PlanCheckoutTarget =
-  | {
-      href: string
-      isExternal: boolean
-      to?: never
-    }
-  | {
-      href?: never
-      isExternal: false
-      to: string
-    }
 
 export const planLabels: Record<PlanKey, string> = {
   accompaniment: 'Plan con Acompañamiento',
@@ -23,7 +11,7 @@ export const planLabels: Record<PlanKey, string> = {
 export const planCtaLabels: Record<PlanKey, string> = {
   accompaniment: 'Contratar acompañamiento',
   personalized: 'Contratar plan personalizado',
-  valuation: 'Reservar valoración',
+  valuation: 'Contratar valoración',
 }
 
 const planKeysByName: Record<string, PlanKey> = {
@@ -48,19 +36,6 @@ export function getSelectedPlan(searchPlan: string | null): PlanKey | null {
   return null
 }
 
-export function getPlanCheckoutTarget(planKey: PlanKey): PlanCheckoutTarget {
-  const checkoutLink = siteConfig.planCheckoutLinks?.[planKey]
-  const href = checkoutLink?.href.trim()
-
-  if (href) {
-    return {
-      href,
-      isExternal: href.startsWith('http'),
-    } as PlanCheckoutTarget
-  }
-
-  return {
-    isExternal: false,
-    to: `/solicitar-valoracion?plan=${planKey}`,
-  }
+export function isCheckoutConfigured() {
+  return getIntegrationStatus().canAcceptPayments
 }

@@ -1,3 +1,8 @@
+import {
+  type CheckoutMode,
+  integrations,
+} from '../lib/integrations'
+
 export type SiteSocialLink = {
   label: 'Instagram' | 'TikTok' | 'YouTube' | 'Facebook' | 'Email'
   href: string
@@ -14,10 +19,14 @@ export type SiteNewsletter = {
 
 export type PlanCheckoutProvider = 'stripe' | 'calendly'
 
+export type PlanKey = 'valuation' | 'personalized' | 'accompaniment'
+
 export type PlanCheckoutLink = {
-  href: string
+  apiUrl: string
   provider: PlanCheckoutProvider
 }
+
+export type PlanLinkMap = Record<PlanKey, string>
 
 export const siteConfig: {
   name: string
@@ -29,13 +38,13 @@ export const siteConfig: {
   }
   socialLinks?: SiteSocialLink[]
   newsletter?: SiteNewsletter
+  checkoutEnabled: boolean
+  checkoutMode: CheckoutMode
+  legalContentReady: boolean
+  calendlyEnabled: boolean
   calendlyValuationUrl?: string
-  stripeValuationPaymentUrl?: string
-  planCheckoutLinks?: {
-    valuation: PlanCheckoutLink
-    personalized: PlanCheckoutLink
-    accompaniment: PlanCheckoutLink
-  }
+  planCheckoutLinks: Record<PlanKey, PlanCheckoutLink>
+  planCalendlyLinks: PlanLinkMap
 } = {
   name: 'VetKathia',
   tagline: 'Nutrición natural veterinaria para perros y gatos',
@@ -44,23 +53,31 @@ export const siteConfig: {
   contact: {
     email: '',
     fallback:
-      'El contacto se gestiona desde el plan elegido y el cuestionario inicial.',
+      'El contacto se gestiona desde el plan elegido y el cuestionario nutricional.',
   },
-  calendlyValuationUrl: '',
-  stripeValuationPaymentUrl: '',
+  calendlyEnabled: integrations.calendlyEnabled,
+  calendlyValuationUrl: integrations.calendlyUrls.valuation,
+  checkoutEnabled: integrations.checkoutEnabled,
+  checkoutMode: integrations.checkoutMode,
+  legalContentReady: integrations.legalContentReady,
   planCheckoutLinks: {
     accompaniment: {
-      href: '',
+      apiUrl: integrations.checkoutApiUrl,
       provider: 'stripe',
     },
     personalized: {
-      href: '',
+      apiUrl: integrations.checkoutApiUrl,
       provider: 'stripe',
     },
     valuation: {
-      href: '',
+      apiUrl: integrations.checkoutApiUrl,
       provider: 'stripe',
     },
+  },
+  planCalendlyLinks: {
+    accompaniment: integrations.calendlyUrls.accompaniment,
+    personalized: integrations.calendlyUrls.personalized,
+    valuation: integrations.calendlyUrls.valuation,
   },
   socialLinks: [
     {

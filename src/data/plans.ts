@@ -2,10 +2,10 @@ export const plans = [
   {
     bestFor:
       'Quieres una primera lectura profesional antes de invertir en una pauta completa.',
-    cta: 'Reservar valoración',
+    cta: 'Contratar valoración',
     description: 'Para quien quiere claridad antes de cambiar nada.',
     includes: [
-      'Cuestionario inicial',
+      'Cuestionario nutricional',
       'Consulta online',
       'Revisión de la alimentación actual',
       'Orientación profesional',
@@ -93,7 +93,7 @@ export const plansFaq = [
   },
   {
     content:
-      'Sí. Para iniciar el servicio eliges un plan y completas el pago o la reserva. Después rellenas el cuestionario inicial para que pueda revisar el caso con el contexto necesario.',
+      'Sí. Para iniciar el servicio eliges un plan y completas el pago seguro con Stripe. Después rellenas el cuestionario nutricional y puedes reservar tu cita online con Calendly.',
     id: 'pago-web',
     title: '¿Se paga antes de empezar?',
   },

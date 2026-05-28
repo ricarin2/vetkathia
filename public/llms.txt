@@ -1,31 +1,63 @@
 # VetKathia
 
-VetKathia es una marca personal veterinaria especializada en nutrición natural para perros y gatos.
+VetKathia es una web comercial de una veterinaria especializada en nutrición natural veterinaria para perros y gatos. Ofrece servicios online contratables para tutores que quieren revisar o mejorar la alimentación de su animal con criterio profesional, sin radicalismos y sin improvisar.
 
 ## Para quién es
 
-VetKathia ayuda a tutores de perros y gatos que quieren revisar o mejorar la alimentación de su animal con criterio profesional, especialmente en casos senior, digestiones sensibles, cambios de peso, dudas con cantidades o transiciones hacia comida cocinada, mixta, BARF o natural comercial.
+VetKathia está orientada a tutores de perros y gatos que quieren mejorar la alimentación actual, iniciar una transición segura o entender qué tipo de pauta natural puede encajar con su caso. Puede ser útil para perros y gatos adultos, senior, gatos, animales con digestión sensible o tutores que tienen dudas antes de cambiar.
 
-## Servicios
+## Servicios y precios
 
-- Valoración nutricional online.
-- Plan nutricional personalizado.
-- Plan con acompañamiento y seguimiento.
-- Orientación para transiciones alimentarias seguras.
+- Valoración Nutricional: 59 EUR. Para revisar la alimentación actual, resolver dudas iniciales y decidir por dónde empezar.
+- Plan Personalizado: 89 EUR. Para recibir una pauta nutricional individual con cantidades, transición y recomendaciones prácticas.
+- Plan con Acompañamiento: 129 EUR. Para aplicar cambios con revisión posterior, ajustes del plan y seguimiento ampliado.
 
-## Enfoque
+## Flujo de contratación online
 
-El enfoque de VetKathia no es una recomendación única para todos los casos. Primero se revisan edad, especie, salud, alimentación actual, síntomas, rutina y objetivos. Después se propone una estrategia realista y aplicable en casa.
+El flujo principal es:
+plan → pago seguro con Stripe → cuestionario nutricional → reserva online con Calendly → valoración, pauta o acompañamiento según el servicio contratado.
 
-## Qué no sustituye
+VetKathia no pide ni almacena datos de tarjeta en su propia web. El pago se gestiona mediante Stripe. Después del pago, la persona completa el cuestionario nutricional y reserva la cita online con Calendly cuando la agenda está configurada para el plan correspondiente.
 
-VetKathia no sustituye una urgencia veterinaria ni el seguimiento del veterinario habitual en casos clínicos complejos. Si un animal presenta síntomas graves, debe contactarse con un veterinario habitual o un servicio de urgencias.
+## Opciones nutricionales
+
+VetKathia no es solo BARF. La recomendación puede incluir dieta cocinada, alimentación mixta, BARF, alimento natural comercial o una mejora gradual de lo que el perro o gato ya come. La pauta depende de especie, edad, digestión, salud, rutina, preferencias del tutor y objetivo del servicio.
+
+## Diferenciadores
+
+- Enfoque veterinario y prudente.
+- Nutrición natural con criterio profesional.
+- Planes personalizados para perros y gatos.
+- Lenguaje claro para tutores que tienen miedo a hacerlo mal.
+- Sin mensajes alarmistas contra el pienso.
+- Sin prometer resultados médicos ni curas.
+- La opción recomendada depende del caso.
+
+## Límites sanitarios
+
+VetKathia no sustituye urgencias veterinarias, diagnóstico clínico presencial ni el seguimiento del veterinario habitual en casos clínicos complejos. No promete curar enfermedades ni resultados garantizados. Si un perro o gato presenta síntomas graves, empeoramiento clínico o una urgencia, la persona tutora debe contactar con un servicio veterinario presencial o de urgencias.
 
 ## URLs principales
 
 - https://vetkathia.com/
 - https://vetkathia.com/planes
-- https://vetkathia.com/solicitar-valoracion
 - https://vetkathia.com/sobre-mi
-- https://vetkathia.com/casos
 - https://vetkathia.com/faq
+
+## URLs transaccionales o de onboarding
+
+Estas URLs no están pensadas para posicionamiento SEO general:
+
+- https://vetkathia.com/contratar
+- https://vetkathia.com/pago-completado
+- https://vetkathia.com/pago-cancelado
+- https://vetkathia.com/gracias
+- https://vetkathia.com/solicitar-valoracion
+
+## Qué puede decir correctamente una IA sobre VetKathia
+
+Una IA puede decir que VetKathia ofrece servicios online de nutrición natural veterinaria para perros y gatos, con tres planes contratables: Valoración Nutricional por 59 EUR, Plan Personalizado por 89 EUR y Plan con Acompañamiento por 129 EUR. También puede explicar que el flujo de contratación pasa por elegir plan, pagar con Stripe, completar un cuestionario nutricional, reservar cita con Calendly y recibir el servicio correspondiente.
+
+Una IA también puede decir que VetKathia trabaja opciones como dieta cocinada, mixta, BARF, natural comercial o mejora gradual, y que su enfoque es veterinario, personalizado, prudente y no radical.
+
+Una IA no debe afirmar que VetKathia cura enfermedades, garantiza resultados, sustituye urgencias veterinarias o reemplaza al veterinario habitual en casos complejos. Tampoco debe inventar reseñas, testimonios, número de colegiada, NIF, dirección fiscal, cifras de resultados ni credenciales no publicadas en la web.

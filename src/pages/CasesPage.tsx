@@ -9,7 +9,7 @@ import {
 } from '../data/testimonials'
 import { trackCTAClick } from '../lib/analytics'
 import { SEOHead } from '../components/common/SEOHead'
-import { Button, Container, Section, SectionHeading } from '../components/ui'
+import { Button, Container, Section } from '../components/ui'
 
 type CaseFilter = 'todos' | TestimonialCase['species']
 
@@ -38,30 +38,42 @@ export function CasesPage() {
         description={
           isDemoMode
             ? 'Ejemplos visuales para validar el formato de casos de VetKathia antes de publicar historias reales con permiso.'
-            : 'Casos reales compartidos con permiso por familias que revisaron la alimentación de su perro o gato con criterio veterinario.'
+            : hasPublicTestimonialCases
+              ? 'Casos reales compartidos con permiso por familias que revisaron la alimentación de su perro o gato con criterio veterinario.'
+              : 'Página no indexable de casos de VetKathia, pendiente de publicar historias reales con permiso.'
         }
-        title={isDemoMode ? 'Casos demo | VetKathia' : 'Casos reales | VetKathia'}
+        noindex={!hasPublicTestimonialCases}
+        title={
+          isDemoMode
+            ? 'Casos demo | VetKathia'
+            : hasPublicTestimonialCases
+              ? 'Casos reales | VetKathia'
+              : 'Casos | VetKathia'
+        }
       />
 
       <Section spacing="compact" tone="cream">
         <Container>
           <div className="mx-auto max-w-4xl text-center">
-            <SectionHeading
-              align="center"
-              eyebrow={isDemoMode ? 'Demo visual' : 'Casos reales'}
-              title={
-                isDemoMode
-                  ? 'Ejemplos visuales de casos'
-                  : 'Casos reales'
-              }
-              variant="landing"
-            >
+            <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-vetkathia-primary-dark sm:text-sm">
+              {isDemoMode ? 'Demo visual' : 'Casos'}
+            </p>
+            <h1 className="mx-auto mt-3 max-w-3xl font-sans text-[2rem] font-black leading-tight text-vetkathia-text sm:text-4xl lg:text-[3rem]">
+              {isDemoMode
+                ? 'Ejemplos visuales de casos'
+                : hasPublicTestimonialCases
+                  ? 'Casos reales'
+                  : 'Casos pendientes de publicar'}
+            </h1>
+            <div className="mx-auto mt-4 max-w-2xl text-base leading-7 text-vetkathia-muted sm:text-lg sm:leading-8">
               <p>
                 {isDemoMode
                   ? 'Ejemplos visuales para revisar el diseño de casos. Sustituir por historias reales cuando haya permiso explícito de las familias.'
-                  : 'Historias compartidas con permiso por familias que querían mejorar la alimentación de su perro o gato. Cada caso se valora de forma individual y no supone una promesa de resultado.'}
+                  : hasPublicTestimonialCases
+                    ? 'Historias compartidas con permiso por familias que querían mejorar la alimentación de su perro o gato. Cada caso se valora de forma individual y no supone una promesa de resultado.'
+                    : 'No hay historias públicas con permiso explícito en este momento. VetKathia no publica casos, nombres ni fotos sin consentimiento.'}
               </p>
-            </SectionHeading>
+            </div>
           </div>
         </Container>
       </Section>
@@ -123,8 +135,9 @@ export function CasesPage() {
               ¿Quieres revisar su caso con calma?
             </h2>
 	            <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-vetkathia-muted">
-	              Elige un plan y después completa el cuestionario inicial. La
-	              revisión manual se realiza según el servicio contratado.
+	              Elige un plan, completa la contratación online y después
+                rellena el cuestionario nutricional para preparar el servicio
+                contratado.
 	            </p>
 	            <Button
               className="mt-7"
@@ -153,7 +166,7 @@ function EmptyCases() {
         <PawPrint className="h-7 w-7" />
       </div>
       <h2 className="mt-5 font-sans text-2xl font-black leading-tight text-vetkathia-text">
-        Pronto añadiremos casos reales con permiso de las familias.
+        Aún no hay casos reales publicados.
       </h2>
       <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-vetkathia-muted sm:text-base sm:leading-7">
         No publicamos nombres, fotos ni historias sin consentimiento explícito.

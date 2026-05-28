@@ -1,74 +1,99 @@
 export const faqItems = [
   {
     content:
-      'No. BARF puede ser una opción para algunos animales, pero también trabajo con comida cocinada, dieta mixta, natural comercial o transiciones graduales desde la alimentación actual.',
+      'No. VetKathia no es solo BARF. Trabajo nutrición natural veterinaria con opciones como dieta cocinada, mixta, BARF, natural comercial o una mejora gradual de lo que ya come tu perro o gato.',
     id: 'solo-barf',
-    title: '¿Es solo para BARF?',
+    title: '¿VetKathia es solo BARF?',
   },
   {
     content:
-      'Sí. Los gatos tienen necesidades nutricionales propias. Tu gato no es un perro pequeño, así que su pauta debe plantearse de forma específica.',
+      'Sí. Puedes contratar aunque tu perro o gato siga comiendo pienso. La idea es revisar el punto de partida y valorar si conviene mejorar cantidades, rutina, composición, transición o tipo de dieta sin hacer cambios bruscos.',
+    id: 'sigue-con-pienso',
+    title: '¿Puedo contratar si mi perro o gato sigue comiendo pienso?',
+  },
+  {
+    content:
+      'Eliges un plan, completas el pago seguro con Stripe, rellenas el cuestionario nutricional y reservas tu cita online con Calendly. Después reviso la información para preparar la valoración, pauta o acompañamiento según el servicio contratado.',
+    id: 'contratacion-online',
+    title: '¿Cómo funciona la contratación online?',
+  },
+  {
+    content:
+      'Sí. El pago se gestiona mediante Stripe. VetKathia no almacena datos de tarjeta. Si la contratación online no está configurada en algún momento, la web debe indicarlo de forma clara antes de continuar.',
+    id: 'pago-seguro',
+    title: '¿El pago es seguro?',
+  },
+  {
+    content:
+      'La reserva online se realiza con Calendly cuando la agenda esté configurada para el plan correspondiente. Normalmente se hace después del pago, junto con el cuestionario nutricional.',
+    id: 'reserva-cita',
+    title: '¿Cuándo reservo la cita?',
+  },
+  {
+    content:
+      'Después de pagar verás los siguientes pasos: completar el cuestionario nutricional y reservar la cita online. La página de pago completado sirve para continuar el onboarding, no para sustituir la confirmación operativa del pago en Stripe.',
+    id: 'despues-de-pagar',
+    title: '¿Qué pasa después de pagar?',
+  },
+  {
+    content:
+      'La Valoración Nutricional sirve para revisar la alimentación actual y orientarte sobre si conviene cambiar y por dónde empezar. El Plan Personalizado añade una pauta individual con cantidades, transición y recomendaciones prácticas.',
+    id: 'valoracion-vs-plan',
+    title: '¿Qué diferencia hay entre la valoración y el plan personalizado?',
+  },
+  {
+    content:
+      'El Plan con Acompañamiento incluye lo anterior y añade revisión posterior, ajustes del plan, seguimiento ampliado y un marco más claro para aplicar los cambios con apoyo.',
+    id: 'acompanamiento',
+    title: '¿Qué incluye el acompañamiento?',
+  },
+  {
+    content:
+      'Sí. Puedes pedir ayuda para un gato. Los gatos tienen necesidades nutricionales propias y no deben tratarse como perros pequeños; por eso la pauta debe adaptarse a su especie, edad, salud, digestión y rutina.',
     id: 'gatos',
-    title: '¿También trabajas con gatos?',
+    title: '¿Puedo pedir ayuda para un gato?',
   },
   {
     content:
-      'No. También puedes elegir un plan de orientación preventiva. No hace falta esperar a que haya un problema para revisar si su alimentación tiene sentido.',
-    id: 'problema',
-    title: '¿Mi perro o gato tiene que tener un problema?',
+      'Sí. Puede ser adecuado para perros o gatos senior, especialmente si quieres revisar digestión, peso, apetito, rutina, tipo de dieta o transición. En animales mayores conviene actuar con prudencia y revisar el contexto veterinario.',
+    id: 'seniors',
+    title: '¿Es adecuado para perros o gatos senior?',
   },
   {
     content:
-      'Sí. La consulta es online para revisar la información, resolver dudas y orientar el siguiente paso de forma práctica.',
-    id: 'consulta-online',
-    title: '¿La consulta es online?',
+      'Puedo ayudarte a revisar la alimentación desde un enfoque nutricional, pero si hay síntomas activos, diagnóstico o empeoramiento, el seguimiento con tu veterinario habitual es imprescindible. En casos como vómitos, diarreas, alergias, enfermedad renal, pancreatitis o IBD, puede ser necesario priorizar atención clínica, pruebas o coordinación veterinaria antes de ajustar la alimentación.',
+    id: 'patologias',
+    title:
+      '¿Qué pasa si mi animal tiene vómitos, diarreas, alergias, renal, pancreatitis o IBD?',
   },
   {
     content:
-      'Sí, cuando eliges un plan que incluye pauta nutricional personalizada. La valoración inicial ofrece orientación, pero no un menú completo con cantidades detalladas.',
-    id: 'cantidades',
-    title: '¿Recibiré cantidades y pautas claras?',
+      'No. La nutrición natural no promete curar enfermedades ni garantiza resultados médicos. Puede ayudar a revisar y adaptar la alimentación con criterio, pero no sustituye diagnóstico, tratamiento ni seguimiento clínico cuando hacen falta.',
+    id: 'cura-enfermedades',
+    title: '¿La nutrición natural cura enfermedades?',
   },
   {
     content:
-      'El plazo depende del caso y del plan elegido. Se confirmará antes de empezar para que sepas qué esperar.',
-    id: 'entrega',
-    title: '¿Cuánto tarda en entregarse el plan?',
-  },
-  {
-    content:
-      'No. Este servicio no sustituye una urgencia veterinaria ni el seguimiento de tu veterinario habitual, especialmente si hay un caso clínico complejo.',
-    id: 'sustituye-veterinario',
+      'No. Este servicio no sustituye a tu veterinario habitual, especialmente si hay patologías, medicación, pruebas pendientes o síntomas activos. El objetivo es aportar orientación nutricional dentro de límites claros.',
+    id: 'veterinario-habitual',
     title: '¿Esto sustituye a mi veterinario habitual?',
   },
   {
     content:
-      'Primero se revisa el contexto. Si el caso requiere atención clínica previa, pruebas, diagnóstico o coordinación con tu veterinario habitual, se indicará con claridad.',
-    id: 'patologia',
-    title: '¿Qué pasa si mi animal tiene una patología?',
+      'Si es una urgencia, no esperes a una consulta de nutrición. Contacta con tu veterinario habitual o con un servicio veterinario de urgencias, sobre todo si hay dolor intenso, decaimiento marcado, vómitos repetidos, dificultad respiratoria, sangrado, convulsiones o empeoramiento rápido.',
+    id: 'urgencias',
+    title: '¿Qué hago si es una urgencia?',
   },
   {
     content:
-      'Sí. La valoración es una buena forma de empezar cuando quieres claridad inicial antes de contratar una pauta completa.',
-    id: 'solo-valoracion',
-    title: '¿Puedo empezar solo con valoración?',
+      'Puedes cambiar o cancelar la cita siguiendo las opciones disponibles en la confirmación de Calendly. Si necesitas moverla, lo ideal es hacerlo con la mayor antelación posible para liberar ese horario.',
+    id: 'cancelar-cita',
+    title: '¿Puedo cancelar o cambiar la cita?',
   },
   {
     content:
-      'Sí, en los planes que lo incluyen. El acompañamiento sirve para ajustar la aplicación de la pauta y resolver dudas dentro del marco acordado.',
-    id: 'seguimiento',
-    title: '¿Hay seguimiento?',
-  },
-  {
-    content:
-      'Si buscas orientación inicial, empieza por la Valoración Nutricional. Si necesitas una pauta completa con cantidades y transición, elige el Plan Personalizado. Si quieres revisión posterior y ajustes, elige Acompañamiento.',
-    id: 'no-se-plan',
-    title: '¿Qué plan elijo si tengo dudas?',
-  },
-  {
-    content:
-      'Sí. Para iniciar el servicio eliges un plan y completas el pago o la reserva. Después rellenas el cuestionario inicial para que pueda revisar el caso con el contexto necesario.',
-    id: 'pago-web',
-    title: '¿Se paga antes de empezar?',
+      'Necesitarás tus datos de contacto, datos básicos del animal, alimentación actual, objetivo, rutina y cualquier información de salud relevante. Si hay diagnósticos, medicación, síntomas o analíticas recientes, puedes indicarlo para revisar el caso con más contexto.',
+    id: 'cuestionario-info',
+    title: '¿Qué información necesito para el cuestionario?',
   },
 ]

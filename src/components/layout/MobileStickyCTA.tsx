@@ -18,6 +18,10 @@ export function MobileStickyCTA() {
   const hasReachedPlans =
     plansReachState.pathname === pathname && plansReachState.hasReachedPlans
   const shouldHide =
+    pathname.startsWith('/checkout') ||
+    pathname.startsWith('/contratar') ||
+    pathname.startsWith('/pago-cancelado') ||
+    pathname.startsWith('/pago-completado') ||
     pathname.startsWith('/solicitar-valoracion') ||
     pathname.startsWith('/gracias')
 
@@ -106,12 +110,12 @@ export function MobileStickyCTA() {
       <Button
         fullWidth
         onClick={() =>
-          trackCTAClick('Elegir plan', 'mobile sticky cta')
+          trackCTAClick('Ver planes', 'mobile sticky cta')
         }
         size="sm"
         to="/#planes"
       >
-        Elegir plan
+        Ver planes
       </Button>
     </div>
   )

@@ -1,7 +1,7 @@
 import { ArrowRight, CheckCircle2 } from 'lucide-react'
 
 import { aboutBlocks, aboutTrustPillars, visibleAboutCredentials } from '../data/about'
-import { createBreadcrumbStructuredData } from '../data/structuredData'
+import { createAboutPageStructuredData } from '../data/structuredData'
 import { trackCTAClick } from '../lib/analytics'
 import { SEOHead } from '../components/common/SEOHead'
 import { StructuredData } from '../components/common/StructuredData'
@@ -14,14 +14,9 @@ export function AboutPage() {
       <SEOHead
         canonicalPath="/sobre-mi"
         description="Conoce a Kathia y su enfoque veterinario: nutrición natural para perros y gatos sin radicalismos, con pautas adaptadas a cada caso."
-        title="Kathia, veterinaria de nutrición natural para perros y gatos | VetKathia"
+        title="Kathia, veterinaria de nutrición natural | VetKathia"
       />
-      <StructuredData
-        data={createBreadcrumbStructuredData([
-          { name: 'Inicio', path: '/' },
-          { name: 'Sobre mí', path: '/sobre-mi' },
-        ])}
-      />
+      <StructuredData data={createAboutPageStructuredData()} />
 
       <Section className="pb-8 pt-10 sm:pt-14 lg:pt-18">
         <Container className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">

@@ -1,10 +1,7 @@
 import { ArrowRight, HelpCircle } from 'lucide-react'
 
 import { faqItems } from '../data/faq'
-import {
-  createBreadcrumbStructuredData,
-  createFaqStructuredData,
-} from '../data/structuredData'
+import { createFaqPageStructuredData } from '../data/structuredData'
 import { trackCTAClick, trackFAQOpen } from '../lib/analytics'
 import { SEOHead } from '../components/common/SEOHead'
 import { StructuredData } from '../components/common/StructuredData'
@@ -23,22 +20,16 @@ export function FaqPage() {
     <>
       <SEOHead
         canonicalPath="/faq"
-        description="Dudas frecuentes sobre valoración nutricional online, BARF, dieta cocinada, gatos, patologías, planes personalizados y seguimiento."
-        title="Preguntas frecuentes sobre nutrición natural para perros y gatos | VetKathia"
+        description="Respuestas sobre dieta cocinada, BARF, alimentación mixta, gatos, seniors, transición segura y planes nutricionales online."
+        title="FAQ sobre nutrición natural para perros y gatos | VetKathia"
       />
       <StructuredData
-        data={[
-          createBreadcrumbStructuredData([
-            { name: 'Inicio', path: '/' },
-            { name: 'FAQ', path: '/faq' },
-          ]),
-          createFaqStructuredData(
-            faqItems.map((item) => ({
-              answer: item.content,
-              question: item.title,
-            })),
-          ),
-        ]}
+        data={createFaqPageStructuredData(
+          faqItems.map((item) => ({
+            answer: item.content,
+            question: item.title,
+          })),
+        )}
       />
 
       <Section className="pb-8 pt-10 sm:pt-14 lg:pt-18">
@@ -46,11 +37,11 @@ export function FaqPage() {
           <div className="mx-auto max-w-3xl text-center">
             <Badge tone="soft">Dudas frecuentes</Badge>
             <h1 className="mt-5 text-4xl font-semibold leading-tight text-vetkathia-text sm:text-5xl lg:text-6xl">
-              FAQ
+              Preguntas frecuentes sobre nutrición natural veterinaria
             </h1>
             <p className="mt-6 text-lg leading-8 text-vetkathia-muted">
-              Respuestas claras antes de elegir un plan de nutrición.
-              No es solo BARF: depende del caso, la especie y sus necesidades.
+              Respuestas claras antes de elegir un plan, pagar online y
+              completar el cuestionario nutricional.
             </p>
           </div>
         </Container>
@@ -81,8 +72,8 @@ export function FaqPage() {
             >
               <p>
                 Si buscas orientación inicial, empieza por la Valoración
-                Nutricional. Después completarás el cuestionario para revisar el
-                caso con contexto.
+                Nutricional. Después pagarás con Stripe, completarás el
+                cuestionario y podrás reservar tu cita online.
               </p>
             </SectionHeading>
             <Button

@@ -146,9 +146,10 @@ export function HeroPremium({
             className="mt-4 max-w-2xl text-[0.95rem] font-medium leading-7 text-vetkathia-text/85 sm:mt-5 sm:text-lg sm:leading-8"
             variants={itemVariants}
           >
-            Reviso qué come ahora, su salud, digestión, edad y rutina para
-            ayudarte a elegir una pauta natural segura y realista, sin
-            improvisar.
+            Reviso la alimentación actual de tu perro o gato y te ayudo a
+            elegir una pauta natural segura, realista y adaptada a su especie,
+            edad, digestión, salud y rutina. Puede ser cocinada, mixta, BARF,
+            natural comercial o una mejora gradual de lo que ya come.
           </MotionP>
 
           <MotionDiv
@@ -162,18 +163,25 @@ export function HeroPremium({
               size="lg"
               to="/#planes"
             >
-              Elegir plan
+              Ver planes y contratar
             </Button>
             <Button
               className="w-fit justify-center self-center px-2 py-2 text-sm text-vetkathia-muted shadow-none hover:bg-transparent hover:text-vetkathia-primary-dark sm:min-h-0 sm:px-3 sm:py-2 sm:text-base"
               onClick={onSecondaryCtaClick}
               size="md"
-              to="/planes"
+              to="/#como-funciona"
               variant="ghost"
           >
-            Ver planes y precios
+            Cómo funciona
           </Button>
           </MotionDiv>
+          <MotionP
+            className="mt-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark"
+            variants={itemVariants}
+          >
+            Pago seguro con Stripe. Reserva online con Calendly. Servicio
+            veterinario no urgente.
+          </MotionP>
         </MotionDiv>
 
         <MotionDiv

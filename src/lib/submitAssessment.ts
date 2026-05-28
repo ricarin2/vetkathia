@@ -1,12 +1,19 @@
 import type { AssessmentFormValues } from './assessmentSchema'
-import { integrations } from './integrations'
+import { getIntegrationStatus, integrations } from './integrations'
 
 const submitDelayMs = 650
 
 export async function submitAssessment(values: AssessmentFormValues) {
+  const integrationStatus = getIntegrationStatus()
   const endpoint = integrations.formEndpoint
 
-  if (!endpoint) {
+  if (!integrationStatus.formConfigured) {
+    if (!import.meta.env.DEV) {
+      throw new Error(
+        'El formulario no está configurado para recibir cuestionarios.',
+      )
+    }
+
     await new Promise((resolve) => window.setTimeout(resolve, submitDelayMs))
     return
   }

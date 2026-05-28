@@ -77,7 +77,10 @@ Mensaje clave:
 - Formularios validados.
 - Código mantenible.
 - No introducir backend complejo.
-- No introducir pagos todavía.
+- Integrar pagos mediante Stripe Checkout Sessions creadas en backend/serverless.
+- Nunca manejar tarjetas directamente en React.
+- Nunca exponer claves secretas en cliente.
+- Calendly se usa para agenda online posterior al pago o dentro del onboarding.
 - No usar imágenes con copyright.
 - Preparar placeholders para imágenes.
 
@@ -117,12 +120,11 @@ Frases que evitamos:
 - No necesitas veterinario.
 - Esta receta sirve para todos.
 
-## MVP Scope
-La primera versión debe validar:
-Redes sociales → web → formulario → respuesta manual.
+## Scope Actual
+La versión actual debe validar:
+Redes sociales / Google / IA → web → planes → contratar → Stripe Checkout → Calendly + cuestionario → prestación del servicio según el plan contratado.
 
 No implementar todavía:
-- pagos reales;
 - login;
 - área privada;
 - ecommerce;
@@ -131,10 +133,14 @@ No implementar todavía:
 - base de datos clínica;
 - automatizaciones avanzadas.
 
-## Current MVP Implementation Notes
-- El formulario puede funcionar en modo mock si no existe `VITE_FORMSPREE_ENDPOINT`.
-- Calendly está preparado como placeholder, sin integración real todavía.
+## Current Implementation Notes
+- El formulario solo puede simular envío en desarrollo si no existe `VITE_FORMSPREE_ENDPOINT`. En producción debe bloquear el envío y mostrar un error claro.
+- Stripe y Calendly pueden estar pendientes de configuración o en integración según variables de entorno.
+- El endpoint serverless de Stripe debe respetar `CHECKOUT_ENABLED`, `LEGAL_CONTENT_READY` y las variables `STRIPE_PRICE_*`.
+- No exponer `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` ni otras claves secretas en Vite.
+- Los datos clínicos del animal no deben enviarse a Stripe metadata ni a Calendly.
 - Analytics está preparado con una capa neutral en `src/lib/analytics.ts`.
-- No hay Stripe, checkout ni datos de tarjeta.
+- No hay login, área privada ni base de datos clínica.
+- No se manejan datos de tarjeta en React.
 - Three.js no está activo en la versión final del MVP; se prioriza un fondo CSS ligero por rendimiento.
 - Las páginas legales son placeholders y requieren revisión profesional antes de publicar en producción.

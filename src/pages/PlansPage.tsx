@@ -7,18 +7,23 @@ import {
   ShieldCheck,
   Stethoscope,
 } from 'lucide-react'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 
 import { plans, plansFaq } from '../data/plans'
 import { useGsapReveal } from '../hooks/useGsapReveal'
-import { trackCTAClick, trackFAQOpen, trackPlanClick } from '../lib/analytics'
+import {
+  trackCTAClick,
+  trackFAQOpen,
+  trackPlanClick,
+  trackViewPlans,
+} from '../lib/analytics'
 import { cn } from '../lib/cn'
 import {
-  getPlanCheckoutTarget,
   getPlanKeyFromName,
+  isCheckoutConfigured,
   planCtaLabels,
 } from '../lib/planCheckout'
-import { createBreadcrumbStructuredData } from '../data/structuredData'
+import { createPlansStructuredData } from '../data/structuredData'
 import { StructuredData } from '../components/common/StructuredData'
 import {
   Accordion,
@@ -38,14 +43,14 @@ const confidencePoints = [
     title: 'Criterio veterinario',
   },
   {
-    description: 'El pago o la reserva confirma el inicio del servicio.',
+    description: 'El pago seguro con Stripe confirma el inicio del servicio.',
     icon: ShieldCheck,
-    title: 'Pago/reserva antes de iniciar',
+    title: 'Pago online antes de iniciar',
   },
   {
-    description: 'Después completas el cuestionario inicial del plan elegido.',
+    description: 'Después completas el cuestionario nutricional del plan elegido.',
     icon: ClipboardList,
-    title: 'Cuestionario posterior',
+    title: 'Cuestionario y cita',
   },
 ]
 
@@ -97,6 +102,11 @@ const comparisonRows = [
 export function PlansPage() {
   const heroRef = useRef<HTMLDivElement | null>(null)
   const planCardsRef = useRef<HTMLDivElement | null>(null)
+  const checkoutConfigured = isCheckoutConfigured()
+
+  useEffect(() => {
+    trackViewPlans()
+  }, [])
 
   useGsapReveal(heroRef, {
     delay: 0.04,
@@ -107,34 +117,20 @@ export function PlansPage() {
   })
   useGsapReveal(planCardsRef, { duration: 0.55, stagger: 0.05, y: 12 })
 
-  const getCheckoutButtonProps = (planName: string) => {
-    const checkoutTarget = getPlanCheckoutTarget(getPlanKeyFromName(planName))
-
-    if ('href' in checkoutTarget) {
-      return {
-        href: checkoutTarget.href,
-        rel: checkoutTarget.isExternal ? 'noreferrer' : undefined,
-        target: checkoutTarget.isExternal ? '_blank' : undefined,
-      }
-    }
-
-    return {
-      to: checkoutTarget.to,
-    }
-  }
-
   return (
     <>
       <SEOHead
         canonicalPath="/planes"
-        description="Elige entre valoración nutricional, plan personalizado o acompañamiento para mejorar la alimentación de tu perro o gato con una pauta clara y segura."
-        title="Planes de nutrición para perros y gatos online | VetKathia"
+        description="Contrata online valoración nutricional, plan personalizado o acompañamiento para mejorar la alimentación de tu perro o gato sin improvisar."
+        title="Planes de nutrición natural para perros y gatos | VetKathia"
       />
       <StructuredData
-        data={createBreadcrumbStructuredData([
-          { name: 'Inicio', path: '/' },
-          { name: 'Planes', path: '/planes' },
-        ])}
+        data={createPlansStructuredData(
+          plansFaq.map((item) => ({
+            answer: item.content,
+            question: item.title,
+          })),
+        )}
       />
 
       <Section className="pb-6 pt-10 sm:pb-8 sm:pt-14 lg:pb-10 lg:pt-18">
@@ -145,11 +141,16 @@ export function PlansPage() {
               className="mt-5 text-4xl font-semibold leading-tight text-vetkathia-text sm:text-5xl lg:text-6xl"
               data-reveal
             >
-              Elige cómo quieres empezar
+              Planes de nutrición natural veterinaria
             </h1>
             <p className="mt-6 text-lg leading-8 text-vetkathia-muted" data-reveal>
-              Para empezar, elige el plan que encaja mejor. Después completarás
-              el cuestionario inicial para revisar el caso con contexto.
+              Elige el nivel de ayuda que necesitas y contrata online. Después
+              completarás el cuestionario y podrás reservar tu cita.
+            </p>
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-vetkathia-muted" data-reveal>
+              Pago seguro con Stripe. Reserva online con Calendly. Servicio
+              veterinario no urgente. No promete curar enfermedades ni
+              sustituye urgencias veterinarias.
             </p>
             <Button
               className="mt-7"
@@ -210,13 +211,14 @@ export function PlansPage() {
 	              </p>
             </div>
             <Button
+              disabled={!checkoutConfigured}
 	              onClick={() =>
-	                trackCTAClick('Reservar valoración', 'planes consulta')
+	                trackPlanClick('Valoración Nutricional')
 	              }
-	              {...getCheckoutButtonProps('Valoración Nutricional')}
+              to="/contratar?plan=valuation"
 	              variant="outline"
 	            >
-	              Reservar valoración
+	              {checkoutConfigured ? 'Contratar valoración' : 'No configurado'}
 	            </Button>
           </Card>
 
@@ -282,8 +284,9 @@ export function PlansPage() {
                   </ul>
                 </div>
 
-	                <div className="mt-7 rounded-2xl border border-vetkathia-border bg-white/76 px-4 py-3 text-sm font-semibold text-vetkathia-primary-dark">
-	                  Pago/reserva antes de iniciar · Cuestionario posterior
+	                <div className="mt-7 rounded-2xl border border-vetkathia-border bg-white/76 px-4 py-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark">
+	                  Pago seguro con Stripe · Cuestionario nutricional · Reserva
+                    online
 	                </div>
 
                 {plan.notIncludes ? (
@@ -307,15 +310,24 @@ export function PlansPage() {
                   </div>
                 ) : null}
 
+                {!checkoutConfigured ? (
+                    <p className="mt-5 rounded-2xl border border-vetkathia-border bg-vetkathia-surface/70 px-4 py-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark">
+                      La contratación online no está configurada todavía.
+                    </p>
+                ) : null}
+
                 <Button
                   className="mt-auto pt-3"
+                  disabled={!checkoutConfigured}
 	                  fullWidth
-	                  onClick={() => trackPlanClick(plan.name)}
+                  onClick={() => trackPlanClick(plan.name)}
 	                  rightIcon={<ArrowRight className="h-5 w-5" aria-hidden="true" />}
-	                  {...getCheckoutButtonProps(plan.name)}
+                  to={`/contratar?plan=${getPlanKeyFromName(plan.name)}`}
 	                  variant={plan.isRecommended ? 'primary' : 'outline'}
 	                >
-	                  {planCtaLabels[getPlanKeyFromName(plan.name)]}
+	                  {checkoutConfigured
+                    ? planCtaLabels[getPlanKeyFromName(plan.name)]
+                    : 'No configurado'}
 	                </Button>
               </Card>
             ))}
@@ -467,18 +479,19 @@ export function PlansPage() {
               </h2>
               <p className="mt-5 max-w-3xl text-lg leading-8 text-vetkathia-muted">
 	                Si necesitas orientación inicial, empieza por la Valoración
-	                Nutricional. Después completarás el cuestionario para revisar
-	                el caso con el contexto necesario.
+	                Nutricional. Después completarás el cuestionario nutricional
+                  y podrás reservar cita online.
 	              </p>
 	              <Button
+                  disabled={!checkoutConfigured}
 	                className="mt-7"
 	                onClick={() =>
-	                  trackCTAClick('Reservar valoración', 'planes dudas')
+	                  trackPlanClick('Valoración Nutricional')
 	                }
 	                size="lg"
-	                {...getCheckoutButtonProps('Valoración Nutricional')}
+                  to="/contratar?plan=valuation"
 	              >
-	                Reservar valoración
+	                {checkoutConfigured ? 'Contratar valoración' : 'No configurado'}
 	              </Button>
             </div>
           </Card>

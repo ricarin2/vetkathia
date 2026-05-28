@@ -3,12 +3,22 @@ import { AlertTriangle } from 'lucide-react'
 import type { LegalPageKey } from '../data/legal'
 import { legalPages } from '../data/legal'
 import { createBreadcrumbStructuredData } from '../data/structuredData'
+import { integrations } from '../lib/integrations'
 import { SEOHead } from '../components/common/SEOHead'
 import { StructuredData } from '../components/common/StructuredData'
 import { Badge, Card, Container, Section } from '../components/ui'
 
 type LegalPageProps = {
   page: LegalPageKey
+}
+
+function createSectionId(title: string) {
+  return title
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
 }
 
 const legalSeo: Record<
@@ -44,7 +54,7 @@ const legalSeo: Record<
 export function LegalPage({ page }: LegalPageProps) {
   const content = legalPages[page]
   const seo = legalSeo[page]
-  const legalContentReady = import.meta.env.VITE_LEGAL_CONTENT_READY === 'true'
+  const legalContentReady = integrations.legalContentReady
   const showProductionLegalWarning = import.meta.env.PROD && !legalContentReady
 
   return (
@@ -102,21 +112,27 @@ export function LegalPage({ page }: LegalPageProps) {
             </Card>
           ) : null}
 
-          <Card tone="warm">
-            <div className="flex gap-3">
-              <AlertTriangle
-                className="mt-1 h-5 w-5 shrink-0 text-vetkathia-primary-dark"
-                aria-hidden="true"
-              />
-              <p className="leading-7 text-vetkathia-text">
-                Contenido legal pendiente de revisión profesional.
-              </p>
-            </div>
-          </Card>
+          {!legalContentReady ? (
+            <Card tone="warm">
+              <div className="flex gap-3">
+                <AlertTriangle
+                  className="mt-1 h-5 w-5 shrink-0 text-vetkathia-primary-dark"
+                  aria-hidden="true"
+                />
+                <p className="leading-7 text-vetkathia-text">
+                  Pendiente de completar tras revisión profesional.
+                </p>
+              </div>
+            </Card>
+          ) : null}
 
           <div className="mt-6 grid gap-4">
             {content.sections.map((section) => (
-              <Card className="shadow-none" key={section.title}>
+              <Card
+                className="scroll-mt-28 shadow-none"
+                id={createSectionId(section.title)}
+                key={section.title}
+              >
                 <h2 className="font-sans text-xl font-semibold leading-tight text-vetkathia-text">
                   {section.title}
                 </h2>

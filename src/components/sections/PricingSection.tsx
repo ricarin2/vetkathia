@@ -11,14 +11,10 @@ import {
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
 
 import { homePlans } from '../../data/home'
+import { trackCTAClick, trackPlanClick } from '../../lib/analytics'
 import {
-  trackCheckoutRedirectStarted,
-  trackCTAClick,
-  trackPlanClick,
-} from '../../lib/analytics'
-import {
-  getPlanCheckoutTarget,
   getPlanKeyFromName,
+  isCheckoutConfigured,
   planCtaLabels,
   type PlanKey,
 } from '../../lib/planCheckout'
@@ -42,10 +38,11 @@ const usefulForAreas = [
 ]
 
 const planStartSteps = [
-  'Eliges el plan',
-  'Pagas con Stripe',
-  'Rellenas el cuestionario',
-  'Recibes valoración, pauta o seguimiento',
+  'Elige el plan',
+  'Paga de forma segura con Stripe',
+  'Completa el cuestionario nutricional',
+  'Reserva tu cita online',
+  'Recibe valoración, pauta o seguimiento según el plan',
 ]
 
 const planDecisionCopy = {
@@ -69,7 +66,7 @@ const planDecisionCopy = {
     idealIf:
       'Quieres una primera orientación profesional antes de cambiar la alimentación.',
     visibleIncludes: [
-      'Cuestionario inicial',
+      'Cuestionario nutricional',
       'Revisión del caso',
       'Orientación profesional',
     ],
@@ -129,6 +126,7 @@ const visualVariants: Variants = {
 
 export function PricingSection() {
   const reduceMotion = useReducedMotion()
+  const checkoutConfigured = isCheckoutConfigured()
 
   return (
     <Section
@@ -144,21 +142,21 @@ export function PricingSection() {
             className="max-w-4xl"
             eyebrow="Planes"
             size="md"
-            title="Planes y precios"
+            title="Planes de nutrición natural veterinaria"
             variant="landing"
           >
             <p>
-              Para empezar, elige el plan que encaja mejor. Después completarás
-              el cuestionario inicial para revisar el caso con contexto.
+              Elige el nivel de ayuda que necesitas y contrata online. Después
+              completarás el cuestionario y podrás reservar tu cita.
             </p>
             <p className="mt-3 text-sm font-bold leading-6 text-vetkathia-primary-dark">
-              Pago seguro gestionado por Stripe · Cuestionario posterior ·
-              Revisión manual del caso
+              Pago seguro con Stripe · Reserva online con Calendly · Servicio
+              veterinario no urgente
             </p>
             <p className="mt-2 text-sm leading-6 text-vetkathia-muted">
-              Después completarás el cuestionario y podrás reservar la consulta
-              online. Este servicio no sustituye urgencias veterinarias ni
-              diagnóstico clínico presencial.
+              No sustituye urgencias veterinarias, no promete curar
+              enfermedades y, en patologías o síntomas activos, puede requerir
+              seguimiento con tu veterinario habitual.
             </p>
             <p className="mt-2 text-sm font-medium leading-6 text-vetkathia-muted">
               <span className="font-bold text-vetkathia-text">
@@ -184,7 +182,6 @@ export function PricingSection() {
           {homePlans.map((plan, index) => {
             const visual = visualConfigs[index] ?? visualConfigs[0]
             const planKey = getPlanKeyFromName(plan.name)
-            const planCtaTarget = getPlanCheckoutTarget(planKey)
             const decisionCopy = planDecisionCopy[planKey]
             const additionalPlanDetails = plan.includes.filter(
               (item) => !decisionCopy.visibleIncludes.includes(item),
@@ -301,9 +298,9 @@ export function PricingSection() {
                   </details>
 
                   <div className="mt-auto pt-5">
-                    {planCtaTarget.isUnavailable ? (
+                    {!checkoutConfigured ? (
                       <p className="mb-3 rounded-2xl border border-vetkathia-border bg-vetkathia-surface/70 px-3 py-2 text-sm font-semibold leading-5 text-vetkathia-primary-dark">
-                        Contratación online no configurada.
+                        La contratación online no está configurada todavía.
                       </p>
                     ) : null}
                     <Button
@@ -312,30 +309,13 @@ export function PricingSection() {
                           ? ''
                           : 'border-vetkathia-primary/40 text-vetkathia-primary-dark hover:bg-vetkathia-surface/80'
                       }`}
-                      disabled={planCtaTarget.isUnavailable}
+                      disabled={!checkoutConfigured}
                       fullWidth
-                      href={
-                        'href' in planCtaTarget ? planCtaTarget.href : undefined
-                      }
-                      onClick={() => {
-                        trackPlanClick(plan.name)
-
-                        if ('href' in planCtaTarget) {
-                          trackCheckoutRedirectStarted({
-                            planKey,
-                            planName: plan.name,
-                          })
-                        }
-                      }}
-                      rel={
-                        'href' in planCtaTarget && planCtaTarget.isExternal
-                          ? 'noreferrer'
-                          : undefined
-                      }
-                      to={'to' in planCtaTarget ? planCtaTarget.to : undefined}
+                      onClick={() => trackPlanClick(plan.name)}
+                      to={`/contratar?plan=${planKey}`}
                       variant={plan.isRecommended ? 'primary' : 'outline'}
                     >
-                      {planCtaTarget.isUnavailable
+                      {!checkoutConfigured
                         ? 'No configurado'
                         : planCtaLabels[planKey]}
                     </Button>
@@ -372,13 +352,13 @@ export function PricingSection() {
               Así empieza el servicio
             </h3>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-vetkathia-muted">
-              El pago seguro lo gestiona Stripe. Después completas el
-              cuestionario inicial y puedes reservar la consulta online para
-              revisar el caso con contexto.
+              Contratas online con Stripe, completas el cuestionario
+              nutricional y reservas tu cita con Calendly. La revisión se adapta
+              al plan contratado y al caso real de tu perro o gato.
             </p>
           </div>
 
-          <ol className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:mt-0 lg:gap-2.5">
+          <ol className="mt-4 grid grid-cols-1 gap-2 min-[420px]:grid-cols-2 lg:mt-0 lg:grid-cols-5 lg:gap-2.5">
             {planStartSteps.map((step, index) => (
               <li
                 className="flex min-h-[4.25rem] items-center gap-2.5 rounded-2xl bg-[#FFFDFB]/74 px-2.5 py-2.5 ring-1 ring-vetkathia-border/18 lg:min-h-[5.25rem] lg:flex-col lg:items-start lg:justify-center"
