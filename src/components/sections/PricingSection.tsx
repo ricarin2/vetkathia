@@ -11,7 +11,11 @@ import {
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
 
 import { homePlans } from '../../data/home'
-import { trackCTAClick, trackPlanClick } from '../../lib/analytics'
+import {
+  trackCheckoutRedirectStarted,
+  trackCTAClick,
+  trackPlanClick,
+} from '../../lib/analytics'
 import {
   getPlanCheckoutTarget,
   getPlanKeyFromName,
@@ -39,7 +43,7 @@ const usefulForAreas = [
 
 const planStartSteps = [
   'Eliges el plan',
-  'Pagas o reservas',
+  'Pagas con Stripe',
   'Rellenas el cuestionario',
   'Recibes valoración, pauta o seguimiento',
 ]
@@ -148,8 +152,13 @@ export function PricingSection() {
               el cuestionario inicial para revisar el caso con contexto.
             </p>
             <p className="mt-3 text-sm font-bold leading-6 text-vetkathia-primary-dark">
-              Pago/reserva antes de iniciar · Cuestionario posterior · Revisión
-              manual del caso
+              Pago seguro gestionado por Stripe · Cuestionario posterior ·
+              Revisión manual del caso
+            </p>
+            <p className="mt-2 text-sm leading-6 text-vetkathia-muted">
+              Después completarás el cuestionario y podrás reservar la consulta
+              online. Este servicio no sustituye urgencias veterinarias ni
+              diagnóstico clínico presencial.
             </p>
             <p className="mt-2 text-sm font-medium leading-6 text-vetkathia-muted">
               <span className="font-bold text-vetkathia-text">
@@ -159,7 +168,7 @@ export function PricingSection() {
             </p>
           </SectionHeading>
           <Button
-            className="w-full border-vetkathia-primary/30 text-vetkathia-primary-dark hover:bg-white/82 lg:w-auto"
+            className="hidden border-vetkathia-primary/30 text-vetkathia-primary-dark hover:bg-white/82 lg:inline-flex lg:w-auto"
             onClick={() =>
               trackCTAClick('Comparar planes', 'home planes')
             }
@@ -171,7 +180,7 @@ export function PricingSection() {
           </Button>
         </div>
 
-        <div className="relative mt-9 grid items-stretch gap-4 lg:grid-cols-3 lg:gap-5">
+        <div className="relative mt-7 grid items-stretch gap-4 sm:mt-8 lg:mt-9 lg:grid-cols-3 lg:gap-5">
           {homePlans.map((plan, index) => {
             const visual = visualConfigs[index] ?? visualConfigs[0]
             const planKey = getPlanKeyFromName(plan.name)
@@ -206,7 +215,7 @@ export function PricingSection() {
                 />
 
                 <div className="flex h-full flex-col p-4 sm:p-5 lg:p-5 xl:p-6">
-                  <div className="grid min-h-[4.25rem] grid-cols-[1fr_auto] gap-4">
+                  <div className="grid grid-cols-[1fr_auto] gap-4 lg:min-h-[4.25rem]">
                     <div className="min-w-0">
                       <div className="flex min-h-8 flex-wrap items-center gap-2">
                         <span className="inline-flex rounded-full bg-vetkathia-surface/72 px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.12em] text-vetkathia-primary-dark ring-1 ring-vetkathia-border/40">
@@ -229,7 +238,7 @@ export function PricingSection() {
                     />
                   </div>
 
-                  <div className="mt-3 min-h-[5.6rem] sm:mt-4 lg:min-h-[6.5rem]">
+                  <div className="mt-3 sm:mt-4 lg:min-h-[6.5rem]">
                     <h3 className="font-sans text-xl font-black leading-tight text-vetkathia-text sm:text-[1.4rem]">
                       {plan.name}
                     </h3>
@@ -243,7 +252,7 @@ export function PricingSection() {
                     </div>
                   </div>
 
-                  <div className="mt-3 min-h-[5.35rem] border-t border-vetkathia-border/24 pt-4 lg:min-h-[6.2rem]">
+                  <div className="mt-3 border-t border-vetkathia-border/24 pt-4 lg:min-h-[6.2rem]">
                     <p className="text-[0.68rem] font-bold uppercase tracking-[0.12em] text-vetkathia-primary-dark">
                       Ideal si...
                     </p>
@@ -252,7 +261,7 @@ export function PricingSection() {
                     </p>
                   </div>
 
-                  <div className="mt-4 min-h-[6.4rem]">
+                  <div className="mt-4 lg:min-h-[6.4rem]">
                     <p className="font-sans text-[0.68rem] font-bold uppercase tracking-[0.12em] text-vetkathia-text">
                       Qué recibes
                     </p>
@@ -292,40 +301,63 @@ export function PricingSection() {
                   </details>
 
                   <div className="mt-auto pt-5">
-                    <p className="mb-3 text-xs font-semibold leading-5 text-vetkathia-muted">
-                      Después completarás el cuestionario inicial.
-                    </p>
+                    {planCtaTarget.isUnavailable ? (
+                      <p className="mb-3 rounded-2xl border border-vetkathia-border bg-vetkathia-surface/70 px-3 py-2 text-sm font-semibold leading-5 text-vetkathia-primary-dark">
+                        Contratación online no configurada.
+                      </p>
+                    ) : null}
                     <Button
                       className={`min-h-12 whitespace-normal px-4 text-center text-sm leading-5 sm:text-[0.95rem] ${
                         plan.isRecommended
                           ? ''
                           : 'border-vetkathia-primary/40 text-vetkathia-primary-dark hover:bg-vetkathia-surface/80'
                       }`}
+                      disabled={planCtaTarget.isUnavailable}
                       fullWidth
                       href={
                         'href' in planCtaTarget ? planCtaTarget.href : undefined
                       }
-                      onClick={() => trackPlanClick(plan.name)}
+                      onClick={() => {
+                        trackPlanClick(plan.name)
+
+                        if ('href' in planCtaTarget) {
+                          trackCheckoutRedirectStarted({
+                            planKey,
+                            planName: plan.name,
+                          })
+                        }
+                      }}
                       rel={
                         'href' in planCtaTarget && planCtaTarget.isExternal
                           ? 'noreferrer'
                           : undefined
                       }
-                      target={
-                        'href' in planCtaTarget && planCtaTarget.isExternal
-                          ? '_blank'
-                          : undefined
-                      }
                       to={'to' in planCtaTarget ? planCtaTarget.to : undefined}
                       variant={plan.isRecommended ? 'primary' : 'outline'}
                     >
-                      {planCtaLabels[planKey]}
+                      {planCtaTarget.isUnavailable
+                        ? 'No configurado'
+                        : planCtaLabels[planKey]}
                     </Button>
                   </div>
                 </div>
               </motion.article>
             )
           })}
+        </div>
+
+        <div className="mt-5 lg:hidden">
+          <Button
+            className="w-full border-vetkathia-primary/30 text-vetkathia-primary-dark hover:bg-white/82"
+            onClick={() =>
+              trackCTAClick('Comparar planes', 'home planes mobile')
+            }
+            size="sm"
+            to="/planes"
+            variant="outline"
+          >
+            Comparar planes
+          </Button>
         </div>
 
         <div
@@ -340,9 +372,9 @@ export function PricingSection() {
               Así empieza el servicio
             </h3>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-vetkathia-muted">
-              El pago o la reserva confirma el inicio del servicio. Después
-              completas el cuestionario inicial para revisar el caso con
-              contexto.
+              El pago seguro lo gestiona Stripe. Después completas el
+              cuestionario inicial y puedes reservar la consulta online para
+              revisar el caso con contexto.
             </p>
           </div>
 

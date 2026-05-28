@@ -76,19 +76,10 @@ export function TestimonialsSection() {
               >
                 Ver casos
               </Button>
-              <Button
-                className="sm:w-auto"
-                fullWidth
-                onClick={() => trackCTAClick('Ver planes', 'home casos')}
-                size="sm"
-                to="/#planes"
-              >
-                Ver planes
-              </Button>
             </div>
           </div>
 
-          <p className="mt-5 text-xs font-semibold leading-5 text-vetkathia-primary-dark lg:hidden">
+          <p className="mt-5 text-xs font-semibold leading-5 text-vetkathia-primary-dark/78 lg:hidden">
             Desliza para ver más
           </p>
 
@@ -132,6 +123,10 @@ function TestimonialPreviewCard({
   testimonialCase: TestimonialCase
 }) {
   const reduceMotion = useReducedMotion()
+  const enableHoverMotion =
+    !reduceMotion &&
+    typeof window !== 'undefined' &&
+    window.matchMedia('(min-width: 1024px)').matches
   const speciesLabel = testimonialCase.species === 'gato' ? 'Gato' : 'Perro'
   const tags = getCaseTags(testimonialCase, speciesLabel)
 
@@ -139,13 +134,13 @@ function TestimonialPreviewCard({
     <motion.article
       animate="rest"
       className={cn(
-        'group flex h-full flex-col rounded-[1.45rem] border border-white/72 bg-white/86 p-4 ring-1 ring-vetkathia-border/18 backdrop-blur transition-[border-color,box-shadow] duration-300 hover:border-vetkathia-primary/28 hover:ring-vetkathia-primary/18 lg:min-h-[21rem] lg:p-5',
+        'group flex h-full flex-col rounded-[1.35rem] border border-white/72 bg-white/86 p-4 ring-1 ring-vetkathia-border/18 backdrop-blur transition-[border-color,box-shadow] duration-300 hover:border-vetkathia-primary/28 hover:ring-vetkathia-primary/18 lg:min-h-[19rem] lg:p-5',
         className,
       )}
       initial="rest"
       transition={{ damping: 24, stiffness: 260, type: 'spring' }}
-      variants={reduceMotion ? undefined : cardVariants}
-      whileHover={reduceMotion ? undefined : 'hover'}
+      variants={enableHoverMotion ? cardVariants : undefined}
+      whileHover={enableHoverMotion ? 'hover' : undefined}
     >
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
@@ -169,7 +164,7 @@ function TestimonialPreviewCard({
         </div>
         <CaseVisual
           featured={featured}
-          reduceMotion={Boolean(reduceMotion)}
+          enableHoverMotion={enableHoverMotion}
           testimonialCase={testimonialCase}
         />
       </div>
@@ -189,7 +184,7 @@ function TestimonialPreviewCard({
         “{testimonialCase.shortQuote}”
       </blockquote>
 
-      <p className="mt-3 line-clamp-2 text-sm leading-6 text-vetkathia-muted">
+      <p className="mt-3 line-clamp-1 text-sm leading-6 text-vetkathia-muted">
         {testimonialCase.context}
       </p>
 
@@ -230,12 +225,12 @@ function getCaseTags(testimonialCase: TestimonialCase, speciesLabel: string) {
 }
 
 function CaseVisual({
+  enableHoverMotion,
   featured,
-  reduceMotion,
   testimonialCase,
 }: {
+  enableHoverMotion: boolean
   featured: boolean
-  reduceMotion: boolean
   testimonialCase: TestimonialCase
 }) {
   if (testimonialCase.photoSrc) {
@@ -253,7 +248,7 @@ function CaseVisual({
             : `${testimonialCase.petName}, caso real compartido con permiso`)
         }
         transition={{ damping: 18, stiffness: 260, type: 'spring' }}
-        variants={reduceMotion ? undefined : visualVariants}
+        variants={enableHoverMotion ? visualVariants : undefined}
       />
     )
   }
@@ -265,7 +260,7 @@ function CaseVisual({
         featured ? 'h-20 w-20' : 'h-16 w-16',
       )}
       transition={{ damping: 18, stiffness: 260, type: 'spring' }}
-      variants={reduceMotion ? undefined : visualVariants}
+      variants={enableHoverMotion ? visualVariants : undefined}
       aria-hidden="true"
     >
       <PawPrint className={featured ? 'h-8 w-8' : 'h-7 w-7'} />

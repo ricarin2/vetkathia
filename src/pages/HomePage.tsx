@@ -73,7 +73,7 @@ function KathiaProfileVisual() {
   if (photoSrc) {
     return (
       <img
-        className="aspect-[4/5] w-full rounded-[1.45rem] object-cover object-center shadow-[0_18px_46px_rgba(59,39,36,0.08)] ring-1 ring-vetkathia-border/28"
+        className="aspect-[4/5] max-h-[22rem] w-full rounded-[1.45rem] object-cover object-center shadow-[0_18px_46px_rgba(59,39,36,0.08)] ring-1 ring-vetkathia-border/28 lg:max-h-none"
         src={photoSrc}
         alt={kathiaProfile.kathiaPhotoAlt || 'Kathia, veterinaria de VetKathia'}
         onError={() => setPhotoSrc('')}
@@ -311,11 +311,11 @@ export function HomePage() {
       >
         <Container>
           <div className="mx-auto grid max-w-6xl gap-7 lg:grid-cols-[minmax(15rem,0.62fr)_minmax(0,1fr)] lg:items-center lg:gap-12">
-            <div className="mx-auto w-full max-w-[18rem] sm:max-w-xs lg:max-w-sm">
+            <div className="hidden w-full max-w-sm lg:order-1 lg:block">
               <KathiaProfileVisual />
             </div>
 
-            <div className="min-w-0">
+            <div className="order-1 min-w-0 lg:order-2">
               <SectionHeading
                 className="max-w-3xl"
                 eyebrow="Sobre Kathia"
@@ -348,6 +348,10 @@ export function HomePage() {
                 ))}
               </div>
 
+              <div className="mx-auto mt-6 w-full max-w-[17rem] sm:max-w-xs lg:hidden">
+                <KathiaProfileVisual />
+              </div>
+
               <div className="mt-6 grid gap-3 lg:grid-cols-3">
                 {homeAboutPillars.map((pillar) => (
                   <div
@@ -377,7 +381,7 @@ export function HomePage() {
                   Conocer mi enfoque
                 </Button>
                 <Button
-                  className="sm:w-auto"
+                  className="hidden sm:w-auto lg:inline-flex"
                   fullWidth
                   onClick={() =>
                     trackCTAClick('Ver planes', 'home sobre mi')

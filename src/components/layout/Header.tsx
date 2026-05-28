@@ -8,7 +8,7 @@ import { MobileNav } from './MobileNav'
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-vetkathia-border/25 bg-[linear-gradient(180deg,rgba(255,249,246,0.96),rgba(255,249,246,0.84))] shadow-[0_10px_28px_rgba(59,39,36,0.03)] backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-vetkathia-border/18 bg-[linear-gradient(180deg,rgba(255,249,246,0.96),rgba(255,249,246,0.86))] shadow-[0_8px_22px_rgba(59,39,36,0.022)] backdrop-blur-xl">
       <Container className="relative flex min-h-16 items-center justify-between gap-2 py-2.5 sm:min-h-[4.75rem] sm:gap-4">
         <Link
           className="flex min-w-0 items-center gap-2 rounded-2xl focus:outline-none focus:ring-4 focus:ring-vetkathia-primary-dark/25 sm:gap-3"

@@ -46,9 +46,9 @@ export function Footer() {
 
   return (
     <footer className="border-t border-vetkathia-border/55 bg-[linear-gradient(180deg,#FFFDFB_0%,#FFF1F5_100%)]">
-      <Container className="py-9 sm:py-12 lg:py-14">
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.7fr_0.7fr_1.25fr] lg:gap-9">
-          <div className="max-w-md">
+      <Container className="py-7 sm:py-10 lg:py-14">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-7 lg:grid-cols-[1.1fr_0.7fr_0.7fr_1.25fr] lg:gap-9">
+          <div className="col-span-2 max-w-md lg:col-span-1">
             <Link
               className="inline-flex items-center gap-3 rounded-2xl focus:outline-none focus:ring-4 focus:ring-vetkathia-primary-dark/25"
               to="/"
@@ -65,13 +65,26 @@ export function Footer() {
                 </span>
               </span>
             </Link>
-            <p className="mt-5 max-w-sm leading-7 text-vetkathia-muted">
+            <p className="mt-4 max-w-sm text-sm leading-6 text-vetkathia-muted sm:text-base sm:leading-7">
               Nutrición natural veterinaria para perros y gatos, con pautas
-              seguras, personalizadas y realistas.
+              seguras y realistas.
             </p>
-            <p className="mt-4 max-w-sm border-l-2 border-vetkathia-primary/28 pl-4 text-sm leading-6 text-vetkathia-muted">
+            <p className="mt-3 max-w-sm border-l-2 border-vetkathia-primary/24 pl-4 text-sm leading-6 text-vetkathia-muted">
               No sustituye urgencias ni seguimiento clínico habitual.
             </p>
+          </div>
+
+          <div className="col-span-2 lg:col-span-1 lg:order-4">
+            <div className="grid gap-5">
+              {hasSocialLinks ? <FooterSocialLinks links={availableSocialLinks} /> : null}
+
+              {showNewsletter && newsletter ? (
+                <NewsletterBlock
+                  hasSocialLinks={hasSocialLinks}
+                  newsletter={newsletter}
+                />
+              ) : null}
+            </div>
           </div>
 
           <FooterColumn title="Enlaces">
@@ -89,23 +102,12 @@ export function Footer() {
               </FooterLink>
             ))}
           </FooterColumn>
-
-          <div className="grid gap-5">
-            {hasSocialLinks ? <FooterSocialLinks links={availableSocialLinks} /> : null}
-
-            {showNewsletter && newsletter ? (
-              <NewsletterBlock
-                hasSocialLinks={hasSocialLinks}
-                newsletter={newsletter}
-              />
-            ) : null}
-          </div>
         </div>
       </Container>
 
-      <div className="border-t border-vetkathia-border/55">
-        <Container className="py-5">
-          <p className="max-w-4xl text-sm leading-6 text-vetkathia-muted">
+      <div className="border-t border-vetkathia-border/45">
+        <Container className="py-4 sm:py-5">
+          <p className="max-w-4xl text-xs leading-5 text-vetkathia-muted sm:text-sm sm:leading-6">
             © {new Date().getFullYear()} VetKathia. Contenido informativo; no
             sustituye una urgencia veterinaria ni el seguimiento clínico
             habitual.
@@ -128,7 +130,7 @@ function FooterColumn({
       <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-vetkathia-primary-dark">
         {title}
       </h2>
-      <div className="mt-4 grid gap-2.5">{children}</div>
+      <div className="mt-3 grid gap-2 lg:mt-4 lg:gap-2.5">{children}</div>
     </div>
   )
 }
@@ -175,7 +177,7 @@ function FooterSocialLinks({
       <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-vetkathia-primary-dark">
         Redes
       </h2>
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-3 flex flex-wrap gap-2 lg:mt-4">
         {links.map((item) => {
           const Icon = socialIcons[item.label]
           const isExternal = item.href?.startsWith('http') ?? false

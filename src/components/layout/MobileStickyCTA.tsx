@@ -10,7 +10,13 @@ const STICKY_CTA_SPACE = '5.25rem'
 export function MobileStickyCTA() {
   const { pathname } = useLocation()
   const [isNearFooter, setIsNearFooter] = useState(false)
+  const [plansReachState, setPlansReachState] = useState({
+    hasReachedPlans: false,
+    pathname,
+  })
   const [isVisible, setIsVisible] = useState(false)
+  const hasReachedPlans =
+    plansReachState.pathname === pathname && plansReachState.hasReachedPlans
   const shouldHide =
     pathname.startsWith('/solicitar-valoracion') ||
     pathname.startsWith('/gracias')
@@ -25,8 +31,11 @@ export function MobileStickyCTA() {
       const isMobile = window.matchMedia('(max-width: 767px)').matches
       const footer = document.querySelector('footer')
       const hero = document.getElementById('nutricion')
+      const plans = document.getElementById('planes')
       const footerTop = footer?.getBoundingClientRect().top ?? Infinity
       const nearFooter = footerTop < window.innerHeight - 12
+      const plansTop = plans?.getBoundingClientRect().top ?? Infinity
+      const reachedPlans = plansTop < window.innerHeight * 0.72
       const hasLeftHero = hero
         ? hero.getBoundingClientRect().bottom < 72
         : window.scrollY > SCROLL_THRESHOLD
@@ -38,10 +47,20 @@ export function MobileStickyCTA() {
         return rect.top < window.innerHeight - 72 && rect.bottom > 72
       })
 
+      if (reachedPlans) {
+        setPlansReachState((state) =>
+          state.pathname === pathname && state.hasReachedPlans
+            ? state
+            : { hasReachedPlans: true, pathname },
+        )
+      }
+
       setIsNearFooter(nearFooter)
       setIsVisible(
         isMobile &&
           hasLeftHero &&
+          !hasReachedPlans &&
+          !reachedPlans &&
           !nearFooter &&
           !isReadingProtectedContent,
       )
@@ -57,10 +76,10 @@ export function MobileStickyCTA() {
       window.removeEventListener('resize', updateVisibility)
       document.body.style.paddingBottom = ''
     }
-  }, [shouldHide, pathname])
+  }, [hasReachedPlans, shouldHide, pathname])
 
   useEffect(() => {
-    if (shouldHide || isNearFooter || !isVisible) {
+    if (shouldHide || hasReachedPlans || isNearFooter || !isVisible) {
       document.body.style.paddingBottom = ''
       return
     }
@@ -70,7 +89,7 @@ export function MobileStickyCTA() {
     return () => {
       document.body.style.paddingBottom = ''
     }
-  }, [isNearFooter, isVisible, shouldHide])
+  }, [hasReachedPlans, isNearFooter, isVisible, shouldHide])
 
   if (shouldHide) return null
 
