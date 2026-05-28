@@ -3,18 +3,31 @@
 VetKathia Web MVP es la primera versión de la web de VetKathia, una marca
 personal veterinaria especializada en nutrición natural para perros y gatos.
 
-El objetivo del MVP es convertir tráfico de Instagram, TikTok, YouTube Shorts y
-Facebook Reels en solicitudes de valoración nutricional, manteniendo un tono
-premium, cálido, profesional y sin claims médicos agresivos.
+El objetivo del MVP es convertir tráfico de Instagram, TikTok, YouTube Shorts,
+Facebook Reels, Google y búsquedas en IA en tutores que entienden el servicio,
+ven planes y precios pronto, eligen un plan y completan el cuestionario inicial
+después de pagar, reservar o iniciar el plan.
+
+La comunicación debe mantener un tono premium, cálido, profesional y sin claims
+médicos agresivos. No se comunica revisión gratuita previa.
 
 ## Flujo Actual
 
 ```txt
-Redes sociales -> web -> formulario -> gracias -> respuesta manual
+Tráfico -> web -> planes -> elección de plan -> pago/reserva/inicio
+-> cuestionario inicial -> revisión manual -> entrega según plan
 ```
 
-La web recoge la información inicial del caso y permite responder manualmente
-con el siguiente paso recomendado.
+La web muestra planes y precios antes del cuestionario. El cuestionario recoge
+la información inicial del caso una vez seleccionado el plan y permite responder
+manualmente con la valoración, pauta o acompañamiento que corresponda al servicio
+contratado.
+
+## Planes Y Precios
+
+- Valoración Nutricional: 59 €
+- Plan Personalizado: 89 €
+- Plan con Acompañamiento: 129 €
 
 ## Stack
 
@@ -77,13 +90,16 @@ npm run lint
 ```txt
 public/
   favicon.svg
+  llms.txt
+  robots.txt
+  sitemap.xml
+  _redirects
   images/
-    about-vet-placeholder.svg
-    dog-cat-food-placeholder.svg
-    hero-vet-dog-cat-placeholder.svg
+    kathia-vet-web.jpg
+    vetkathia-hero-pets.jpg
+    placeholders SVG propios
 
 src/
-  assets/
   components/
     common/
     forms/
@@ -119,6 +135,7 @@ VITE_FORMSPREE_ENDPOINT=
 VITE_CALENDLY_URL=
 VITE_ANALYTICS_ENABLED=false
 VITE_LEGAL_CONTENT_READY=false
+VITE_SHOW_DEMO_CASES=
 ```
 
 - `VITE_FORMSPREE_ENDPOINT`: endpoint futuro para enviar solicitudes a
@@ -129,6 +146,8 @@ VITE_LEGAL_CONTENT_READY=false
 - `VITE_LEGAL_CONTENT_READY`: mantener en `false` hasta que las páginas legales
   estén completadas y revisadas. En producción, si no vale `true`, las páginas
   legales muestran un aviso claro de que el sitio no está listo para publicarse.
+- `VITE_SHOW_DEMO_CASES`: permite mostrar casos demo en producción si vale
+  `true`. En desarrollo se muestran por defecto salvo que valga `false`.
 
 Si `VITE_FORMSPREE_ENDPOINT` no existe, el formulario simula un envío correcto y
 redirige a `/gracias`.
@@ -140,6 +159,7 @@ redirige a `/gracias`.
 - `/solicitar-valoracion`
 - `/gracias`
 - `/sobre-mi`
+- `/casos`
 - `/faq`
 - `/aviso-legal`
 - `/privacidad`
@@ -150,7 +170,7 @@ redirige a `/gracias`.
 
 - Pagos reales.
 - Backend clínico.
-- Stripe.
+- Checkout interno con Stripe.
 - Calendly activo.
 - Área privada.
 - Login.
@@ -164,14 +184,23 @@ redirige a `/gracias`.
 - Placeholder de Calendly en `/solicitar-valoracion`.
 - Capa de tracking neutral en `src/lib/analytics.ts`, preparada para Plausible,
   Google Analytics o PostHog.
+- `src/lib/planCheckout.ts` prepara enlaces de checkout/reserva por plan. Si no
+  hay enlace externo configurado, el CTA lleva al cuestionario con el plan
+  seleccionado.
 
-No se piden datos de tarjeta, no hay checkout y no se simulan pagos.
+No se piden datos de tarjeta dentro de la web, no hay checkout interno y no se
+simulan pagos.
 
 ## Assets Y Contenido
 
-- Las imágenes actuales son placeholders SVG propios en `public/images/`.
+- La home usa imágenes propias/locales en `public/images/`, incluyendo
+  `/images/kathia-vet-web.jpg` para la sección Sobre Kathia y assets JPG del
+  hero.
+- También hay placeholders SVG propios para futuras sustituciones visuales.
 - No se usan imágenes externas con copyright.
-- No hay testimonios ficticios.
+- No hay testimonios reales inventados.
+- Los casos demo están marcados como demo visual y no deben presentarse como
+  testimonios reales.
 - Las páginas legales son placeholders y requieren revisión profesional antes de
   publicar en producción.
 
@@ -191,7 +220,7 @@ No se piden datos de tarjeta, no hay checkout y no se simulan pagos.
 
 - Conectar formulario real.
 - Integrar Calendly.
-- Decidir pagos y estrategia de contratación.
+- Decidir enlaces externos de pago/reserva y estrategia de contratación.
 - Añadir analítica.
 - Para SEO fuerte, considerar prerender estático o migración futura a Astro/Next
   si se quiere posicionar contenido orgánico.
@@ -208,15 +237,16 @@ No se piden datos de tarjeta, no hay checkout y no se simulan pagos.
 - Build command: `pnpm build`.
 - Output directory: `dist`.
 - Environment variables: añadir solo las necesarias.
+- Fallback SPA configurado en `vercel.json`.
 
-### Netlify
+### Netlify / Cloudflare Pages
 
 - Build command: `pnpm build`.
 - Publish directory: `dist`.
 - Environment variables: añadir solo las necesarias.
+- Fallback SPA configurado en `public/_redirects`.
 
-En ambos casos, configurar rewrite SPA si la plataforma no lo detecta
-automáticamente:
+Fallback usado:
 
 ```txt
 /* /index.html 200
