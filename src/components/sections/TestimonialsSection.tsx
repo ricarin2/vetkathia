@@ -59,7 +59,7 @@ export function TestimonialsSection() {
             >
               <p>
                 {hasDemoTestimonialCases
-                  ? 'Ejemplos visuales para validar el formato. Sustituir por historias reales con permiso de las familias.'
+                  ? 'Formato de ejemplo para revisar la estructura visual antes de publicar casos reales con permiso.'
                   : 'Historias publicadas con permiso. Cada caso se valora de forma individual y no supone una promesa de resultado.'}
               </p>
             </SectionHeading>

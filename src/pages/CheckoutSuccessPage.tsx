@@ -2,11 +2,12 @@ import {
   ArrowLeft,
   AlertTriangle,
   CalendarClock,
+  CheckCircle,
   CheckCircle2,
   ClipboardList,
   RotateCcw,
 } from 'lucide-react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router'
 
 import { CalendlyEmbed } from '../components/common/CalendlyEmbed'
@@ -20,15 +21,58 @@ import { writeSessionStorage } from '../lib/browserStorage'
 import { integrations } from '../lib/integrations'
 import { getSelectedPlan, planLabels } from '../lib/planCheckout'
 
+type CheckoutSessionStatus = {
+  id: string
+  metadata?: {
+    planKey?: string
+  }
+  payment_status: null | string
+  status: null | string
+}
+
+type VerificationState = 'idle' | 'loading' | 'paid' | 'unverified'
+
+type CheckoutSessionVerification = {
+  sessionId: string
+  state: Extract<VerificationState, 'paid' | 'unverified'>
+}
+
+const checkoutSessionApiUrl =
+  import.meta.env.VITE_CHECKOUT_SESSION_API_URL ?? '/api/checkout-session'
+
 export function CheckoutSuccessPage() {
   const [searchParams] = useSearchParams()
   const selectedPlan = getSelectedPlan(searchParams.get('plan'))
   const sessionId = searchParams.get('session_id')?.trim() ?? ''
   const usesPaymentLinks = integrations.checkoutMode === 'payment_links'
+  const [checkoutSessionVerification, setCheckoutSessionVerification] =
+    useState<CheckoutSessionVerification | null>(null)
   const canContinueAfterPayment = Boolean(
     selectedPlan && (sessionId || usesPaymentLinks),
   )
   const selectedPlanLabel = selectedPlan ? planLabels[selectedPlan] : ''
+  const verificationState: VerificationState = sessionId
+    ? checkoutSessionVerification?.sessionId === sessionId
+      ? checkoutSessionVerification.state
+      : 'loading'
+    : usesPaymentLinks
+      ? 'unverified'
+      : 'idle'
+  const isPaymentVerified = verificationState === 'paid'
+  const successHeading = !canContinueAfterPayment
+    ? 'No se ha podido identificar el pago'
+    : isPaymentVerified
+      ? 'Pago confirmado'
+      : verificationState === 'loading'
+        ? 'Comprobando el pago'
+        : 'Pago finalizado en Stripe'
+  const successCopy = !canContinueAfterPayment
+    ? 'Si acabas de completar el pago en Stripe, vuelve desde la pantalla de confirmación o contacta con VetKathia con el recibo de Stripe. Esta página necesita el plan contratado para continuar el onboarding.'
+    : isPaymentVerified
+      ? 'Stripe ha confirmado el pago. Para preparar el servicio, completa el cuestionario nutricional y reserva tu cita online.'
+      : verificationState === 'loading'
+        ? 'Estoy comprobando el estado del pago en Stripe. Puedes continuar con el cuestionario mientras se completa la verificación.'
+        : 'Stripe te ha redirigido a VetKathia. No se ha podido verificar automáticamente el estado del pago en esta página, así que continúa con el cuestionario y reserva tu cita sin asumir confirmación operativa aquí.'
   const questionnairePath =
     canContinueAfterPayment && selectedPlan
       ? `/solicitar-valoracion?plan=${selectedPlan}${
@@ -38,7 +82,9 @@ export function CheckoutSuccessPage() {
   const calendlyUrl = selectedPlan ? integrations.calendlyUrls[selectedPlan] : ''
 
   useEffect(() => {
-    if (selectedPlan && canContinueAfterPayment) {
+    if (sessionId && verificationState === 'loading') return
+
+    if (selectedPlan && (usesPaymentLinks || isPaymentVerified)) {
       writeSessionStorage('vetkathia_paid_plan', selectedPlan)
     }
 
@@ -49,11 +95,62 @@ export function CheckoutSuccessPage() {
     trackCheckoutSuccessPageView({
       checkoutMode: integrations.checkoutMode,
       hasCheckoutSession: Boolean(sessionId),
+      paymentVerified: isPaymentVerified,
       planKey: selectedPlan ?? undefined,
       planName: selectedPlanLabel || undefined,
       sessionId: sessionId || undefined,
     })
-  }, [canContinueAfterPayment, selectedPlan, selectedPlanLabel, sessionId])
+  }, [
+    isPaymentVerified,
+    selectedPlan,
+    selectedPlanLabel,
+    sessionId,
+    usesPaymentLinks,
+    verificationState,
+  ])
+
+  useEffect(() => {
+    if (!sessionId) return undefined
+
+    let isMounted = true
+    const params = new URLSearchParams({ session_id: sessionId })
+
+    fetch(`${checkoutSessionApiUrl}?${params.toString()}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('No se pudo verificar la sesión.')
+        }
+
+        return response.json() as Promise<CheckoutSessionStatus>
+      })
+      .then((payload) => {
+        if (!isMounted) return
+
+        const sessionPlanKey = getSelectedPlan(payload.metadata?.planKey ?? null)
+        const planMatches =
+          !sessionPlanKey || !selectedPlan || sessionPlanKey === selectedPlan
+
+        setCheckoutSessionVerification({
+          sessionId,
+          state:
+            payload.payment_status === 'paid' && planMatches
+              ? 'paid'
+              : 'unverified',
+        })
+      })
+      .catch(() => {
+        if (isMounted) {
+          setCheckoutSessionVerification({
+            sessionId,
+            state: 'unverified',
+          })
+        }
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [selectedPlan, sessionId, usesPaymentLinks])
 
   return (
     <>
@@ -61,27 +158,27 @@ export function CheckoutSuccessPage() {
         canonicalPath="/pago-completado"
         description="Página de continuación tras el pago online de un servicio VetKathia."
         noindex
-        title="Pago completado | VetKathia"
+        title="Pago finalizado | VetKathia"
       />
 
       <Section className="pb-10 pt-10 sm:pt-14 lg:pt-18">
         <Container size="md">
           <Card className="text-center shadow-soft" tone="highlight">
             <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-vetkathia-surface text-vetkathia-primary-dark ring-1 ring-vetkathia-border">
-              <CheckCircle2 className="h-8 w-8" aria-hidden="true" />
+              {isPaymentVerified ? (
+                <CheckCircle className="h-8 w-8" aria-hidden="true" />
+              ) : (
+                <CheckCircle2 className="h-8 w-8" aria-hidden="true" />
+              )}
             </span>
             <Badge className="mt-5" tone="soft">
               Contratación online
             </Badge>
             <h1 className="mt-5 text-4xl font-semibold leading-tight text-vetkathia-text sm:text-5xl">
-              {canContinueAfterPayment
-                ? 'Pago completado'
-                : 'No se ha podido identificar el pago'}
+              {successHeading}
             </h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-vetkathia-muted">
-              {canContinueAfterPayment
-                ? 'Gracias por contratar tu plan de nutrición VetKathia. Para preparar el servicio, completa el cuestionario nutricional y reserva tu cita online.'
-                : 'Si acabas de completar el pago en Stripe, vuelve desde la pantalla de confirmación o contacta con VetKathia con el recibo de Stripe. Esta página necesita el plan contratado para continuar el onboarding.'}
+              {successCopy}
             </p>
             {canContinueAfterPayment ? (
               <p className="mx-auto mt-4 max-w-xl rounded-2xl border border-vetkathia-border bg-white/76 px-4 py-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark">

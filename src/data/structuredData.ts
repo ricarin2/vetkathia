@@ -122,7 +122,7 @@ const websiteNode = {
   '@type': 'WebSite',
   description:
     'Web comercial de VetKathia para contratar online servicios de nutrición natural veterinaria para perros y gatos.',
-  inLanguage: 'es-ES',
+  inLanguage: 'es',
   name: 'VetKathia',
   publisher: {
     '@id': ids.vetkathia,
@@ -170,7 +170,7 @@ function createPlanNodes() {
         areaServed,
         availableChannel: {
           '@type': 'ServiceChannel',
-          availableLanguage: 'es-ES',
+          availableLanguage: 'es',
           serviceUrl: absoluteUrl(`/contratar?plan=${definition.key}`),
         },
         description: getPlanDescription(definition.planIndex),
@@ -187,7 +187,7 @@ function createPlanNodes() {
       {
         '@id': definition.offerId,
         '@type': 'Offer',
-        availability: 'https://schema.org/OnlineOnly',
+        availability: 'https://schema.org/InStock',
         itemOffered: {
           '@id': definition.serviceId,
         },
@@ -216,7 +216,7 @@ function createWebPageNode({
       '@id': primaryEntityId,
     },
     description,
-    inLanguage: 'es-ES',
+    inLanguage: 'es',
     isPartOf: {
       '@id': ids.website,
     },

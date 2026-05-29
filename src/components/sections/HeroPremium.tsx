@@ -151,8 +151,7 @@ export function HeroPremium({
             className="mt-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark"
             variants={itemVariants}
           >
-            Servicio online en español · Pago seguro · Cita online · No
-            sustituye urgencias veterinarias
+            Servicio online · Pago seguro · Cita posterior
           </MotionP>
         </MotionDiv>
 

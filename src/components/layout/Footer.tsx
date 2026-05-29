@@ -4,7 +4,6 @@ import {
   Mail,
   Music2,
   Play,
-  Users,
   type LucideIcon,
 } from 'lucide-react'
 import type { ReactNode } from 'react'
@@ -30,7 +29,6 @@ type FooterSocialItem = {
 
 const socialIcons: Partial<Record<SiteSocialLink['label'], LucideIcon>> = {
   Email: Mail,
-  Facebook: Users,
   Instagram: Camera,
   TikTok: Music2,
   YouTube: Play,
@@ -39,7 +37,9 @@ const socialIcons: Partial<Record<SiteSocialLink['label'], LucideIcon>> = {
 export function Footer() {
   const showCasesLink = hasPublicTestimonialCases || hasDemoTestimonialCases
   const footerNavigation = [
-    ...mainNavigation,
+    ...mainNavigation.map((item) =>
+      item.label === 'Planes' ? { ...item, href: '/planes' } : item,
+    ),
     ...(showCasesLink
       ? [
           {
@@ -59,8 +59,8 @@ export function Footer() {
 
   return (
     <footer className="border-t border-vetkathia-border/55 bg-[linear-gradient(180deg,#FFFDFB_0%,#FFF1F5_100%)]">
-      <Container className="py-7 sm:py-10 lg:py-14">
-        <div className="grid grid-cols-2 gap-x-6 gap-y-7 lg:grid-cols-[1.1fr_0.7fr_0.7fr_1.25fr] lg:gap-9">
+      <Container className="py-6 sm:py-10 lg:py-14">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-5 lg:grid-cols-[1.1fr_0.7fr_0.7fr_1.25fr] lg:gap-9">
           <div className="col-span-2 max-w-md lg:col-span-1">
             <Link
               className="inline-flex items-center gap-3 rounded-2xl focus:outline-none focus:ring-4 focus:ring-vetkathia-primary-dark/25"
@@ -89,9 +89,9 @@ export function Footer() {
 
           <div className="col-span-2 lg:col-span-1 lg:order-4">
             <div className="grid gap-5">
-              <FooterContact email={contactEmail} />
-
               {hasSocialLinks ? <FooterSocialLinks links={availableSocialLinks} /> : null}
+
+              <FooterContact email={contactEmail} />
 
               {showNewsletter && newsletter ? (
                 <NewsletterBlock
@@ -148,8 +148,7 @@ function FooterContact({ email }: { email: string }) {
         </a>
       ) : (
         <p className="mt-3 max-w-xs text-sm leading-6 text-vetkathia-muted">
-          El contacto se facilita durante la contratación y el cuestionario
-          nutricional.
+          {siteConfig.contact.fallback}
         </p>
       )}
     </div>
@@ -221,6 +220,10 @@ function FooterSocialLinks({
           const isExternal = item.href?.startsWith('http') ?? false
           const iconContent = Icon ? (
             <Icon className="h-4.5 w-4.5" aria-hidden="true" />
+          ) : item.label === 'Facebook' ? (
+            <span className="text-xs font-black" aria-hidden="true">
+              Fb
+            </span>
           ) : (
             <span className="text-xs font-bold">{item.label}</span>
           )

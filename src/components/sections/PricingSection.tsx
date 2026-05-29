@@ -12,10 +12,10 @@ import { motion, useReducedMotion, type Variants } from 'framer-motion'
 
 import { homePlans } from '../../data/home'
 import { trackCTAClick, trackPlanClick } from '../../lib/analytics'
+import { getIntegrationStatus } from '../../lib/integrations'
 import {
   getPlanKeyFromName,
   isCheckoutConfigured,
-  planCtaLabels,
   type PlanKey,
 } from '../../lib/planCheckout'
 import { Badge, Button, Container, Section, SectionHeading } from '../ui'
@@ -39,11 +39,16 @@ const usefulForAreas = [
 
 const planStartSteps = [
   'Elige el plan',
-  'Paga el plan de forma segura',
-  'Completa el cuestionario nutricional',
-  'Reserva tu cita online',
-  'Recibe valoración, pauta o seguimiento según el plan',
+  'Paga o reserva',
+  'Completa el cuestionario',
+  'Recibe valoración, pauta o seguimiento',
 ]
+
+const homePlanCtaLabels: Record<PlanKey, string> = {
+  accompaniment: 'Contratar acompañamiento',
+  personalized: 'Contratar plan personalizado',
+  valuation: 'Reservar valoración',
+}
 
 const planDecisionCopy = {
   accompaniment: {
@@ -127,6 +132,14 @@ const visualVariants: Variants = {
 export function PricingSection() {
   const reduceMotion = useReducedMotion()
   const checkoutConfigured = isCheckoutConfigured()
+  const integrationStatus = getIntegrationStatus()
+  const calendlyConfiguredForAllPlans = Object.values(
+    integrationStatus.calendlyConfiguredByPlan,
+  ).every(Boolean)
+  const funnelMicrocopy =
+    checkoutConfigured && calendlyConfiguredForAllPlans
+      ? 'Pago seguro con Stripe · Reserva online con Calendly'
+      : 'Pago/reserva antes de iniciar · Cuestionario posterior · Revisión manual del caso'
 
   return (
     <Section
@@ -142,21 +155,15 @@ export function PricingSection() {
             className="max-w-4xl"
             eyebrow="Planes"
             size="md"
-            title="Planes de nutrición natural veterinaria para perros y gatos"
+            title="Planes de nutrición natural veterinaria"
             variant="landing"
           >
             <p>
-              Elige el nivel de ayuda que necesitas y contrata online. Después
-              completarás el cuestionario y podrás reservar tu cita.
+              Elige el plan que encaja mejor. Después completarás el
+              cuestionario inicial para revisar el caso con contexto.
             </p>
             <p className="mt-3 text-sm font-bold leading-6 text-vetkathia-primary-dark">
-              Pago seguro con Stripe · Reserva tu cita online · Servicio
-              veterinario no urgente
-            </p>
-            <p className="mt-2 text-sm leading-6 text-vetkathia-muted">
-              No sustituye urgencias veterinarias, no promete curar
-              enfermedades y, en patologías o síntomas activos, puede requerir
-              seguimiento con tu veterinario habitual.
+              {funnelMicrocopy}
             </p>
             <p className="mt-2 text-sm font-medium leading-6 text-vetkathia-muted">
               <span className="font-bold text-vetkathia-text">
@@ -165,17 +172,19 @@ export function PricingSection() {
               {usefulForAreas.join(' · ')}
             </p>
           </SectionHeading>
-          <Button
-            className="hidden border-vetkathia-primary/30 text-vetkathia-primary-dark hover:bg-white/82 lg:inline-flex lg:w-auto"
-            onClick={() =>
-              trackCTAClick('Comparar planes', 'home planes')
-            }
-            size="sm"
-            to="/planes"
-            variant="outline"
-          >
-            Comparar planes
-          </Button>
+          <div className="hidden lg:block">
+            <Button
+              className="border-vetkathia-primary/30 text-vetkathia-primary-dark hover:bg-white/82 lg:w-auto"
+              onClick={() =>
+                trackCTAClick('Comparar planes', 'home planes')
+              }
+              size="sm"
+              to="/planes"
+              variant="outline"
+            >
+              Comparar planes
+            </Button>
+          </div>
         </div>
 
         <div className="relative mt-7 grid items-stretch gap-4 sm:mt-8 lg:mt-9 lg:grid-cols-3 lg:gap-5">
@@ -298,7 +307,7 @@ export function PricingSection() {
                   </details>
 
                   <div className="mt-auto pt-5">
-                    {!checkoutConfigured ? (
+                    {import.meta.env.DEV && !checkoutConfigured ? (
                       <p className="mb-3 rounded-2xl border border-vetkathia-border bg-vetkathia-surface/70 px-3 py-2 text-sm font-semibold leading-5 text-vetkathia-primary-dark">
                         La contratación online no está configurada todavía.
                       </p>
@@ -309,35 +318,18 @@ export function PricingSection() {
                           ? ''
                           : 'border-vetkathia-primary/40 text-vetkathia-primary-dark hover:bg-vetkathia-surface/80'
                       }`}
-                      disabled={!checkoutConfigured}
                       fullWidth
                       onClick={() => trackPlanClick(plan.name)}
                       to={`/contratar?plan=${planKey}`}
                       variant={plan.isRecommended ? 'primary' : 'outline'}
                     >
-                      {!checkoutConfigured
-                        ? 'No configurado'
-                        : planCtaLabels[planKey]}
+                      {homePlanCtaLabels[planKey]}
                     </Button>
                   </div>
                 </div>
               </motion.article>
             )
           })}
-        </div>
-
-        <div className="mt-5 lg:hidden">
-          <Button
-            className="w-full border-vetkathia-primary/30 text-vetkathia-primary-dark hover:bg-white/82"
-            onClick={() =>
-              trackCTAClick('Comparar planes', 'home planes mobile')
-            }
-            size="sm"
-            to="/planes"
-            variant="outline"
-          >
-            Comparar planes
-          </Button>
         </div>
 
         <div
@@ -352,16 +344,20 @@ export function PricingSection() {
               Así empieza el servicio
             </h3>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-vetkathia-muted">
-              Contratas online con Stripe, completas el cuestionario
-              nutricional y reservas tu cita con Calendly. La revisión se adapta
-              al plan contratado y al caso real de tu perro o gato.
+              El pago o la reserva confirma el inicio del servicio. Después
+              completas el cuestionario inicial para revisar el caso con
+              contexto.
+            </p>
+            <p className="mt-2 max-w-2xl text-xs font-semibold leading-5 text-vetkathia-primary-dark/82">
+              Servicio no urgente. No sustituye urgencias veterinarias ni
+              seguimiento clínico habitual cuando el caso lo requiere.
             </p>
           </div>
 
-          <ol className="mt-4 grid grid-cols-1 gap-2 min-[420px]:grid-cols-2 lg:mt-0 lg:grid-cols-5 lg:gap-2.5">
+          <ol className="mt-4 grid grid-cols-2 gap-2 lg:mt-0 lg:grid-cols-4 lg:gap-2.5">
             {planStartSteps.map((step, index) => (
               <li
-                className="flex min-h-[4.25rem] items-center gap-2.5 rounded-2xl bg-[#FFFDFB]/74 px-2.5 py-2.5 ring-1 ring-vetkathia-border/18 lg:min-h-[5.25rem] lg:flex-col lg:items-start lg:justify-center"
+                className="flex min-h-[4rem] items-center gap-2.5 rounded-2xl bg-[#FFFDFB]/74 px-2.5 py-2.5 ring-1 ring-vetkathia-border/18 lg:min-h-[5rem] lg:flex-col lg:items-start lg:justify-center"
                 key={step}
               >
                 <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-black text-vetkathia-primary-dark shadow-[0_8px_18px_rgba(59,39,36,0.04)] ring-1 ring-vetkathia-border/38">

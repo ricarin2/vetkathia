@@ -181,11 +181,14 @@ VITE_ANALYTICS_ENABLED=false
 
 # Optional client-side flag for Checkout Sessions mode.
 VITE_CHECKOUT_API_URL=/api/create-checkout-session
+VITE_CHECKOUT_SESSION_API_URL=/api/checkout-session
 VITE_STRIPE_CONFIGURED=false
 
 # Server-side only. Do not prefix these with VITE_.
 LEGAL_CONTENT_READY=false
 CHECKOUT_ENABLED=false
+LEGAL_CONTACT_EMAIL=
+CONTACT_EMAIL=
 STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 STRIPE_PRICE_VALUATION=
@@ -212,6 +215,10 @@ STRIPE_PRICE_ACCOMPANIMENT=
   Link por plan. No guardar URLs reales de producción en el repositorio.
 - `VITE_CHECKOUT_API_URL`: endpoint serverless que crea la sesión de Stripe si
   se usa `checkout_sessions`.
+- `VITE_CHECKOUT_SESSION_API_URL`: endpoint serverless público que consulta de
+  forma mínima el estado de una Checkout Session después de volver desde
+  Stripe. Usa `STRIPE_SECRET_KEY` solo en servidor y no devuelve payloads
+  completos de Stripe.
 - `VITE_STRIPE_CONFIGURED`: marcar como `true` solo cuando el endpoint de
   checkout y las variables server-side de Stripe estén configurados para
   `checkout_sessions`.
@@ -260,6 +267,12 @@ checkout.
 En Checkout Sessions, los precios no se envían desde cliente. Cada plan se
 valida contra una allowlist en `/api/create-checkout-session` y se resuelve con
 variables `STRIPE_PRICE_*` en servidor.
+
+La página `/pago-completado` no debe usarse como fuente única de verdad. Si
+recibe `session_id`, consulta `GET /api/checkout-session?session_id=...` para
+mostrar “Pago confirmado” solo cuando Stripe devuelve `payment_status=paid`.
+Si no se puede verificar, muestra “Pago finalizado en Stripe” y permite seguir
+con el cuestionario sin afirmar confirmación operativa.
 
 ## Stripe CLI Y Webhooks
 
@@ -399,11 +412,11 @@ En desarrollo se pueden revisar pantallas con avisos visibles, pero los falsos
   `src/data/legal.ts`. La contratación debe seguir bloqueada.
 - Checkout cancelado: abre `/pago-cancelado?plan=valuation` y comprueba que no
   crea lead falso, solo permite volver a planes o intentarlo de nuevo.
-- Pago completado: abre `/pago-completado?session_id=cs_test_123&plan=valuation`
-  y verifica que no afirma fulfillment de servidor; solo continúa con
-  cuestionario y Calendly.
-- Pago completado con Payment Links: abre `/pago-completado?plan=valuation` y
-  verifica que la página permite continuar al cuestionario sin afirmar
+- Retorno de Stripe con Checkout Sessions: abre
+  `/pago-completado?session_id=cs_test_123&plan=valuation` y verifica que no
+  afirma fulfillment de servidor; solo continúa con cuestionario y Calendly.
+- Retorno de Stripe con Payment Links: abre `/pago-completado?plan=valuation`
+  y verifica que la página permite continuar al cuestionario sin afirmar
   verificación server-side.
 - Cuestionario enviado: con endpoint real configurado, envía un cuestionario y
   verifica la redirección a `/gracias?plan=...&questionnaire=sent`.
@@ -415,13 +428,14 @@ En desarrollo se pueden revisar pantallas con avisos visibles, pero los falsos
 
 ## Checklist Antes De Publicar
 
+- Contacto visible configurado con `VITE_CONTACT_EMAIL` o canal legal
+  equivalente revisado.
+- Legales completos y revisados: responsable, privacidad, cookies, condiciones,
+  cancelación, cambios y reembolso.
 - Stripe configurado en el modo elegido: Payment Links por plan o Checkout
   Sessions con Prices server-side.
 - Calendly configurado por plan.
 - Formulario configurado con `VITE_FORMSPREE_ENDPOINT` o backend real.
-- Legales completos y revisados: responsable, privacidad, cookies, condiciones,
-  cancelación, cambios y reembolso.
-- Email/contacto legal visible y configurado.
 - Webhook de Stripe probado si se usa Checkout Sessions.
 - Build limpio con `pnpm lint` y `pnpm build`.
 - Search Console configurado.
@@ -450,6 +464,10 @@ En desarrollo se pueden revisar pantallas con avisos visibles, pero los falsos
 - Output directory: `dist`.
 - Environment variables: añadir solo las necesarias.
 - Fallback SPA configurado en `vercel.json`.
+- La SPA renderiza una página interna `404` para rutas desconocidas con
+  `noindex,follow`. Si se necesita un código HTTP 404 real, hay que ajustar
+  reglas de Vercel o servir una página 404 estática; el fallback SPA puede
+  devolver HTTP 200 para rutas desconocidas.
 
 ### Netlify / Cloudflare Pages
 
@@ -457,6 +475,9 @@ En desarrollo se pueden revisar pantallas con avisos visibles, pero los falsos
 - Publish directory: `dist`.
 - Environment variables: añadir solo las necesarias.
 - Fallback SPA configurado en `public/_redirects`.
+- La SPA renderiza una página interna `404`, pero el fallback `200` de
+  `public/_redirects` puede comportarse como soft 404 si no se configura una
+  respuesta 404 real en la plataforma.
 
 Fallback usado:
 

@@ -110,12 +110,12 @@ export function MobileStickyCTA() {
       <Button
         fullWidth
         onClick={() =>
-          trackCTAClick('Ver planes', 'mobile sticky cta')
+          trackCTAClick('Elegir plan', 'mobile sticky cta')
         }
         size="sm"
         to="/#planes"
       >
-        Ver planes
+        Elegir plan
       </Button>
     </div>
   )

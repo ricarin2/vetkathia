@@ -54,7 +54,7 @@ export const siteConfig: {
   contact: {
     email: integrations.contactEmail,
     fallback:
-      'El contacto se gestiona desde el plan elegido y el cuestionario nutricional.',
+      'Contacto pendiente de configurar antes de activar contratación online.',
   },
   calendlyEnabled: integrations.calendlyEnabled,
   calendlyValuationUrl: integrations.calendlyUrls.valuation,
@@ -110,7 +110,7 @@ export const siteConfig: {
 export const mainNavigation = [
   { href: '/#nutricion', label: 'Nutrición' },
   { href: '/#como-funciona', label: 'Cómo funciona' },
-  { href: '/planes', label: 'Planes' },
+  { href: '/#planes', label: 'Planes' },
   { href: '/sobre-mi', label: 'Sobre mí' },
   { href: '/faq', label: 'FAQ' },
 ]

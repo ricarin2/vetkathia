@@ -9,6 +9,7 @@ import { CheckoutSuccessPage } from '../pages/CheckoutSuccessPage'
 import { FaqPage } from '../pages/FaqPage'
 import { HomePage } from '../pages/HomePage'
 import { LegalPage } from '../pages/LegalPage'
+import { NotFoundPage } from '../pages/NotFoundPage'
 import { PlansPage } from '../pages/PlansPage'
 import { RequestAssessmentPage } from '../pages/RequestAssessmentPage'
 import { ThanksPage } from '../pages/ThanksPage'
@@ -45,6 +46,7 @@ export function AppRouter() {
             path="/condiciones"
             element={<LegalPage page="terms" />}
           />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
