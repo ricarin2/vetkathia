@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import Stripe from 'stripe'
 
-import { getLegalReadinessStatus } from '../src/data/legal'
+import { getLegalReadinessStatus } from '../src/data/legal.js'
 
 type PlanKey = 'valuation' | 'personalized' | 'accompaniment'
 
