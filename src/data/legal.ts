@@ -12,6 +12,8 @@ export type LegalPageContent = {
 }
 
 const missing = (field: string) => `[COMPLETAR: ${field}]`
+const placeholderMarker = '[COMPLETAR:'
+const internalOnlySectionTitles = new Set(['Datos pendientes de confirmación'])
 
 const responsible = [
   `Responsable del sitio y de los servicios: ${missing('nombre completo o razón profesional responsable')}.`,
@@ -201,4 +203,100 @@ export const legalPages: Record<LegalPageKey, LegalPageContent> = {
     ],
     title: 'Condiciones',
   },
+}
+
+const publishedLegalIntros: Record<LegalPageKey, string> = {
+  cookies:
+    'Información sobre cookies y herramientas técnicas utilizadas por VetKathia.',
+  legalNotice:
+    'Información legal de VetKathia y límites de uso de la web.',
+  privacy:
+    'Información sobre el tratamiento de datos en formularios, contratación online y agenda.',
+  terms:
+    'Condiciones aplicables a la contratación online de servicios VetKathia.',
+}
+
+function hasPlaceholder(value: string) {
+  return value.includes(placeholderMarker)
+}
+
+function findSection(page: LegalPageKey, title: string) {
+  return legalPages[page].sections.find((section) => section.title === title)
+}
+
+function pageHasPlaceholders(page: LegalPageKey) {
+  const content = legalPages[page]
+
+  return (
+    hasPlaceholder(content.intro) ||
+    content.sections.some((section) => hasPlaceholder(section.content))
+  )
+}
+
+function sectionIsCompleted(page: LegalPageKey, title: string) {
+  const section = findSection(page, title)
+
+  return Boolean(section && !hasPlaceholder(section.content))
+}
+
+export function getLegalIntro(
+  page: LegalPageKey,
+  legalContentReady: boolean,
+) {
+  return legalContentReady ? publishedLegalIntros[page] : legalPages[page].intro
+}
+
+export function getVisibleLegalSections(
+  page: LegalPageKey,
+  legalContentReady: boolean,
+) {
+  const sections = legalPages[page].sections
+
+  if (!legalContentReady) return sections
+
+  return sections.filter(
+    (section) =>
+      !internalOnlySectionTitles.has(section.title) &&
+      !hasPlaceholder(section.content),
+  )
+}
+
+export function hasLegalPlaceholders() {
+  return (Object.keys(legalPages) as LegalPageKey[]).some(pageHasPlaceholders)
+}
+
+export function getLegalReadinessStatus(contactEmail = '') {
+  const contactConfigured = Boolean(contactEmail.trim())
+  const responsibleConfigured =
+    sectionIsCompleted('legalNotice', 'Responsable') &&
+    sectionIsCompleted('privacy', 'Responsable del tratamiento') &&
+    sectionIsCompleted('terms', 'Responsable')
+  const privacyConfigured = !pageHasPlaceholders('privacy')
+  const cancellationRefundConfigured =
+    sectionIsCompleted('terms', 'Política de cancelación y cambios') &&
+    sectionIsCompleted('terms', 'Política de reembolso')
+  const legalPlaceholdersResolved = !hasLegalPlaceholders()
+  const ready =
+    contactConfigured &&
+    responsibleConfigured &&
+    privacyConfigured &&
+    cancellationRefundConfigured &&
+    legalPlaceholdersResolved
+  const missingItems = [
+    !contactConfigured ? 'contacto legal' : '',
+    !responsibleConfigured ? 'responsable' : '',
+    !privacyConfigured ? 'privacidad' : '',
+    !cancellationRefundConfigured ? 'cancelación y reembolso' : '',
+    !legalPlaceholdersResolved ? 'marcadores legales pendientes' : '',
+  ].filter(Boolean)
+
+  return {
+    cancellationRefundConfigured,
+    contactConfigured,
+    legalPlaceholdersResolved,
+    missingItems,
+    privacyConfigured,
+    ready,
+    responsibleConfigured,
+  }
 }

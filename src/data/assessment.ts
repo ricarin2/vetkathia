@@ -1,5 +1,5 @@
 export const currentFoodOptions = [
-  'Pienso',
+  'Pienso / croquetas / concentrado / alimento seco',
   'Lata/húmeda',
   'Natural comercial',
   'Cocinada casera',
@@ -40,9 +40,9 @@ export const symptomOptions = [
 
 export const nextSteps = [
   'Eliges el plan.',
-  'Pagas de forma segura con Stripe.',
+  'Paga el plan de forma segura.',
   'Rellenas el cuestionario.',
-  'Reservas la consulta online si corresponde.',
+  'Reserva tu cita online si corresponde.',
   'Recibes valoración, pauta o seguimiento según corresponda.',
 ]
 

@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async'
+import { useEffect } from 'react'
 
 type SEOHeadProps = {
   canonicalPath: string
@@ -6,6 +7,8 @@ type SEOHeadProps = {
   noindex?: boolean
   ogImage?: string
   ogImageAlt?: string
+  ogImageHeight?: number
+  ogImageWidth?: number
   ogType?: string
   title: string
 }
@@ -13,6 +16,8 @@ type SEOHeadProps = {
 const defaultOgImage = '/images/vetkathia-hero-pets-1200.jpg'
 const defaultOgImageAlt =
   'Perro y gato junto a una pauta de nutrición natural veterinaria VetKathia'
+const defaultOgImageHeight = 900
+const defaultOgImageWidth = 1200
 const fallbackSiteUrl = 'https://vetkathia.com'
 
 function getSiteUrl() {
@@ -35,12 +40,20 @@ export function SEOHead({
   noindex = false,
   ogImage = defaultOgImage,
   ogImageAlt = defaultOgImageAlt,
+  ogImageHeight = defaultOgImageHeight,
+  ogImageWidth = defaultOgImageWidth,
   ogType = 'website',
   title,
 }: SEOHeadProps) {
   const canonicalUrl = toAbsoluteUrl(canonicalPath)
   const imageUrl = toAbsoluteUrl(ogImage)
   const robotsContent = noindex ? 'noindex,follow' : 'index,follow'
+
+  useEffect(() => {
+    document
+      .querySelector('meta[data-vetkathia-fallback-description]')
+      ?.remove()
+  }, [])
 
   return (
     <Helmet>
@@ -56,6 +69,8 @@ export function SEOHead({
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:image" content={imageUrl} />
       <meta property="og:image:alt" content={ogImageAlt} />
+      <meta property="og:image:width" content={String(ogImageWidth)} />
+      <meta property="og:image:height" content={String(ogImageHeight)} />
       <meta property="og:site_name" content="VetKathia" />
 
       <meta name="twitter:card" content="summary_large_image" />

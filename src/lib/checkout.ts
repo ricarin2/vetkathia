@@ -6,7 +6,11 @@ import {
 } from './analytics'
 import { getIntegrationStatus, integrations } from './integrations'
 import { type PlanKey, planLabels } from './planCheckout'
-import { getTrafficAttribution } from './trafficAttribution'
+import {
+  attributionParamKeys,
+  getTrafficAttribution,
+  type TrafficAttribution,
+} from './trafficAttribution'
 
 type CheckoutSessionResponse = {
   error?: string
@@ -21,6 +25,37 @@ function createCheckoutAttemptId() {
   }
 }
 
+function buildPaymentLinkUrl(
+  url: string,
+  planKey: PlanKey,
+  attribution: TrafficAttribution,
+  checkoutAttemptId: string,
+) {
+  try {
+    const checkoutUrl = new URL(url)
+
+    checkoutUrl.searchParams.set('planKey', planKey)
+    checkoutUrl.searchParams.set('checkoutAttemptId', checkoutAttemptId)
+
+    attributionParamKeys.forEach((key) => {
+      const value = attribution[key]
+      if (value) checkoutUrl.searchParams.set(key, value)
+    })
+
+    if (attribution.landing_page) {
+      checkoutUrl.searchParams.set('landing_page', attribution.landing_page)
+    }
+
+    if (attribution.referrer) {
+      checkoutUrl.searchParams.set('referrer', attribution.referrer)
+    }
+
+    return checkoutUrl.toString()
+  } catch {
+    return url
+  }
+}
+
 export async function startCheckout(planKey: PlanKey) {
   const integrationStatus = getIntegrationStatus()
 
@@ -32,8 +67,7 @@ export async function startCheckout(planKey: PlanKey) {
   }
 
   if (!integrationStatus.legalReady) {
-    const message =
-      'No se puede activar la contratación real hasta completar los textos legales.'
+    const message = integrationStatus.legalBlockMessage
     trackCheckoutConfigError({ message, planKey, planName: planLabels[planKey] })
     trackCheckoutError({ message, planKey, planName: planLabels[planKey] })
     throw new Error(message)
@@ -48,6 +82,29 @@ export async function startCheckout(planKey: PlanKey) {
       planKey,
       planName: planLabels[planKey],
     })
+
+    if (integrations.checkoutMode === 'payment_links') {
+      const paymentLinkUrl = integrations.stripePaymentLinks[planKey]?.trim()
+
+      if (!paymentLinkUrl) {
+        throw new Error('Checkout no configurado para este plan.')
+      }
+
+      trackCheckoutRedirectStarted({
+        checkoutAttemptId,
+        checkoutMode: integrations.checkoutMode,
+        planKey,
+        planName: planLabels[planKey],
+      })
+
+      window.location.href = buildPaymentLinkUrl(
+        paymentLinkUrl,
+        planKey,
+        attribution,
+        checkoutAttemptId,
+      )
+      return
+    }
 
     const response = await fetch(integrations.checkoutApiUrl, {
       body: JSON.stringify({

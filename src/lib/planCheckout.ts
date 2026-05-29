@@ -11,7 +11,7 @@ export const planLabels: Record<PlanKey, string> = {
 export const planCtaLabels: Record<PlanKey, string> = {
   accompaniment: 'Contratar acompañamiento',
   personalized: 'Contratar plan personalizado',
-  valuation: 'Contratar valoración',
+  valuation: 'Contratar valoración nutricional',
 }
 
 const planKeysByName: Record<string, PlanKey> = {

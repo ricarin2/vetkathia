@@ -99,9 +99,7 @@ export const demoTestimonialCases = testimonialCases.filter(
   (testimonialCase) => testimonialCase.isDemo,
 )
 
-const demoCasesFlag = import.meta.env.VITE_SHOW_DEMO_CASES
-const shouldShowDemoCases =
-  demoCasesFlag === 'true' || (import.meta.env.DEV && demoCasesFlag !== 'false')
+const shouldShowDemoCases = import.meta.env.DEV
 
 export const hasPublicTestimonialCases = publicTestimonialCases.length > 0
 export const hasDemoTestimonialCases =

@@ -23,7 +23,8 @@ export function AboutPage() {
           <div>
             <Badge tone="soft">VetKathia</Badge>
             <h1 className="mt-5 text-4xl font-semibold leading-tight text-vetkathia-text sm:text-5xl lg:text-6xl">
-              Sobre mí
+              Soy Kathia, veterinaria enfocada en nutrición natural para perros
+              y gatos
             </h1>
             <p className="mt-6 text-xl leading-9 text-vetkathia-muted">
               Soy Kathia, veterinaria enfocada en nutrición natural para perros
@@ -67,7 +68,7 @@ export function AboutPage() {
                 size="lg"
                 to="/#planes"
               >
-                Elegir plan
+                Ver planes y contratar
               </Button>
             </div>
           </div>
@@ -121,7 +122,7 @@ export function AboutPage() {
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-vetkathia-muted">
               Elige el plan que encaja mejor y después completa el cuestionario
-              inicial para revisar el caso con contexto.
+              nutricional para revisar el caso con contexto.
             </p>
             <Button
               className="mt-8"

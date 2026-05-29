@@ -46,10 +46,7 @@ type PlanStructuredDataDefinition = {
   serviceType: string
 }
 
-const areaServed = {
-  '@type': 'Place',
-  name: 'España y países hispanohablantes',
-}
+const areaServed = 'Servicio online en español para países hispanohablantes'
 
 const socialProfileUrls = (siteConfig.socialLinks ?? [])
   .filter((link) =>
@@ -138,7 +135,7 @@ const vetKathiaNode = {
   '@type': 'ProfessionalService',
   areaServed,
   description:
-    'Servicio online de nutrición natural veterinaria para perros y gatos con valoración, planes personalizados y acompañamiento contratables online.',
+    'VetKathia es un servicio online de nutrición natural veterinaria para perros y gatos, con valoración, planes personalizados y acompañamiento contratables online.',
   founder: {
     '@id': ids.kathia,
   },
@@ -146,7 +143,7 @@ const vetKathiaNode = {
     '@id': plan.offerId,
   })),
   name: 'VetKathia',
-  sameAs: socialProfileUrls,
+  ...(socialProfileUrls.length > 0 ? { sameAs: socialProfileUrls } : {}),
   serviceType: 'Nutrición veterinaria online',
   url: absoluteUrl('/'),
 }
@@ -290,8 +287,9 @@ export function createHomeStructuredData(
   faqItems?: FaqStructuredDataItem[],
 ) {
   return createPageGraph({
+    breadcrumb: [{ name: 'Inicio', path: '/' }],
     description:
-      'Valoración nutricional y planes personalizados para perros y gatos. Dieta cocinada, mixta, BARF o transición gradual con criterio veterinario.',
+      'Planes online de nutrición natural veterinaria para perros y gatos. Dieta cocinada, mixta, BARF o transición gradual con criterio profesional.',
     faqItems,
     name: 'Nutrición natural veterinaria online | VetKathia',
     path: '/',
@@ -307,7 +305,7 @@ export function createPlansStructuredData(
       { name: 'Planes', path: '/planes' },
     ],
     description:
-      'Contrata online valoración nutricional, plan personalizado o acompañamiento para mejorar la alimentación de tu perro o gato sin improvisar.',
+      'Contrata valoración nutricional, plan personalizado o acompañamiento online para mejorar la alimentación de tu perro o gato sin improvisar.',
     faqItems,
     name: 'Planes de nutrición natural para perros y gatos | VetKathia',
     path: '/planes',
@@ -324,7 +322,7 @@ export function createFaqPageStructuredData(
       { name: 'FAQ', path: '/faq' },
     ],
     description:
-      'Respuestas sobre dieta cocinada, BARF, alimentación mixta, gatos, seniors, transición segura y planes nutricionales online.',
+      'Respuestas sobre dieta cocinada, BARF, alimentación mixta, gatos, seniors, transición segura, pago online y límites del servicio veterinario.',
     faqItems,
     name: 'FAQ sobre nutrición natural para perros y gatos | VetKathia',
     path: '/faq',

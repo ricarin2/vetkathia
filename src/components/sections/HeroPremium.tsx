@@ -1,5 +1,4 @@
 import {
-  ArrowRight,
   ClipboardCheck,
   HeartPulse,
   ShieldCheck,
@@ -8,7 +7,6 @@ import {
 import { motion, useReducedMotion } from 'framer-motion'
 import { type ComponentType } from 'react'
 
-import { Button, type ButtonProps } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 const trustItems = [
@@ -83,15 +81,11 @@ const photoVariants: MotionVariants = {
 type HeroPremiumProps = {
   className?: string
   id?: string
-  onPrimaryCtaClick?: ButtonProps['onClick']
-  onSecondaryCtaClick?: ButtonProps['onClick']
 }
 
 export function HeroPremium({
   className,
   id,
-  onPrimaryCtaClick,
-  onSecondaryCtaClick,
 }: HeroPremiumProps) {
   const shouldReduceMotion = useReducedMotion()
   const shouldUseDecorativeMotion =
@@ -146,41 +140,19 @@ export function HeroPremium({
             className="mt-4 max-w-2xl text-[0.95rem] font-medium leading-7 text-vetkathia-text/85 sm:mt-5 sm:text-lg sm:leading-8"
             variants={itemVariants}
           >
-            Reviso la alimentación actual de tu perro o gato y te ayudo a
-            elegir una pauta natural segura, realista y adaptada a su especie,
-            edad, digestión, salud y rutina. Puede ser cocinada, mixta, BARF,
-            natural comercial o una mejora gradual de lo que ya come.
+            Reviso qué come ahora tu perro o gato, su salud, digestión, edad y
+            rutina para ayudarte a elegir un plan de alimentación natural
+            seguro, realista y aplicable. Puede ser cocinado, mixto, BARF,
+            natural comercial o una transición gradual desde su alimentación
+            actual.
           </MotionP>
 
-          <MotionDiv
-            className="mt-5 flex flex-col gap-2 sm:mt-6 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3 lg:max-w-[40rem]"
-            variants={itemVariants}
-          >
-            <Button
-              className="w-full justify-center sm:w-auto sm:min-w-[16.75rem] sm:whitespace-nowrap"
-              onClick={onPrimaryCtaClick}
-              rightIcon={<ArrowRight className="h-5 w-5" aria-hidden="true" />}
-              size="lg"
-              to="/#planes"
-            >
-              Ver planes y contratar
-            </Button>
-            <Button
-              className="w-fit justify-center self-center px-2 py-2 text-sm text-vetkathia-muted shadow-none hover:bg-transparent hover:text-vetkathia-primary-dark sm:min-h-0 sm:px-3 sm:py-2 sm:text-base"
-              onClick={onSecondaryCtaClick}
-              size="md"
-              to="/#como-funciona"
-              variant="ghost"
-          >
-            Cómo funciona
-          </Button>
-          </MotionDiv>
           <MotionP
             className="mt-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark"
             variants={itemVariants}
           >
-            Pago seguro con Stripe. Reserva online con Calendly. Servicio
-            veterinario no urgente.
+            Servicio online en español · Pago seguro · Cita online · No
+            sustituye urgencias veterinarias
           </MotionP>
         </MotionDiv>
 

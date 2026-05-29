@@ -2,7 +2,7 @@ export const trustBenefits = [
   {
     description:
       'Alimentación actual, edad, salud, digestión, síntomas y rutina.',
-    title: 'Entendemos el caso',
+    title: 'Reviso el caso',
   },
   {
     description:
@@ -71,8 +71,8 @@ export const methodSteps = [
     title: 'Elige el plan',
   },
   {
-    description: 'La contratación online se gestiona con Stripe.',
-    title: 'Paga de forma segura con Stripe',
+    description: 'Stripe gestiona el pago seguro del plan.',
+    title: 'Paga el plan de forma segura',
   },
   {
     description: 'Comparte alimentación, rutina, salud y objetivo.',
@@ -123,7 +123,7 @@ export const familyStoriesPlaceholder = {
 export const homePlans = [
   {
     bestFor: 'Quieres una primera orientación profesional antes de cambiar la alimentación.',
-    cta: 'Contratar valoración',
+    cta: 'Contratar valoración nutricional',
     description: 'Para saber si conviene cambiar y por dónde empezar.',
     includes: [
       'Cuestionario nutricional',

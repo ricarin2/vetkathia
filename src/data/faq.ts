@@ -1,31 +1,31 @@
 export const faqItems = [
   {
     content:
-      'No. VetKathia no es solo BARF. Trabajo nutrición natural veterinaria con opciones como dieta cocinada, mixta, BARF, natural comercial o una mejora gradual de lo que ya come tu perro o gato.',
-    id: 'solo-barf',
-    title: '¿VetKathia es solo BARF?',
-  },
-  {
-    content:
-      'Sí. Puedes contratar aunque tu perro o gato siga comiendo pienso. La idea es revisar el punto de partida y valorar si conviene mejorar cantidades, rutina, composición, transición o tipo de dieta sin hacer cambios bruscos.',
-    id: 'sigue-con-pienso',
-    title: '¿Puedo contratar si mi perro o gato sigue comiendo pienso?',
-  },
-  {
-    content:
-      'Eliges un plan, completas el pago seguro con Stripe, rellenas el cuestionario nutricional y reservas tu cita online con Calendly. Después reviso la información para preparar la valoración, pauta o acompañamiento según el servicio contratado.',
+      'Eliges un plan, revisas las condiciones, completas el pago seguro con Stripe, rellenas el cuestionario nutricional y reservas tu cita online con Calendly cuando la agenda está configurada para el plan correspondiente. Después preparo la valoración, el plan nutricional o el acompañamiento contratado.',
     id: 'contratacion-online',
     title: '¿Cómo funciona la contratación online?',
   },
   {
     content:
-      'Sí. El pago se gestiona mediante Stripe. VetKathia no almacena datos de tarjeta. Si la contratación online no está configurada en algún momento, la web debe indicarlo de forma clara antes de continuar.',
-    id: 'pago-seguro',
-    title: '¿El pago es seguro?',
+      'El pago se gestiona mediante Stripe. VetKathia no almacena los datos de tu tarjeta. Si la contratación online no está configurada en algún momento, la web debe indicarlo de forma clara antes de continuar.',
+    id: 'tarjeta-stripe',
+    title: '¿VetKathia guarda los datos de mi tarjeta?',
   },
   {
     content:
-      'La reserva online se realiza con Calendly cuando la agenda esté configurada para el plan correspondiente. Normalmente se hace después del pago, junto con el cuestionario nutricional.',
+      'El servicio es online y está pensado para personas hispanohablantes. Los precios se muestran en euros; según tu país, tu banco o método de pago puede aplicar conversión de divisa.',
+    id: 'pais-hispanohablante',
+    title: '¿Puedo contratar desde cualquier país?',
+  },
+  {
+    content:
+      'VetKathia es un servicio online en español para tutores de perros y gatos. Los precios se muestran en euros y la contratación se gestiona mediante Stripe. Si estás fuera de España, revisa antes de contratar que el formato online, la moneda y la disponibilidad horaria encajan contigo.',
+    id: 'fuera-de-espana',
+    title: '¿VetKathia atiende fuera de España?',
+  },
+  {
+    content:
+      'La cita online se reserva con Calendly cuando la agenda esté configurada para el plan correspondiente. Normalmente se hace después del pago, junto con el cuestionario nutricional.',
     id: 'reserva-cita',
     title: '¿Cuándo reservo la cita?',
   },
@@ -37,15 +37,23 @@ export const faqItems = [
   },
   {
     content:
-      'La Valoración Nutricional sirve para revisar la alimentación actual y orientarte sobre si conviene cambiar y por dónde empezar. El Plan Personalizado añade una pauta individual con cantidades, transición y recomendaciones prácticas.',
-    id: 'valoracion-vs-plan',
-    title: '¿Qué diferencia hay entre la valoración y el plan personalizado?',
+      'No. VetKathia no es solo BARF. Trabajo nutrición natural veterinaria con opciones como dieta cocinada, mixta, BARF, natural comercial o una mejora gradual de lo que ya come tu perro o gato.',
+    id: 'solo-barf',
+    title: '¿VetKathia es solo BARF?',
   },
   {
     content:
-      'El Plan con Acompañamiento incluye lo anterior y añade revisión posterior, ajustes del plan, seguimiento ampliado y un marco más claro para aplicar los cambios con apoyo.',
-    id: 'acompanamiento',
-    title: '¿Qué incluye el acompañamiento?',
+      'Sí. Puedes contratar aunque tu perro o gato coma pienso, croquetas, concentrado o alimento seco. La idea es revisar el punto de partida y valorar si conviene mejorar cantidades, rutina, composición, transición o tipo de dieta sin hacer cambios bruscos.',
+    id: 'sigue-con-pienso',
+    title:
+      '¿Puedo contratar si mi perro o gato sigue comiendo pienso, croquetas, concentrado o alimento seco?',
+  },
+  {
+    content:
+      'La Valoración Nutricional sirve para revisar la alimentación actual y orientarte sobre si conviene cambiar y por dónde empezar. El Plan Personalizado añade una pauta individual con cantidades, transición y recomendaciones prácticas. El Acompañamiento suma revisión posterior, ajustes del plan y seguimiento ampliado para aplicar los cambios con más apoyo.',
+    id: 'diferencia-planes',
+    title:
+      '¿Qué diferencia hay entre valoración, plan personalizado y acompañamiento?',
   },
   {
     content:
@@ -68,7 +76,7 @@ export const faqItems = [
   },
   {
     content:
-      'No. La nutrición natural no promete curar enfermedades ni garantiza resultados médicos. Puede ayudar a revisar y adaptar la alimentación con criterio, pero no sustituye diagnóstico, tratamiento ni seguimiento clínico cuando hacen falta.',
+      'No. La nutrición natural no promete curar enfermedades ni ofrece garantías de resultado médico. Puede ayudar a revisar y adaptar la alimentación con criterio, pero no sustituye diagnóstico, tratamiento ni seguimiento clínico cuando hacen falta.',
     id: 'cura-enfermedades',
     title: '¿La nutrición natural cura enfermedades?',
   },
@@ -92,7 +100,7 @@ export const faqItems = [
   },
   {
     content:
-      'Necesitarás tus datos de contacto, datos básicos del animal, alimentación actual, objetivo, rutina y cualquier información de salud relevante. Si hay diagnósticos, medicación, síntomas o analíticas recientes, puedes indicarlo para revisar el caso con más contexto.',
+      'Necesitarás tus datos de contacto, datos básicos del animal, alimentación actual, objetivo, rutina y cualquier información de salud relevante. Si hay diagnósticos, medicación, síntomas, analíticas o análisis recientes, puedes indicarlo para revisar el caso con más contexto.',
     id: 'cuestionario-info',
     title: '¿Qué información necesito para el cuestionario?',
   },

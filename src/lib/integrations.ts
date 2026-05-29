@@ -1,4 +1,6 @@
-export type CheckoutMode = 'checkout_sessions'
+import { getLegalReadinessStatus } from '../data/legal'
+
+export type CheckoutMode = 'payment_links' | 'checkout_sessions'
 export type CalendlyEmbedMode = 'inline' | 'link' | 'popup'
 export type IntegrationPlanKey = 'valuation' | 'personalized' | 'accompaniment'
 
@@ -20,10 +22,11 @@ const readBooleanFlag = (
 const readCheckoutMode = (
   value: string | undefined,
 ): CheckoutMode => {
-  if (value && value !== 'checkout_sessions') {
+  if (value === 'checkout_sessions') {
     return 'checkout_sessions'
   }
-  return 'checkout_sessions'
+
+  return 'payment_links'
 }
 
 const readCalendlyEmbedMode = (
@@ -40,6 +43,11 @@ const calendlyUrls: Record<IntegrationPlanKey, string> = {
   accompaniment: import.meta.env.VITE_CALENDLY_URL_ACCOMPANIMENT ?? '',
   personalized: import.meta.env.VITE_CALENDLY_URL_PERSONALIZED ?? '',
   valuation: import.meta.env.VITE_CALENDLY_URL_VALUATION ?? '',
+}
+const stripePaymentLinks: Record<IntegrationPlanKey, string> = {
+  accompaniment: import.meta.env.VITE_STRIPE_PAYMENT_LINK_ACCOMPANIMENT ?? '',
+  personalized: import.meta.env.VITE_STRIPE_PAYMENT_LINK_PERSONALIZED ?? '',
+  valuation: import.meta.env.VITE_STRIPE_PAYMENT_LINK_VALUATION ?? '',
 }
 const checkoutApiUrl =
   import.meta.env.VITE_CHECKOUT_API_URL ?? '/api/create-checkout-session'
@@ -62,6 +70,7 @@ export const integrations = {
   checkoutApiUrl,
   checkoutEnabled: readBooleanFlag(import.meta.env.VITE_CHECKOUT_ENABLED),
   checkoutMode,
+  contactEmail: import.meta.env.VITE_CONTACT_EMAIL ?? '',
   formEndpoint: import.meta.env.VITE_FORMSPREE_ENDPOINT ?? '',
   legalContentReady: readBooleanFlag(import.meta.env.VITE_LEGAL_CONTENT_READY),
   requirePaymentBeforeForm: readBooleanFlag(
@@ -69,6 +78,7 @@ export const integrations = {
   ),
   siteUrl: import.meta.env.VITE_SITE_URL ?? '',
   stripeConfigured: readBooleanFlag(import.meta.env.VITE_STRIPE_CONFIGURED),
+  stripePaymentLinks,
 }
 
 export function getIntegrationStatus() {
@@ -83,13 +93,26 @@ export function getIntegrationStatus() {
       integrations.calendlyEnabled &&
       Boolean(integrations.calendlyUrls.valuation.trim()),
   } satisfies Record<IntegrationPlanKey, boolean>
+  const paymentLinksConfiguredByPlan = {
+    accompaniment: Boolean(integrations.stripePaymentLinks.accompaniment.trim()),
+    personalized: Boolean(integrations.stripePaymentLinks.personalized.trim()),
+    valuation: Boolean(integrations.stripePaymentLinks.valuation.trim()),
+  } satisfies Record<IntegrationPlanKey, boolean>
+  const paymentLinksConfigured = Object.values(
+    paymentLinksConfiguredByPlan,
+  ).every(Boolean)
   const stripeConfigured =
-    integrations.stripeConfigured &&
-    integrations.checkoutMode === 'checkout_sessions' &&
-    Boolean(integrations.checkoutApiUrl.trim())
+    integrations.checkoutMode === 'payment_links'
+      ? paymentLinksConfigured
+      : integrations.stripeConfigured &&
+        Boolean(integrations.checkoutApiUrl.trim())
   const checkoutConfigured = integrations.checkoutEnabled && stripeConfigured
   const formConfigured = Boolean(integrations.formEndpoint.trim())
-  const legalReady = integrations.legalContentReady
+  const legalReadiness = getLegalReadinessStatus(integrations.contactEmail)
+  const legalReady = integrations.legalContentReady && legalReadiness.ready
+  const legalBlockMessage = !integrations.legalContentReady
+    ? 'No se puede activar la contratación real hasta completar los textos legales.'
+    : 'No se puede activar la contratación real hasta completar responsable, privacidad, contacto legal y condiciones de cancelación/reembolso.'
 
   return {
     calendlyConfiguredByPlan,
@@ -97,8 +120,13 @@ export function getIntegrationStatus() {
     canAcceptQuestionnaires: formConfigured || import.meta.env.DEV,
     checkoutConfigured,
     checkoutMode: integrations.checkoutMode,
+    contactConfigured: legalReadiness.contactConfigured,
     formConfigured,
+    legalBlockMessage,
+    legalContentReady: integrations.legalContentReady,
+    legalReadiness,
     legalReady,
+    paymentLinksConfiguredByPlan,
     stripeConfigured,
   }
 }

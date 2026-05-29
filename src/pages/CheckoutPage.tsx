@@ -63,7 +63,7 @@ const checkoutFlow = [
   },
   {
     Icon: CalendarClock,
-    label: 'Reserva de cita con Calendly',
+    label: 'Reserva tu cita online',
   },
   {
     Icon: Stethoscope,
@@ -87,6 +87,7 @@ export function CheckoutPage() {
     integrations.checkoutEnabled && !integrationStatus.stripeConfigured
   const legalConfigurationPending =
     integrations.checkoutEnabled && !integrationStatus.legalReady
+  const legalBlockMessage = integrationStatus.legalBlockMessage
   const [checkoutError, setCheckoutError] = useState('')
   const [termsError, setTermsError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -106,12 +107,12 @@ export function CheckoutPage() {
 
     trackCheckoutConfigError({
       message: legalConfigurationPending
-        ? 'No se puede activar la contratación real hasta completar los textos legales.'
+        ? legalBlockMessage
         : 'La contratación online no está configurada todavía.',
       planKey: selectedPlan,
       planName: planLabels[selectedPlan],
     })
-  }, [checkoutConfigured, legalConfigurationPending, selectedPlan])
+  }, [checkoutConfigured, legalBlockMessage, legalConfigurationPending, selectedPlan])
 
   useEffect(() => {
     if (!allTermsAccepted || !selectedPlan || hasTrackedTermsAccepted.current) {
@@ -137,9 +138,7 @@ export function CheckoutPage() {
     if (!selectedPlan) return
 
     if (legalConfigurationPending) {
-      setTermsError(
-        'No se puede activar la contratación real hasta completar los textos legales.',
-      )
+      setTermsError(legalBlockMessage)
       return
     }
 
@@ -410,8 +409,7 @@ export function CheckoutPage() {
 
                   {legalConfigurationPending ? (
                     <p className="mt-4 rounded-2xl border border-vetkathia-primary/30 bg-vetkathia-surface px-4 py-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark">
-                      No se puede activar la contratación real hasta completar
-                      los textos legales.
+                      {legalBlockMessage}
                     </p>
                   ) : null}
 
@@ -430,7 +428,7 @@ export function CheckoutPage() {
                     onClick={handleStartCheckout}
                     size="lg"
                   >
-                    Pagar con Stripe
+                    Pagar con Stripe y continuar
                   </Button>
                   <Button
                     className="mt-3"

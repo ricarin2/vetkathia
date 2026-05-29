@@ -22,7 +22,8 @@ export type PlanCheckoutProvider = 'stripe' | 'calendly'
 export type PlanKey = 'valuation' | 'personalized' | 'accompaniment'
 
 export type PlanCheckoutLink = {
-  apiUrl: string
+  apiUrl?: string
+  paymentLinkUrl?: string
   provider: PlanCheckoutProvider
 }
 
@@ -51,7 +52,7 @@ export const siteConfig: {
   description:
     'Nutrición natural veterinaria online para perros y gatos, con valoración nutricional, planes personalizados y acompañamiento opcional.',
   contact: {
-    email: '',
+    email: integrations.contactEmail,
     fallback:
       'El contacto se gestiona desde el plan elegido y el cuestionario nutricional.',
   },
@@ -63,14 +64,17 @@ export const siteConfig: {
   planCheckoutLinks: {
     accompaniment: {
       apiUrl: integrations.checkoutApiUrl,
+      paymentLinkUrl: integrations.stripePaymentLinks.accompaniment,
       provider: 'stripe',
     },
     personalized: {
       apiUrl: integrations.checkoutApiUrl,
+      paymentLinkUrl: integrations.stripePaymentLinks.personalized,
       provider: 'stripe',
     },
     valuation: {
       apiUrl: integrations.checkoutApiUrl,
+      paymentLinkUrl: integrations.stripePaymentLinks.valuation,
       provider: 'stripe',
     },
   },

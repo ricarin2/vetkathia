@@ -2,7 +2,7 @@ export const plans = [
   {
     bestFor:
       'Quieres una primera lectura profesional antes de invertir en una pauta completa.',
-    cta: 'Contratar valoración',
+    cta: 'Contratar valoración nutricional',
     description: 'Para quien quiere claridad antes de cambiar nada.',
     includes: [
       'Cuestionario nutricional',

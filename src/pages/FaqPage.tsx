@@ -20,7 +20,7 @@ export function FaqPage() {
     <>
       <SEOHead
         canonicalPath="/faq"
-        description="Respuestas sobre dieta cocinada, BARF, alimentación mixta, gatos, seniors, transición segura y planes nutricionales online."
+        description="Respuestas sobre dieta cocinada, BARF, alimentación mixta, gatos, seniors, transición segura, pago online y límites del servicio veterinario."
         title="FAQ sobre nutrición natural para perros y gatos | VetKathia"
       />
       <StructuredData
@@ -37,11 +37,12 @@ export function FaqPage() {
           <div className="mx-auto max-w-3xl text-center">
             <Badge tone="soft">Dudas frecuentes</Badge>
             <h1 className="mt-5 text-4xl font-semibold leading-tight text-vetkathia-text sm:text-5xl lg:text-6xl">
-              Preguntas frecuentes sobre nutrición natural veterinaria
+              Preguntas frecuentes sobre nutrición natural veterinaria para
+              perros y gatos
             </h1>
             <p className="mt-6 text-lg leading-8 text-vetkathia-muted">
-              Respuestas claras antes de elegir un plan, pagar online y
-              completar el cuestionario nutricional.
+              Respuestas claras antes de elegir un plan, pagar de forma segura
+              y completar el cuestionario nutricional.
             </p>
           </div>
         </Container>
@@ -72,8 +73,8 @@ export function FaqPage() {
             >
               <p>
                 Si buscas orientación inicial, empieza por la Valoración
-                Nutricional. Después pagarás con Stripe, completarás el
-                cuestionario y podrás reservar tu cita online.
+                Nutricional. Después completarás el pago seguro con Stripe,
+                rellenarás el cuestionario y reservarás tu cita online.
               </p>
             </SectionHeading>
             <Button

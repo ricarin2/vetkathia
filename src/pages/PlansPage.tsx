@@ -45,7 +45,7 @@ const confidencePoints = [
   {
     description: 'El pago seguro con Stripe confirma el inicio del servicio.',
     icon: ShieldCheck,
-    title: 'Pago online antes de iniciar',
+    title: 'Pago seguro antes de iniciar',
   },
   {
     description: 'Después completas el cuestionario nutricional del plan elegido.',
@@ -121,7 +121,7 @@ export function PlansPage() {
     <>
       <SEOHead
         canonicalPath="/planes"
-        description="Contrata online valoración nutricional, plan personalizado o acompañamiento para mejorar la alimentación de tu perro o gato sin improvisar."
+        description="Contrata valoración nutricional, plan personalizado o acompañamiento online para mejorar la alimentación de tu perro o gato sin improvisar."
         title="Planes de nutrición natural para perros y gatos | VetKathia"
       />
       <StructuredData
@@ -141,14 +141,14 @@ export function PlansPage() {
               className="mt-5 text-4xl font-semibold leading-tight text-vetkathia-text sm:text-5xl lg:text-6xl"
               data-reveal
             >
-              Planes de nutrición natural veterinaria
+              Planes de nutrición natural veterinaria para perros y gatos
             </h1>
             <p className="mt-6 text-lg leading-8 text-vetkathia-muted" data-reveal>
               Elige el nivel de ayuda que necesitas y contrata online. Después
               completarás el cuestionario y podrás reservar tu cita.
             </p>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-vetkathia-muted" data-reveal>
-              Pago seguro con Stripe. Reserva online con Calendly. Servicio
+              Pago seguro con Stripe. Reserva tu cita online. Servicio
               veterinario no urgente. No promete curar enfermedades ni
               sustituye urgencias veterinarias.
             </p>
@@ -218,7 +218,9 @@ export function PlansPage() {
               to="/contratar?plan=valuation"
 	              variant="outline"
 	            >
-	              {checkoutConfigured ? 'Contratar valoración' : 'No configurado'}
+	              {checkoutConfigured
+                  ? 'Contratar valoración nutricional'
+                  : 'No configurado'}
 	            </Button>
           </Card>
 
@@ -286,7 +288,7 @@ export function PlansPage() {
 
 	                <div className="mt-7 rounded-2xl border border-vetkathia-border bg-white/76 px-4 py-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark">
 	                  Pago seguro con Stripe · Cuestionario nutricional · Reserva
-                    online
+                    tu cita online
 	                </div>
 
                 {plan.notIncludes ? (
@@ -480,7 +482,7 @@ export function PlansPage() {
               <p className="mt-5 max-w-3xl text-lg leading-8 text-vetkathia-muted">
 	                Si necesitas orientación inicial, empieza por la Valoración
 	                Nutricional. Después completarás el cuestionario nutricional
-                  y podrás reservar cita online.
+                  y podrás reservar tu cita online.
 	              </p>
 	              <Button
                   disabled={!checkoutConfigured}
@@ -491,7 +493,9 @@ export function PlansPage() {
 	                size="lg"
                   to="/contratar?plan=valuation"
 	              >
-	                {checkoutConfigured ? 'Contratar valoración' : 'No configurado'}
+	                {checkoutConfigured
+                    ? 'Contratar valoración nutricional'
+                    : 'No configurado'}
 	              </Button>
             </div>
           </Card>

@@ -189,10 +189,11 @@ export function RequestAssessmentPage() {
     ''
   const selectedPlanLabel = selectedPlan ? planLabels[selectedPlan] : ''
   const canUseDevBypass = import.meta.env.DEV
+  const usesPaymentLinks = integrations.checkoutMode === 'payment_links'
   const hasStoredPaidPlan =
     selectedPlan &&
     storedPaidPlan === selectedPlan &&
-    Boolean(storedCheckoutSessionId)
+    (Boolean(storedCheckoutSessionId) || usesPaymentLinks)
   const hasCheckoutSession = Boolean(stripeSessionId)
   const calendlyScheduled =
     readSessionStorage('vetkathia_calendly_scheduled') === 'true'
@@ -363,7 +364,7 @@ export function RequestAssessmentPage() {
         wbraid: values.wbraid,
       })
       navigate(
-        `/gracias?plan=${selectedPlan ?? values.selectedPlan}&questionnaire=sent`,
+        `/gracias?questionnaire=sent&plan=${selectedPlan ?? values.selectedPlan}`,
       )
     } catch (error) {
       const message =
@@ -400,7 +401,7 @@ export function RequestAssessmentPage() {
             </h1>
             <p className="mt-6 text-lg leading-8 text-vetkathia-muted">
               Completa la información de tu perro o gato para preparar la
-              valoración, el plan o el acompañamiento contratado.
+              valoración, el plan nutricional o el acompañamiento contratado.
             </p>
           </div>
         </Container>
@@ -744,7 +745,7 @@ export function RequestAssessmentPage() {
                       />
                       <Select
                         disabled={isSubmitting}
-                        label="Analíticas recientes"
+                        label="Analíticas o análisis recientes"
                         {...register('recentBloodwork')}
                       >
                         <option value="">No especificado</option>

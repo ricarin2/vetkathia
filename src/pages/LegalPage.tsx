@@ -1,9 +1,9 @@
 import { AlertTriangle } from 'lucide-react'
 
 import type { LegalPageKey } from '../data/legal'
-import { legalPages } from '../data/legal'
+import { getLegalIntro, getVisibleLegalSections, legalPages } from '../data/legal'
 import { createBreadcrumbStructuredData } from '../data/structuredData'
-import { integrations } from '../lib/integrations'
+import { getIntegrationStatus, integrations } from '../lib/integrations'
 import { SEOHead } from '../components/common/SEOHead'
 import { StructuredData } from '../components/common/StructuredData'
 import { Badge, Card, Container, Section } from '../components/ui'
@@ -55,7 +55,11 @@ export function LegalPage({ page }: LegalPageProps) {
   const content = legalPages[page]
   const seo = legalSeo[page]
   const legalContentReady = integrations.legalContentReady
+  const integrationStatus = getIntegrationStatus()
+  const visibleSections = getVisibleLegalSections(page, legalContentReady)
   const showProductionLegalWarning = import.meta.env.PROD && !legalContentReady
+  const showLegalReadinessWarning =
+    legalContentReady && !integrationStatus.legalReadiness.ready
 
   return (
     <>
@@ -79,7 +83,7 @@ export function LegalPage({ page }: LegalPageProps) {
             {content.title}
           </h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-vetkathia-muted">
-            {content.intro}
+            {getLegalIntro(page, legalContentReady)}
           </p>
         </Container>
       </Section>
@@ -126,8 +130,24 @@ export function LegalPage({ page }: LegalPageProps) {
             </Card>
           ) : null}
 
+          {showLegalReadinessWarning ? (
+            <Card className="mt-6 border-vetkathia-primary/60" tone="warm">
+              <div className="flex gap-3">
+                <AlertTriangle
+                  className="mt-1 h-5 w-5 shrink-0 text-vetkathia-primary-dark"
+                  aria-hidden="true"
+                />
+                <p className="leading-7 text-vetkathia-text">
+                  La contratación real sigue bloqueada hasta completar
+                  responsable, privacidad, contacto legal y condiciones de
+                  cancelación/reembolso.
+                </p>
+              </div>
+            </Card>
+          ) : null}
+
           <div className="mt-6 grid gap-4">
-            {content.sections.map((section) => (
+            {visibleSections.map((section) => (
               <Card
                 className="scroll-mt-28 shadow-none"
                 id={createSectionId(section.title)}

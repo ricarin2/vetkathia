@@ -24,26 +24,36 @@ export function CheckoutSuccessPage() {
   const [searchParams] = useSearchParams()
   const selectedPlan = getSelectedPlan(searchParams.get('plan'))
   const sessionId = searchParams.get('session_id')?.trim() ?? ''
-  const canContinueAfterPayment = Boolean(selectedPlan && sessionId)
+  const usesPaymentLinks = integrations.checkoutMode === 'payment_links'
+  const canContinueAfterPayment = Boolean(
+    selectedPlan && (sessionId || usesPaymentLinks),
+  )
   const selectedPlanLabel = selectedPlan ? planLabels[selectedPlan] : ''
-  const questionnairePath = canContinueAfterPayment && selectedPlan
-    ? `/solicitar-valoracion?plan=${selectedPlan}&session_id=${encodeURIComponent(sessionId)}&source=checkout_success`
-    : '/planes'
+  const questionnairePath =
+    canContinueAfterPayment && selectedPlan
+      ? `/solicitar-valoracion?plan=${selectedPlan}${
+          sessionId ? `&session_id=${encodeURIComponent(sessionId)}` : ''
+        }&source=checkout_success`
+      : '/planes'
   const calendlyUrl = selectedPlan ? integrations.calendlyUrls[selectedPlan] : ''
 
   useEffect(() => {
-    if (selectedPlan && sessionId) {
+    if (selectedPlan && canContinueAfterPayment) {
       writeSessionStorage('vetkathia_paid_plan', selectedPlan)
+    }
+
+    if (sessionId) {
       writeSessionStorage('vetkathia_checkout_session_id', sessionId)
     }
 
     trackCheckoutSuccessPageView({
+      checkoutMode: integrations.checkoutMode,
       hasCheckoutSession: Boolean(sessionId),
       planKey: selectedPlan ?? undefined,
       planName: selectedPlanLabel || undefined,
       sessionId: sessionId || undefined,
     })
-  }, [selectedPlan, selectedPlanLabel, sessionId])
+  }, [canContinueAfterPayment, selectedPlan, selectedPlanLabel, sessionId])
 
   return (
     <>
@@ -71,7 +81,7 @@ export function CheckoutSuccessPage() {
             <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-vetkathia-muted">
               {canContinueAfterPayment
                 ? 'Gracias por contratar tu plan de nutrición VetKathia. Para preparar el servicio, completa el cuestionario nutricional y reserva tu cita online.'
-                : 'Si acabas de completar el pago en Stripe, vuelve desde la pantalla de confirmación o contacta con VetKathia con el recibo de Stripe. Esta página necesita el identificador de sesión para continuar el onboarding.'}
+                : 'Si acabas de completar el pago en Stripe, vuelve desde la pantalla de confirmación o contacta con VetKathia con el recibo de Stripe. Esta página necesita el plan contratado para continuar el onboarding.'}
             </p>
             {canContinueAfterPayment ? (
               <p className="mx-auto mt-4 max-w-xl rounded-2xl border border-vetkathia-border bg-white/76 px-4 py-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark">
@@ -79,9 +89,8 @@ export function CheckoutSuccessPage() {
               </p>
             ) : (
               <p className="mx-auto mt-4 max-w-xl rounded-2xl border border-vetkathia-border bg-white/76 px-4 py-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark">
-                No se ha recibido una sesión de Stripe válida en la URL. Para
-                evitar falsos éxitos, vuelve a planes o reintenta la
-                contratación.
+                No se ha recibido el plan contratado en la URL. Para evitar
+                falsos éxitos, vuelve a planes o reintenta la contratación.
               </p>
             )}
 
@@ -92,13 +101,13 @@ export function CheckoutSuccessPage() {
                     leftIcon={<ClipboardList className="h-5 w-5" aria-hidden="true" />}
                     onClick={() =>
                       trackCTAClick(
-                        'Completar cuestionario',
+                        'Completar cuestionario nutricional',
                         'checkout success',
                       )
                     }
                     to={questionnairePath}
                   >
-                    Completar cuestionario
+                    Completar cuestionario nutricional
                   </Button>
                   <Button
                     disabled={!calendlyUrl}
@@ -107,11 +116,11 @@ export function CheckoutSuccessPage() {
                       <CalendarClock className="h-5 w-5" aria-hidden="true" />
                     }
                     onClick={() =>
-                      trackCTAClick('Reservar cita', 'checkout success')
+                      trackCTAClick('Reservar cita online', 'checkout success')
                     }
                     variant="outline"
                   >
-                    Reservar cita
+                    Reservar cita online
                   </Button>
                 </>
               ) : (
@@ -129,7 +138,7 @@ export function CheckoutSuccessPage() {
                   <Button
                     leftIcon={<RotateCcw className="h-5 w-5" aria-hidden="true" />}
                     onClick={() =>
-                      trackCTAClick('Intentar de nuevo', 'checkout success sin sesión')
+                      trackCTAClick('Intentarlo de nuevo', 'checkout success sin sesión')
                     }
                     to={selectedPlan ? `/contratar?plan=${selectedPlan}` : '/planes'}
                   >

@@ -39,7 +39,7 @@ const usefulForAreas = [
 
 const planStartSteps = [
   'Elige el plan',
-  'Paga de forma segura con Stripe',
+  'Paga el plan de forma segura',
   'Completa el cuestionario nutricional',
   'Reserva tu cita online',
   'Recibe valoración, pauta o seguimiento según el plan',
@@ -142,7 +142,7 @@ export function PricingSection() {
             className="max-w-4xl"
             eyebrow="Planes"
             size="md"
-            title="Planes de nutrición natural veterinaria"
+            title="Planes de nutrición natural veterinaria para perros y gatos"
             variant="landing"
           >
             <p>
@@ -150,7 +150,7 @@ export function PricingSection() {
               completarás el cuestionario y podrás reservar tu cita.
             </p>
             <p className="mt-3 text-sm font-bold leading-6 text-vetkathia-primary-dark">
-              Pago seguro con Stripe · Reserva online con Calendly · Servicio
+              Pago seguro con Stripe · Reserva tu cita online · Servicio
               veterinario no urgente
             </p>
             <p className="mt-2 text-sm leading-6 text-vetkathia-muted">

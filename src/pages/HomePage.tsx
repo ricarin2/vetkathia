@@ -142,7 +142,7 @@ export function HomePage() {
     <>
       <SEOHead
         canonicalPath="/"
-        description="Valoración nutricional y planes personalizados para perros y gatos. Dieta cocinada, mixta, BARF o transición gradual con criterio veterinario."
+        description="Planes online de nutrición natural veterinaria para perros y gatos. Dieta cocinada, mixta, BARF o transición gradual con criterio profesional."
         title="Nutrición natural veterinaria online | VetKathia"
       />
       <StructuredData
@@ -154,15 +154,7 @@ export function HomePage() {
         )}
       />
 
-      <HeroPremium
-        id="nutricion"
-        onPrimaryCtaClick={() =>
-          trackCTAClick('Ver planes y contratar', 'home hero')
-        }
-        onSecondaryCtaClick={() =>
-          trackCTAClick('Cómo funciona', 'home hero')
-        }
-      />
+      <HeroPremium id="nutricion" />
 
       <Section
         className="overflow-hidden py-12 sm:py-16 lg:py-20"
@@ -182,6 +174,20 @@ export function HomePage() {
               className="absolute -right-12 -top-12 h-48 w-48 rounded-full bg-vetkathia-primary/8 blur-3xl"
               aria-hidden="true"
             />
+            <div className="relative mx-auto mb-9 max-w-4xl text-center">
+              <p className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-vetkathia-primary-dark">
+                Servicio online en español
+              </p>
+              <h2 className="mt-3 font-sans text-[1.75rem] font-black leading-[1.08] text-vetkathia-text sm:text-4xl">
+                VetKathia es un servicio online de nutrición natural
+                veterinaria para perros y gatos.
+              </h2>
+              <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-vetkathia-muted sm:text-lg sm:leading-8">
+                Ayuda a tutores de países hispanohablantes a elegir una pauta
+                natural segura, realista y adaptada al caso, con pago seguro,
+                cuestionario nutricional y cita online.
+              </p>
+            </div>
             <div className="relative grid gap-7 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
               <div
                 className="max-w-xl"
@@ -430,12 +436,12 @@ export function HomePage() {
             />
             <div className="relative">
               <h2 className="mx-auto max-w-3xl font-sans text-2xl font-black leading-tight text-vetkathia-text sm:text-3xl">
-                ¿Quieres saber qué pauta encaja mejor con su perro o gato?
+                ¿Quieres saber qué pauta encaja mejor con tu perro o gato?
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-vetkathia-muted sm:text-lg sm:leading-8">
                 Elige el plan que encaja mejor y después completa el
-                cuestionario nutricional. Podrás pagar con Stripe y reservar
-                tu cita online con Calendly.
+                cuestionario nutricional. Completarás el pago seguro con
+                Stripe y podrás reservar tu cita online con Calendly.
               </p>
               <Button
                 className="mt-7"

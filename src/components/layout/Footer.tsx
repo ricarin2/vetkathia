@@ -55,6 +55,7 @@ export function Footer() {
   const hasSocialLinks = availableSocialLinks.length > 0
   const newsletter = siteConfig.newsletter
   const showNewsletter = Boolean(newsletter?.enabled && newsletter.providerUrl)
+  const contactEmail = siteConfig.contact.email.trim()
 
   return (
     <footer className="border-t border-vetkathia-border/55 bg-[linear-gradient(180deg,#FFFDFB_0%,#FFF1F5_100%)]">
@@ -79,7 +80,7 @@ export function Footer() {
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-6 text-vetkathia-muted sm:text-base sm:leading-7">
               Nutrición natural veterinaria para perros y gatos, con pautas
-              seguras y realistas.
+              personalizadas, realistas y planteadas con criterio profesional.
             </p>
             <p className="mt-3 max-w-sm border-l-2 border-vetkathia-primary/24 pl-4 text-sm leading-6 text-vetkathia-muted">
               No sustituye urgencias ni seguimiento clínico habitual.
@@ -88,6 +89,8 @@ export function Footer() {
 
           <div className="col-span-2 lg:col-span-1 lg:order-4">
             <div className="grid gap-5">
+              <FooterContact email={contactEmail} />
+
               {hasSocialLinks ? <FooterSocialLinks links={availableSocialLinks} /> : null}
 
               {showNewsletter && newsletter ? (
@@ -127,6 +130,29 @@ export function Footer() {
         </Container>
       </div>
     </footer>
+  )
+}
+
+function FooterContact({ email }: { email: string }) {
+  return (
+    <div>
+      <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-vetkathia-primary-dark">
+        Contacto
+      </h2>
+      {email ? (
+        <a
+          className="mt-3 inline-flex w-fit rounded-xl px-2 py-1 text-sm font-semibold text-vetkathia-muted transition-[background-color,color] duration-200 hover:bg-white/80 hover:text-vetkathia-primary-dark focus:outline-none focus:ring-4 focus:ring-vetkathia-primary-dark/25"
+          href={`mailto:${email}`}
+        >
+          {email}
+        </a>
+      ) : (
+        <p className="mt-3 max-w-xs text-sm leading-6 text-vetkathia-muted">
+          El contacto se facilita durante la contratación y el cuestionario
+          nutricional.
+        </p>
+      )}
+    </div>
   )
 }
 

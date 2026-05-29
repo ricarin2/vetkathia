@@ -65,11 +65,11 @@ export function CheckoutCancelPage() {
                 disabled={Boolean(selectedPlan) && !checkoutConfigured}
                 leftIcon={<RotateCcw className="h-5 w-5" aria-hidden="true" />}
                 onClick={() =>
-                  trackCTAClick('Intentar de nuevo', 'checkout cancel')
+                  trackCTAClick('Intentarlo de nuevo', 'checkout cancel')
                 }
                 to={selectedPlan ? `/contratar?plan=${selectedPlan}` : '/planes'}
               >
-                Intentar de nuevo
+                Intentarlo de nuevo
               </Button>
             </div>
           </Card>

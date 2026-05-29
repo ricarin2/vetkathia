@@ -1,6 +1,8 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import Stripe from 'stripe'
 
+import { getLegalReadinessStatus } from '../src/data/legal'
+
 type PlanKey = 'valuation' | 'personalized' | 'accompaniment'
 
 type AttributionPayload = Partial<
@@ -101,6 +103,14 @@ function getSiteUrl() {
   return getEnv('SITE_URL') || getEnv('VITE_SITE_URL')
 }
 
+function getLegalContactEmail() {
+  return (
+    getEnv('LEGAL_CONTACT_EMAIL') ||
+    getEnv('CONTACT_EMAIL') ||
+    getEnv('VITE_CONTACT_EMAIL')
+  )
+}
+
 function isLegalContentReady() {
   return (
     getEnv('LEGAL_CONTENT_READY') === 'true' ||
@@ -193,12 +203,16 @@ export default async function handler(
     return
   }
 
-  if (process.env.NODE_ENV === 'production' && !isLegalContentReady()) {
-    sendJson(res, 500, {
-      error:
-        'Checkout bloqueado. Completa y revisa las páginas legales antes de aceptar pagos reales.',
-    })
-    return
+  if (process.env.NODE_ENV === 'production') {
+    const legalReadiness = getLegalReadinessStatus(getLegalContactEmail())
+
+    if (!isLegalContentReady() || !legalReadiness.ready) {
+      sendJson(res, 500, {
+        error:
+          'Checkout bloqueado. Completa responsable, privacidad, contacto legal y condiciones de cancelación/reembolso antes de aceptar pagos reales.',
+      })
+      return
+    }
   }
 
   if (!stripeSecretKey || !siteUrl) {
