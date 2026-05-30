@@ -22,6 +22,7 @@ import {
   getPlanKeyFromName,
   isCheckoutConfigured,
   planCtaLabels,
+  type PlanKey,
 } from '../lib/planCheckout'
 import { createPlansStructuredData } from '../data/structuredData'
 import { StructuredData } from '../components/common/StructuredData'
@@ -43,9 +44,9 @@ const confidencePoints = [
     title: 'Criterio veterinario',
   },
   {
-    description: 'El pago seguro con Stripe confirma el inicio del servicio.',
+    description: 'La contratación confirma el inicio del servicio de forma clara.',
     icon: ShieldCheck,
-    title: 'Pago seguro antes de iniciar',
+    title: 'Contratación clara',
   },
   {
     description: 'Después completas el cuestionario nutricional del plan elegido.',
@@ -69,13 +70,13 @@ const comparisonRows = [
   },
   {
     acomp: true,
-    label: 'Plan nutricional individual',
+    label: 'Plan de alimentación individual',
     personal: true,
     valoracion: false,
   },
   {
     acomp: true,
-    label: 'Cantidades y pautas',
+    label: 'Cantidades',
     personal: true,
     valoracion: false,
   },
@@ -98,6 +99,12 @@ const comparisonRows = [
     valoracion: false,
   },
 ]
+
+const mobilePlanOrderClasses: Record<PlanKey, string> = {
+  accompaniment: 'order-3 lg:order-none',
+  personalized: 'order-1 lg:order-none',
+  valuation: 'order-2 lg:order-none',
+}
 
 export function PlansPage() {
   const heroRef = useRef<HTMLDivElement | null>(null)
@@ -194,113 +201,104 @@ export function PlansPage() {
         </Container>
       </Section>
 
-      <Section className="pt-8 sm:pt-10 lg:pt-12" id="planes">
+      <Section className="scroll-mt-24 pt-8 sm:pt-10 lg:pt-12" id="planes">
         <Container>
           <Card className="mb-8 grid gap-4 border-vetkathia-border/80 bg-white/86 shadow-card sm:grid-cols-[auto_1fr_auto] sm:items-center">
             <span className="flex h-12 w-12 items-center justify-center rounded-full bg-vetkathia-surface text-vetkathia-primary-dark ring-1 ring-vetkathia-border">
               <HelpCircle className="h-6 w-6" aria-hidden="true" />
             </span>
             <div>
-	              <h2 className="font-sans text-xl font-semibold leading-tight text-vetkathia-text">
-	                Si tienes dudas, empieza por valoración.
-	              </h2>
-	              <p className="mt-2 leading-7 text-vetkathia-muted">
-	                La Valoración Nutricional es el punto de entrada más sencillo
-	                cuando necesitas orientación inicial antes de una pauta
-	                completa.
-	              </p>
+              <h2 className="font-sans text-xl font-semibold leading-tight text-vetkathia-text">
+                Si tienes dudas, empieza por valoración.
+              </h2>
+              <p className="mt-2 leading-7 text-vetkathia-muted">
+                La Valoración Nutricional es el punto de entrada más sencillo
+                cuando necesitas orientación inicial antes de un plan de
+                alimentación completo.
+              </p>
             </div>
             <Button
-              disabled={!checkoutConfigured}
-	              onClick={() =>
-	                trackPlanClick('Valoración Nutricional')
-	              }
+              onClick={() => trackPlanClick('Valoración Nutricional')}
               to="/contratar?plan=valuation"
-	              variant="outline"
-	            >
-	              {checkoutConfigured
-                  ? 'Contratar valoración nutricional'
-                  : 'No configurado'}
-	            </Button>
+              variant="outline"
+            >
+              Contratar valoración nutricional
+            </Button>
           </Card>
+
+          {import.meta.env.DEV && !checkoutConfigured ? (
+            <p className="mb-5 rounded-2xl bg-white/72 px-4 py-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark ring-1 ring-vetkathia-border/45">
+              Desarrollo: la contratación online todavía no está configurada.
+              Los botones llevan a la página de contratación para revisar el
+              flujo.
+            </p>
+          ) : null}
 
           <div
             className="grid gap-5 lg:grid-cols-3 lg:items-stretch"
             ref={planCardsRef}
           >
-            {plans.map((plan) => (
-              <Card
-                className={cn(
-                  'flex h-full flex-col',
-                  plan.isRecommended &&
-                    'relative border-vetkathia-primary/60 bg-white shadow-soft ring-1 ring-vetkathia-primary/15',
-                )}
-                data-plan-card
-                data-reveal
-                interactive
-                key={plan.name}
-                tone={plan.isRecommended ? 'highlight' : 'default'}
-              >
-                {plan.isRecommended ? (
-                  <Badge className="mb-4 w-fit" tone="soft">
-                    Más recomendado
-                  </Badge>
-                ) : null}
+            {plans.map((plan) => {
+              const planKey = getPlanKeyFromName(plan.name)
 
-                <div>
-                  <h2 className="font-sans text-2xl font-semibold leading-tight text-vetkathia-text sm:text-[1.7rem]">
-                    {plan.name}
-                  </h2>
-                  <p className="mt-4 font-sans text-[2.9rem] font-semibold leading-none tracking-normal text-vetkathia-primary-dark sm:text-[3.3rem]">
-                    {plan.price}
-                  </p>
-                  <p className="mt-4 min-h-14 leading-7 text-vetkathia-muted">
-                    {plan.description}
-                  </p>
-                  <div className="mt-5 rounded-3xl border border-vetkathia-border bg-vetkathia-surface/70 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-vetkathia-primary-dark">
-                      Te encaja si…
+              return (
+                <Card
+                  className={cn(
+                    'flex h-full flex-col',
+                    mobilePlanOrderClasses[planKey],
+                    plan.isRecommended &&
+                      'relative border-vetkathia-primary/60 bg-white shadow-soft ring-1 ring-vetkathia-primary/15',
+                  )}
+                  data-plan-card
+                  data-reveal
+                  interactive
+                  key={plan.name}
+                  tone={plan.isRecommended ? 'highlight' : 'default'}
+                >
+                  <div>
+                    <h2 className="font-sans text-2xl font-semibold leading-tight text-vetkathia-text sm:text-[1.7rem]">
+                      {plan.name}
+                    </h2>
+                    <p className="mt-4 font-sans text-[2.9rem] font-semibold leading-none tracking-normal text-vetkathia-primary-dark sm:text-[3.3rem]">
+                      {plan.price}
                     </p>
-                    <p className="mt-2 text-sm leading-6 text-vetkathia-muted">
-                      {plan.bestFor}
-                    </p>
+                    {plan.isRecommended ? (
+                      <Badge className="mt-4 w-fit" tone="soft">
+                        Más recomendado
+                      </Badge>
+                    ) : null}
+                    <div className="mt-5 rounded-3xl border border-vetkathia-border bg-vetkathia-surface/70 p-4">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-vetkathia-primary-dark">
+                        Te encaja si…
+                      </p>
+                      <p className="mt-2 text-sm leading-6 text-vetkathia-muted">
+                        {plan.bestFor}
+                      </p>
+                    </div>
                   </div>
-                </div>
 
-                <div className="mt-7">
-                  <h3 className="font-sans text-sm font-semibold uppercase tracking-wide text-vetkathia-text">
-                    Qué recibes
-                  </h3>
-                  <ul className="mt-4 grid gap-3">
-                    {plan.includes.map((item) => (
-                      <li className="flex gap-3" key={item}>
-                        <CheckCircle2
-                          className="mt-0.5 h-5 w-5 shrink-0 text-vetkathia-primary"
-                          aria-hidden="true"
-                        />
-                        <span className="leading-6 text-vetkathia-muted">
-                          {item}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                  <Button
+                    className="mt-6"
+                    fullWidth
+                    onClick={() => trackPlanClick(plan.name)}
+                    rightIcon={
+                      <ArrowRight className="h-5 w-5" aria-hidden="true" />
+                    }
+                    to={`/contratar?plan=${planKey}`}
+                    variant={plan.isRecommended ? 'primary' : 'outline'}
+                  >
+                    {planCtaLabels[planKey]}
+                  </Button>
 
-	                <div className="mt-7 rounded-2xl border border-vetkathia-border bg-white/76 px-4 py-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark">
-	                  Pago seguro con Stripe · Cuestionario nutricional · Reserva
-                    tu cita online
-	                </div>
-
-                {plan.notIncludes ? (
-                  <div className="mt-7 rounded-3xl bg-vetkathia-surface p-5">
+                  <div className="mt-7">
                     <h3 className="font-sans text-sm font-semibold uppercase tracking-wide text-vetkathia-text">
-                      No incluye
+                      Qué recibes
                     </h3>
                     <ul className="mt-4 grid gap-3">
-                      {plan.notIncludes.map((item) => (
+                      {plan.includes.map((item) => (
                         <li className="flex gap-3" key={item}>
-                          <MinusCircle
-                            className="mt-0.5 h-5 w-5 shrink-0 text-vetkathia-muted"
+                          <CheckCircle2
+                            className="mt-0.5 h-5 w-5 shrink-0 text-vetkathia-primary"
                             aria-hidden="true"
                           />
                           <span className="leading-6 text-vetkathia-muted">
@@ -310,29 +308,44 @@ export function PlansPage() {
                       ))}
                     </ul>
                   </div>
-                ) : null}
 
-                {!checkoutConfigured ? (
-                    <p className="mt-5 rounded-2xl border border-vetkathia-border bg-vetkathia-surface/70 px-4 py-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark">
-                      La contratación online no está configurada todavía.
-                    </p>
-                ) : null}
+                  <details className="mt-6 text-sm text-vetkathia-muted">
+                    <summary className="cursor-pointer list-none text-sm font-semibold text-vetkathia-primary-dark underline decoration-vetkathia-border/70 underline-offset-4 transition-colors duration-200 hover:text-vetkathia-primary">
+                      Ver detalles
+                    </summary>
+                    <div className="mt-4 grid gap-4 border-t border-vetkathia-border/35 pt-4">
+                      <p className="leading-6">{plan.description}</p>
 
-                <Button
-                  className="mt-auto pt-3"
-                  disabled={!checkoutConfigured}
-	                  fullWidth
-                  onClick={() => trackPlanClick(plan.name)}
-	                  rightIcon={<ArrowRight className="h-5 w-5" aria-hidden="true" />}
-                  to={`/contratar?plan=${getPlanKeyFromName(plan.name)}`}
-	                  variant={plan.isRecommended ? 'primary' : 'outline'}
-	                >
-	                  {checkoutConfigured
-                    ? planCtaLabels[getPlanKeyFromName(plan.name)]
-                    : 'No configurado'}
-	                </Button>
-              </Card>
-            ))}
+                      <div className="rounded-2xl border border-vetkathia-border bg-white/76 px-4 py-3 font-semibold leading-6 text-vetkathia-primary-dark">
+                        Pago seguro · Cuestionario nutricional · Reserva tu
+                        cita online
+                      </div>
+
+                      {plan.notIncludes ? (
+                        <div className="rounded-3xl bg-vetkathia-surface p-5">
+                          <h3 className="font-sans text-sm font-semibold uppercase tracking-wide text-vetkathia-text">
+                            No incluye
+                          </h3>
+                          <ul className="mt-4 grid gap-3">
+                            {plan.notIncludes.map((item) => (
+                              <li className="flex gap-3" key={item}>
+                                <MinusCircle
+                                  className="mt-0.5 h-5 w-5 shrink-0 text-vetkathia-muted"
+                                  aria-hidden="true"
+                                />
+                                <span className="leading-6 text-vetkathia-muted">
+                                  {item}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : null}
+                    </div>
+                  </details>
+                </Card>
+              )
+            })}
           </div>
         </Container>
       </Section>
@@ -346,7 +359,8 @@ export function PlansPage() {
           >
             <p>
 	              La valoración orienta el punto de partida. Los planes completos
-	              añaden pauta, cantidades y, si lo necesitas, seguimiento.
+	              añaden plan de alimentación, cantidades y, si lo necesitas,
+	              seguimiento.
             </p>
           </SectionHeading>
 
@@ -480,23 +494,18 @@ export function PlansPage() {
                 ¿No sabes cuál elegir?
               </h2>
               <p className="mt-5 max-w-3xl text-lg leading-8 text-vetkathia-muted">
-	                Si necesitas orientación inicial, empieza por la Valoración
-	                Nutricional. Después completarás el cuestionario nutricional
-                  y podrás reservar tu cita online.
-	              </p>
-	              <Button
-                  disabled={!checkoutConfigured}
-	                className="mt-7"
-	                onClick={() =>
-	                  trackPlanClick('Valoración Nutricional')
-	                }
-	                size="lg"
-                  to="/contratar?plan=valuation"
-	              >
-	                {checkoutConfigured
-                    ? 'Contratar valoración nutricional'
-                    : 'No configurado'}
-	              </Button>
+                Si necesitas orientación inicial, empieza por la Valoración
+                Nutricional. Después completarás el cuestionario nutricional
+                y podrás reservar tu cita online.
+              </p>
+              <Button
+                className="mt-7"
+                onClick={() => trackPlanClick('Valoración Nutricional')}
+                size="lg"
+                to="/contratar?plan=valuation"
+              >
+                Contratar valoración nutricional
+              </Button>
             </div>
           </Card>
         </Container>

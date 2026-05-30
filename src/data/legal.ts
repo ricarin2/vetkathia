@@ -55,7 +55,7 @@ export const legalPages: Record<LegalPageKey, LegalPageContent> = {
       },
       {
         content:
-          'No se publican en esta versión datos no confirmados como número de colegiada, colegio profesional, fiscalidad, NIF, domicilio fiscal o datos empresariales. Deben añadirse solo tras revisión profesional y confirmación documental.',
+          'No se publican en esta versión datos no confirmados como colegio profesional, fiscalidad, NIF, domicilio fiscal o datos empresariales. Deben añadirse solo tras revisión profesional y confirmación documental.',
         title: 'Datos pendientes de confirmación',
       },
     ],

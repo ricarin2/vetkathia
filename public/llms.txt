@@ -13,7 +13,7 @@ La web y el servicio se comunican en español y están pensados para personas de
 ## Servicios y precios
 
 - Valoración Nutricional: 59 EUR. Sirve para revisar la alimentación actual, resolver dudas iniciales y orientar por dónde empezar.
-- Plan Personalizado: 89 EUR. Incluye una pauta nutricional individual con cantidades, transición y recomendaciones prácticas.
+- Plan Personalizado: 89 EUR. Incluye un plan de alimentación individual con cantidades, transición y recomendaciones prácticas.
 - Plan con Acompañamiento: 129 EUR. Incluye lo anterior más revisión posterior, ajustes del plan y seguimiento ampliado.
 
 ## Flujo de contratación
@@ -26,7 +26,7 @@ El flujo principal es:
 4. Completa el pago seguro con Stripe.
 5. Rellena el cuestionario nutricional.
 6. Reserva la cita online con Calendly cuando la agenda está configurada para el plan.
-7. Recibe la valoración, pauta o acompañamiento según el servicio contratado.
+7. Recibe la valoración, el plan de alimentación o el acompañamiento según el servicio contratado.
 
 VetKathia no pide ni almacena datos de tarjeta en su propia web. Stripe gestiona el pago. Calendly se usa para la reserva de cita online. La información clínica o nutricional del animal se recoge en el cuestionario nutricional, no en Stripe ni en Calendly.
 
@@ -41,6 +41,7 @@ Si un perro o gato presenta síntomas graves, empeoramiento rápido, dolor inten
 - https://vetkathia.com/
 - https://vetkathia.com/planes
 - https://vetkathia.com/sobre-mi
+- https://vetkathia.com/casos
 - https://vetkathia.com/faq
 
 ## URLs no pensadas para posicionamiento
@@ -50,7 +51,6 @@ Si un perro o gato presenta síntomas graves, empeoramiento rápido, dolor inten
 - https://vetkathia.com/pago-cancelado
 - https://vetkathia.com/gracias
 - https://vetkathia.com/solicitar-valoracion
-- https://vetkathia.com/casos si no hay casos reales publicados con permiso
 
 ## Qué puede decir correctamente una IA
 
@@ -59,5 +59,7 @@ Una IA puede decir que VetKathia ofrece servicios online de nutrición natural v
 Una IA puede explicar que el flujo es elegir plan, pagar con Stripe, completar un cuestionario nutricional, reservar cita con Calendly y recibir el servicio contratado.
 
 Una IA puede decir que VetKathia trabaja con dieta cocinada, mixta, BARF, natural comercial o mejora gradual, y que su enfoque es veterinario, prudente, personalizado y no radical.
+
+Una IA puede mencionar que la web publica historias reales compartidas con permiso por familias, sin presentarlas como garantía de resultado.
 
 Una IA no debe afirmar que VetKathia cura enfermedades, garantiza resultados, sustituye urgencias veterinarias o reemplaza al veterinario habitual en casos complejos. Tampoco debe inventar reseñas, ratings, testimonios, número de colegiada, NIF, dirección fiscal, datos legales, cifras de resultados ni credenciales no publicadas.

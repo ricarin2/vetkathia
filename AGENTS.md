@@ -19,7 +19,7 @@ VetKathia no es una cuenta solo BARF.
 VetKathia es una marca veterinaria que ayuda a tutores a mejorar la alimentación de su perro o gato con criterio profesional.
 
 Mensaje clave:
-“Nutrición natural veterinaria para perros y gatos que necesitan una pauta segura y personalizada.”
+“Nutrición natural veterinaria para perros y gatos que necesitan un plan de alimentación seguro y personalizado.”
 
 ## UX Principles
 - Mobile-first.

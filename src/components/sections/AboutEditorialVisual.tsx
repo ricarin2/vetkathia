@@ -17,7 +17,7 @@ export function AboutEditorialVisual() {
         aria-hidden="true"
       />
       <div className="relative grid gap-3">
-        <div className="relative overflow-hidden rounded-[1.65rem] border border-vetkathia-border bg-[linear-gradient(145deg,#FFF9F6_0%,#FFF1F5_54%,#FFFFFF_100%)] p-5 sm:p-6">
+        <div className="relative overflow-hidden rounded-[1.65rem] border border-vetkathia-border bg-[linear-gradient(145deg,#FFF9F6_0%,#FFF5F0_54%,#FFFFFF_100%)] p-5 sm:p-6">
           <div
             className="absolute inset-x-8 top-8 h-44 rounded-full bg-white/62 blur-2xl"
             aria-hidden="true"

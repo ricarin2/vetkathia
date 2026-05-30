@@ -1,27 +1,19 @@
 export const trustBenefits = [
   {
     description:
-      'Alimentación actual, edad, salud, digestión, síntomas y rutina.',
+      'Qué come ahora, su edad, salud, digestión, síntomas y rutina.',
     title: 'Reviso el caso',
   },
   {
     description:
-      'Cocinada, mixta, BARF, natural comercial o mejora gradual si encaja.',
-    title: 'Elegimos estrategia',
+      'Mejora gradual, comida cocinada, alimentación mixta, BARF o comida natural comercial si encaja.',
+    title: 'Defino el camino',
   },
   {
     description:
-      'Una pauta clara, realista y aplicable sin improvisar.',
-    title: 'Lo llevamos a casa',
+      'Un plan claro, realista y fácil de seguir, sin improvisar.',
+    title: 'Lo aplicas en casa',
   },
-]
-
-export const nutritionOptions = [
-  'Mejora gradual',
-  'Cocinada',
-  'Mixta',
-  'BARF',
-  'Natural comercial',
 ]
 
 export const guidedDecisionFactors = [
@@ -38,9 +30,9 @@ export const idealFor = [
   'No sabes si su dieta actual cubre sus necesidades.',
   'Quieres pasar a comida cocinada, natural o BARF con criterio.',
   'Tu perro o gato tiene digestiones sensibles, sobrepeso o poca energía.',
-  'Tienes un gato y quieres una pauta pensada para gatos, no adaptada desde un perro.',
+  'Tienes un gato y quieres un plan pensado para gatos, no adaptado desde un perro.',
   'Tienes un animal senior y quieres adaptar su alimentación.',
-  'Buscas una pauta clara y acompañamiento profesional.',
+  'Buscas un plan claro y acompañamiento profesional.',
 ]
 
 export const idealForProfiles = [
@@ -55,44 +47,45 @@ export const idealForProfiles = [
   },
   {
     description:
-      'La pauta debe pensarse para gatos, no adaptarse desde un perro.',
+      'El plan debe pensarse para gatos, no adaptarse desde un perro.',
     title: 'Tienes un gato',
   },
   {
     description:
       'Recomendaciones claras para casa, según tu rutina real.',
-    title: 'Buscas una pauta aplicable',
+    title: 'Buscas un plan aplicable',
   },
 ]
 
 export const methodSteps = [
   {
-    description: 'Revisa precio, condiciones y qué incluye cada servicio.',
+    description: 'Escoge el nivel de ayuda que necesita su caso.',
     title: 'Elige el plan',
   },
   {
-    description: 'Stripe gestiona el pago seguro del plan.',
-    title: 'Paga el plan de forma segura',
+    description: 'Stripe gestiona el pago del servicio de forma segura.',
+    title: 'Completa el pago seguro con Stripe',
   },
   {
-    description: 'Comparte alimentación, rutina, salud y objetivo.',
-    title: 'Completa el cuestionario nutricional',
+    description: 'Comparte alimentación, rutina, salud y objetivo para preparar la consulta.',
+    title: 'Rellena el cuestionario nutricional',
   },
   {
-    description: 'Elige el horario que mejor encaje con Calendly.',
-    title: 'Reserva tu cita online',
+    description: 'Elige el horario de la consulta online cuando la agenda esté configurada.',
+    title: 'Reserva tu cita online con Calendly',
   },
   {
-    description: 'Recibe valoración, pauta o seguimiento según el plan.',
-    title: 'Recibe el servicio contratado',
+    description:
+      'Recibe valoración, plan de alimentación o acompañamiento según el plan contratado.',
+    title: 'Recibe la revisión del caso',
   },
 ]
 
 export const deliverables = [
   'Revisión del punto de partida y de la alimentación actual.',
   'Consulta online personalizada para resolver dudas.',
-  'Recomendación del tipo de pauta que encaja mejor.',
-  'Plan nutricional individual si eliges un plan completo.',
+  'Recomendación del tipo de alimentación que encaja mejor.',
+  'Plan de alimentación individual si eliges un plan completo.',
   'Seguimiento según plan.',
 ]
 
@@ -105,7 +98,7 @@ export const prePlanTrustCards = [
   {
     description:
       'La recomendación debe poder aplicarse en casa, sin complicaciones innecesarias.',
-    title: 'Pautas realistas',
+    title: 'Planes realistas',
   },
   {
     description:
@@ -122,13 +115,13 @@ export const familyStoriesPlaceholder = {
 
 export const homePlans = [
   {
-    bestFor: 'Quieres una primera orientación profesional antes de cambiar la alimentación.',
+    bestFor: 'Quieres orientación inicial antes de cambiar la alimentación.',
     cta: 'Contratar valoración nutricional',
-    description: 'Para saber si conviene cambiar y por dónde empezar.',
+    description:
+      'Para orientación inicial. No incluye un plan completo ni cantidades detalladas.',
     includes: [
-      'Cuestionario nutricional',
-      'Consulta online',
-      'Revisión de alimentación actual',
+      'Cuestionario inicial',
+      'Revisión del caso',
       'Orientación profesional',
     ],
     label: 'Para orientarte',
@@ -136,12 +129,12 @@ export const homePlans = [
     price: '59 €',
   },
   {
-    bestFor: 'Quieres una pauta completa con cantidades y transición.',
+    bestFor: 'Quieres un plan de alimentación completo con cantidades y transición.',
     cta: 'Contratar plan personalizado',
-    description: 'Para tener cantidades, transición y una pauta completa.',
+    description: 'Para plan de alimentación completo con cantidades y transición.',
     includes: [
-      'Plan nutricional individual',
-      'Cantidades y pautas',
+      'Plan de alimentación individual',
+      'Cantidades',
       'Guía de transición',
       'Recomendaciones prácticas',
     ],
@@ -155,10 +148,11 @@ export const homePlans = [
     cta: 'Contratar acompañamiento',
     description: 'Para aplicar cambios con revisión posterior y ajustes.',
     includes: [
-      'Todo lo anterior',
+      'Plan de alimentación individual',
+      'Cantidades',
+      'Guía de transición',
       'Revisión posterior',
       'Ajustes del plan',
-      'Seguimiento ampliado',
     ],
     label: 'Para acompañarte',
     name: 'Plan con Acompañamiento',
@@ -171,13 +165,20 @@ export const homeFaq = [
     content:
       'No. BARF puede ser una opción en algunos casos, pero también trabajo con comida cocinada, comida natural comercial o transiciones progresivas.',
     id: 'solo-barf',
-    title: '¿Es solo para BARF?',
+    title: '¿VetKathia es solo BARF?',
   },
   {
     content:
-      'Sí. Los gatos tienen necesidades nutricionales específicas. Tu gato no es un perro pequeño, así que su pauta debe plantearse con criterio propio.',
+      'Sí. Los gatos tienen necesidades nutricionales específicas. Tu gato no es un perro pequeño, así que su plan de alimentación debe plantearse con criterio propio.',
     id: 'gatos',
     title: '¿También trabajas con gatos?',
+  },
+  {
+    content:
+      'Sí. Puedes contratar aunque tu perro o gato coma pienso, croquetas o alimento seco. Primero se revisa el punto de partida y después se decide si conviene mejorar cantidades, rutina, composición, transición o tipo de alimentación.',
+    id: 'sigue-con-pienso',
+    title:
+      '¿Puedo contratar si mi perro o gato come pienso, croquetas o alimento seco?',
   },
   {
     content:
@@ -187,15 +188,15 @@ export const homeFaq = [
   },
   {
     content:
-      'Sí. La consulta se realiza online para poder revisar el caso y orientar los siguientes pasos de forma clara.',
+      'Sí. VetKathia es una consulta online de nutrición natural veterinaria para perros y gatos.',
     id: 'online',
     title: '¿La consulta es online?',
   },
   {
     content:
-      'En los planes que incluyen pauta personalizada, recibirás cantidades, recomendaciones prácticas y una guía de transición.',
+      'En los planes que incluyen plan personalizado, recibirás cantidades, recomendaciones prácticas y una guía de transición.',
     id: 'cantidades',
-    title: '¿Recibiré cantidades y pautas claras?',
+    title: '¿Recibiré cantidades y recomendaciones claras?',
   },
   {
     content:
@@ -217,14 +218,14 @@ export const homeFaq = [
   },
   {
     content:
-      'Si buscas orientación inicial, empieza por la Valoración Nutricional. Si necesitas una pauta completa con cantidades y transición, elige el Plan Personalizado. Si quieres revisión posterior y ajustes, elige Acompañamiento.',
+      'Si buscas orientación inicial, empieza por la Valoración Nutricional. Si necesitas un plan de alimentación completo con cantidades y transición, elige el Plan Personalizado. Si quieres revisión posterior y ajustes, elige Acompañamiento.',
     id: 'no-se-plan',
     title: '¿Qué plan elijo si tengo dudas?',
   },
   {
     content:
-      'Sí. Para iniciar el servicio eliges un plan y completas el pago seguro con Stripe. Después rellenas el cuestionario nutricional y puedes reservar tu cita online con Calendly.',
+      'Sí. Primero eliges el plan y completas el pago seguro. Después rellenas el cuestionario inicial y puedes reservar tu cita online. No necesitas enviar el caso antes de contratar.',
     id: 'pago-web',
-    title: '¿Se paga antes de empezar?',
+    title: '¿Se paga antes de completar el cuestionario?',
   },
 ]

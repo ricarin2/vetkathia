@@ -13,7 +13,7 @@ export function AboutPage() {
     <>
       <SEOHead
         canonicalPath="/sobre-mi"
-        description="Conoce a Kathia y su enfoque veterinario: nutrición natural para perros y gatos sin radicalismos, con pautas adaptadas a cada caso."
+        description="Conoce a Kathia y su enfoque veterinario: nutrición natural para perros y gatos sin radicalismos, con planes adaptados a cada caso."
         title="Kathia, veterinaria de nutrición natural | VetKathia"
       />
       <StructuredData data={createAboutPageStructuredData()} />
@@ -29,7 +29,7 @@ export function AboutPage() {
             <p className="mt-6 text-xl leading-9 text-vetkathia-muted">
               Soy Kathia, veterinaria enfocada en nutrición natural para perros
               y gatos. Mi trabajo es ayudarte a tomar decisiones alimentarias
-              con criterio, sin radicalismos y con una pauta adaptada a la edad,
+              con criterio, sin radicalismos y con un plan adaptado a la edad,
               salud y rutina de tu animal.
             </p>
             {visibleAboutCredentials.length > 0 ? (

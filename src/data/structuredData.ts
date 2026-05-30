@@ -50,7 +50,7 @@ const areaServed = 'Servicio online en español para países hispanohablantes'
 
 const socialProfileUrls = (siteConfig.socialLinks ?? [])
   .filter((link) =>
-    ['Instagram', 'TikTok', 'Facebook'].includes(link.label),
+    ['Instagram', 'TikTok', 'Facebook', 'YouTube'].includes(link.label),
   )
   .map((link) => link.href)
   .filter((href) => href.startsWith('https://'))
@@ -135,7 +135,7 @@ const vetKathiaNode = {
   '@type': 'ProfessionalService',
   areaServed,
   description:
-    'VetKathia es un servicio online de nutrición natural veterinaria para perros y gatos, con valoración, planes personalizados y acompañamiento contratables online.',
+    'VetKathia es un servicio online de nutrición natural veterinaria para perros y gatos, con valoración, planes de alimentación personalizados y acompañamiento contratables online.',
   founder: {
     '@id': ids.kathia,
   },
@@ -289,7 +289,7 @@ export function createHomeStructuredData(
   return createPageGraph({
     breadcrumb: [{ name: 'Inicio', path: '/' }],
     description:
-      'Planes online de nutrición natural veterinaria para perros y gatos. Dieta cocinada, mixta, BARF o transición gradual con criterio profesional.',
+      'Planes online de nutrición natural veterinaria para perros y gatos. Elige valoración, plan personalizado o acompañamiento y completa el cuestionario después de contratar.',
     faqItems,
     name: 'Nutrición natural veterinaria online | VetKathia',
     path: '/',
@@ -337,7 +337,7 @@ export function createAboutPageStructuredData() {
       { name: 'Sobre mí', path: '/sobre-mi' },
     ],
     description:
-      'Conoce a Kathia y su enfoque veterinario: nutrición natural para perros y gatos sin radicalismos, con pautas adaptadas a cada caso.',
+      'Conoce a Kathia y su enfoque veterinario: nutrición natural para perros y gatos sin radicalismos, con planes adaptados a cada caso.',
     name: 'Kathia, veterinaria de nutrición natural | VetKathia',
     path: '/sobre-mi',
     primaryEntityId: ids.kathia,

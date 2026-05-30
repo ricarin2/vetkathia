@@ -70,7 +70,7 @@ export const integrations = {
   checkoutApiUrl,
   checkoutEnabled: readBooleanFlag(import.meta.env.VITE_CHECKOUT_ENABLED),
   checkoutMode,
-  contactEmail: import.meta.env.VITE_CONTACT_EMAIL ?? '',
+  contactEmail: import.meta.env.VITE_CONTACT_EMAIL ?? 'vetkathia@gmail.com',
   formEndpoint: import.meta.env.VITE_FORMSPREE_ENDPOINT ?? '',
   legalContentReady: readBooleanFlag(import.meta.env.VITE_LEGAL_CONTENT_READY),
   requirePaymentBeforeForm: readBooleanFlag(
@@ -79,6 +79,7 @@ export const integrations = {
   siteUrl: import.meta.env.VITE_SITE_URL ?? '',
   stripeConfigured: readBooleanFlag(import.meta.env.VITE_STRIPE_CONFIGURED),
   stripePaymentLinks,
+  youtubeUrl: import.meta.env.VITE_YOUTUBE_URL ?? '',
 }
 
 export function getIntegrationStatus() {

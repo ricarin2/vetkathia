@@ -5,11 +5,11 @@ import {
   Stethoscope,
 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router'
 
 import { aboutTrustPillars, kathiaProfile } from '../data/about'
 import {
   homeFaq,
-  nutritionOptions,
   trustBenefits,
 } from '../data/home'
 import { createHomeStructuredData } from '../data/structuredData'
@@ -23,6 +23,7 @@ import {
   trackFAQOpen,
   trackViewHome,
 } from '../lib/analytics'
+import { scrollToHashTarget } from '../lib/scrollToHashTarget'
 import {
   Accordion,
   Button,
@@ -31,37 +32,6 @@ import {
   SectionHeading,
 } from '../components/ui'
 import { SEOHead } from '../components/common/SEOHead'
-
-function DietStrategyVisual() {
-  return (
-    <div
-      className="relative mx-auto h-28 w-32 shrink-0 sm:h-32 sm:w-36 md:mx-0"
-      aria-hidden="true"
-    >
-      <div className="absolute bottom-2 left-0 h-16 w-20 rounded-[1.35rem] bg-white/82 shadow-[0_14px_34px_rgba(59,39,36,0.07)] ring-1 ring-vetkathia-border/22">
-        <div className="absolute left-4 top-5 h-7 w-10 rounded-b-full rounded-t-[1rem] border border-vetkathia-primary/20 bg-vetkathia-background shadow-[inset_0_-6px_0_rgba(232,62,115,0.08)]" />
-        <div className="absolute left-8 top-4 h-2 w-2 rounded-full bg-vetkathia-accent/38" />
-        <div className="absolute left-11 top-6 h-1.5 w-1.5 rounded-full bg-vetkathia-primary/28" />
-      </div>
-
-      <div className="absolute right-0 top-0 h-24 w-20 rounded-[1.1rem] bg-white/90 p-3 shadow-[0_16px_36px_rgba(59,39,36,0.08)] ring-1 ring-vetkathia-border/22">
-        <div className="mb-3 h-2 w-10 rounded-full bg-vetkathia-primary/24" />
-        <div className="space-y-2">
-          {[0, 1, 2].map((item) => (
-            <div className="flex items-center gap-2" key={item}>
-              <span className="h-1.5 w-1.5 rounded-full bg-vetkathia-primary/55" />
-              <span className="h-1.5 flex-1 rounded-full bg-vetkathia-muted/18" />
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="absolute bottom-1 right-5 h-8 w-4 rotate-[-18deg] rounded-full bg-vetkathia-accent/18" />
-      <div className="absolute bottom-5 right-2 h-7 w-3 rotate-[28deg] rounded-full bg-vetkathia-primary/12" />
-    </div>
-  )
-}
-
 
 function KathiaProfileVisual() {
   const [photoSrc, setPhotoSrc] = useState(kathiaProfile.kathiaPhotoSrc ?? '')
@@ -79,7 +49,7 @@ function KathiaProfileVisual() {
 
   return (
     <div
-      className="w-full rounded-[1.35rem] bg-[linear-gradient(145deg,rgba(255,253,251,0.96),rgba(255,241,245,0.72))] p-5 shadow-[0_18px_46px_rgba(59,39,36,0.055)] ring-1 ring-vetkathia-border/28"
+      className="w-full rounded-[1.35rem] bg-[linear-gradient(145deg,rgba(255,253,251,0.96),rgba(255,245,240,0.72))] p-5 shadow-[0_18px_46px_rgba(59,39,36,0.055)] ring-1 ring-vetkathia-border/28"
       aria-hidden="true"
     >
       <div className="flex items-start gap-4">
@@ -101,17 +71,17 @@ function KathiaProfileVisual() {
 
 const aboutBadges = ['Veterinaria', 'Nutrición natural', 'Perros y gatos']
 
-const visibleHomeFaqIds = new Set([
-  'solo-barf',
-  'gatos',
-  'online',
-  'cantidades',
-  'veterinario',
+const visibleHomeFaqIds = [
   'no-se-plan',
   'pago-web',
-])
+  'cantidades',
+  'veterinario',
+  'gatos',
+]
 
-const visibleHomeFaqBase = homeFaq.filter((item) => visibleHomeFaqIds.has(item.id))
+const visibleHomeFaqBase = visibleHomeFaqIds
+  .map((id) => homeFaq.find((item) => item.id === id))
+  .filter(Boolean) as typeof homeFaq
 
 const homeAboutPillarTitles = new Set([
   'Enfoque veterinario',
@@ -142,7 +112,7 @@ export function HomePage() {
     <>
       <SEOHead
         canonicalPath="/"
-        description="Planes online de nutrición natural veterinaria para perros y gatos. Dieta cocinada, mixta, BARF o transición gradual con criterio profesional."
+        description="Planes online de nutrición natural veterinaria para perros y gatos. Elige valoración, plan personalizado o acompañamiento y completa el cuestionario después de contratar."
         title="Nutrición natural veterinaria online | VetKathia"
       />
       <StructuredData
@@ -174,20 +144,6 @@ export function HomePage() {
               className="absolute -right-12 -top-12 h-48 w-48 rounded-full bg-vetkathia-primary/8 blur-3xl"
               aria-hidden="true"
             />
-            <div className="relative mx-auto mb-9 max-w-4xl text-center">
-              <p className="text-[0.72rem] font-extrabold uppercase tracking-[0.18em] text-vetkathia-primary-dark">
-                Servicio online en español
-              </p>
-              <h2 className="mt-3 font-sans text-[1.75rem] font-black leading-[1.08] text-vetkathia-text sm:text-4xl">
-                VetKathia es un servicio online de nutrición natural
-                veterinaria para perros y gatos.
-              </h2>
-              <p className="mx-auto mt-4 max-w-3xl text-base leading-7 text-vetkathia-muted sm:text-lg sm:leading-8">
-                Ayuda a tutores de países hispanohablantes a elegir una pauta
-                natural segura, realista y adaptada al caso, con pago seguro,
-                cuestionario nutricional y cita online.
-              </p>
-            </div>
             <div className="relative grid gap-7 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
               <div
                 className="max-w-xl"
@@ -197,15 +153,15 @@ export function HomePage() {
                   Antes de cambiar su alimentación
                 </p>
                 <h2 className="mt-3 font-sans text-[2.05rem] font-black leading-[1.03] text-vetkathia-text sm:text-5xl lg:text-[3.35rem]">
-                  Primero seguridad.
-                  <span className="block text-vetkathia-primary-dark">
-                    Después la pauta.
-                  </span>
+                  Mejorar su alimentación debería darte tranquilidad, no más
+                  dudas.
                 </h2>
                 <p className="mt-5 max-w-lg text-base leading-7 text-vetkathia-muted sm:text-lg sm:leading-8">
-                  La alimentación no se cambia por moda. Primero revisamos qué
-                  come ahora, su edad, salud, digestión y rutina. Después
-                  elegimos una estrategia aplicable para su caso.
+                  Entre pienso, croquetas o alimento seco, BARF, comida
+                  cocinada, suplementos y recetas de internet, es normal no
+                  saber por dónde empezar. Aquí no se cambia por moda: primero
+                  reviso su caso y después defino un plan de alimentación
+                  seguro, realista y aplicable en casa.
                 </p>
               </div>
 
@@ -269,36 +225,30 @@ export function HomePage() {
               No hay una única dieta correcta.
             </h2>
             <p className="mt-4 text-base leading-7 text-vetkathia-muted sm:text-lg sm:leading-8">
-              Puede ser una mejora gradual, comida cocinada, mixta, BARF o
-              natural comercial. La pauta adecuada no es la más popular: es la
-              que encaja con su salud, su digestión y tu rutina.
+              Trabajo con perros y gatos que necesitan mejorar su alimentación:
+              digestiones sensibles, sobrepeso, etapa senior, alergias o
+              patologías ya diagnosticadas. En gatos, además, la estrategia se
+              plantea desde sus necesidades como especie.
             </p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {nutritionOptions.map((option) => (
-                <span
-                  className="inline-flex min-h-9 items-center rounded-full bg-white/84 px-3.5 py-2 text-sm font-bold leading-none text-vetkathia-text ring-1 ring-vetkathia-border/35"
-                  key={option}
-                >
-                  {option}
-                </span>
-              ))}
-            </div>
+            <p className="mt-3 text-base leading-7 text-vetkathia-muted sm:text-lg sm:leading-8">
+              Según el caso, puede tener sentido comida cocinada, alimentación
+              mixta, BARF, natural comercial o una transición gradual desde lo
+              que ya come.
+            </p>
           </div>
-          <div className="rounded-[1.7rem] bg-white/66 p-5 shadow-[0_18px_46px_rgba(59,39,36,0.045)] ring-1 ring-vetkathia-border/24 sm:p-6">
-            <div className="flex gap-5 sm:items-center lg:items-start">
-              <div className="hidden shrink-0 sm:block">
-                <DietStrategyVisual />
-              </div>
-              <div>
-                <p className="font-sans text-lg font-black leading-tight text-vetkathia-text sm:text-xl">
-                  Primero se valora el caso. Después se elige la estrategia.
-                </p>
-                <p className="mt-4 text-sm font-semibold leading-6 text-vetkathia-muted">
-                  Edad · salud · digestión · alimentación actual · rutina
-                </p>
-              </div>
-            </div>
-          </div>
+          <figure className="overflow-hidden rounded-[1.7rem] bg-white/72 shadow-[0_18px_46px_rgba(59,39,36,0.045)] ring-1 ring-vetkathia-border/24">
+            <img
+              alt="Cuenco de comida natural para perro y gato con ingredientes frescos"
+              className="aspect-[4/3] w-full bg-vetkathia-surface object-cover object-[50%_34%]"
+              loading="lazy"
+              src="/images/vetkathia-natural-food-bowl.jpg"
+            />
+            <figcaption className="px-5 py-4 sm:px-6 sm:py-5">
+              <p className="font-sans text-lg font-black leading-tight text-vetkathia-text sm:text-xl">
+                Una estrategia distinta para cada animal.
+              </p>
+            </figcaption>
+          </figure>
         </Container>
       </Section>
 
@@ -319,9 +269,9 @@ export function HomePage() {
             <div className="order-1 min-w-0 lg:order-2">
               <SectionHeading
                 className="max-w-3xl"
-                eyebrow="Sobre Kathia"
+                eyebrow="Sobre mí"
                 size="sm"
-                title="Veterinaria, nutrición natural y criterio realista."
+                title="Nutricionista veterinaria para perros y gatos."
                 variant="landing"
               >
                 <p>
@@ -356,7 +306,7 @@ export function HomePage() {
               <div className="mt-6 grid gap-3 lg:grid-cols-3">
                 {homeAboutPillars.map((pillar) => (
                   <div
-                    className="rounded-[1.25rem] bg-white/72 p-4 ring-1 ring-vetkathia-border/24"
+                    className="border-l border-vetkathia-border/70 py-1 pl-4"
                     key={pillar.title}
                   >
                     <p className="font-sans text-base font-black leading-tight text-vetkathia-text">
@@ -429,28 +379,40 @@ export function HomePage() {
         tone="surface"
       >
         <Container size="md">
-          <div className="relative overflow-hidden rounded-[1.8rem] bg-white/72 px-5 py-8 text-center shadow-[0_18px_48px_rgba(59,39,36,0.055)] ring-1 ring-white/75 sm:px-8 lg:px-10">
+          <div className="group relative overflow-hidden rounded-[1.8rem] bg-white/72 px-5 py-8 text-center shadow-[0_18px_48px_rgba(59,39,36,0.055)] ring-1 ring-white/75 transition-[box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_56px_rgba(59,39,36,0.08)] sm:px-8 lg:px-10">
             <div
-              className="absolute inset-0 bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(255,241,245,0.58))]"
+              className="absolute inset-0 bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(255,245,240,0.58))]"
               aria-hidden="true"
             />
-            <div className="relative">
+            <Link
+              aria-label="Ver planes y contratar"
+              className="absolute inset-0 z-10 rounded-[1.8rem] focus:outline-none focus:ring-4 focus:ring-vetkathia-primary-dark/25"
+              onClick={() => {
+                trackCTAClick('Ver planes y contratar', 'home final card')
+                window.setTimeout(() => scrollToHashTarget('planes'), 0)
+              }}
+              to="/#planes"
+            />
+            <div className="pointer-events-none relative z-20">
               <h2 className="mx-auto max-w-3xl font-sans text-2xl font-black leading-tight text-vetkathia-text sm:text-3xl">
-                ¿Quieres saber qué pauta encaja mejor con tu perro o gato?
+                ¿Quieres saber qué plan de alimentación encaja mejor con tu
+                perro o gato?
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-vetkathia-muted sm:text-lg sm:leading-8">
-                Elige el plan que encaja mejor y después completa el
-                cuestionario nutricional. Completarás el pago seguro con
-                Stripe y podrás reservar tu cita online con Calendly.
+                Elige el plan nutricional que mejor se adapta a lo que
+                necesitas ahora. Después completarás el pago seguro, rellenarás
+                el cuestionario inicial y podrás reservar tu cita online.
+              </p>
+              <p className="mx-auto mt-3 max-w-2xl text-sm font-semibold leading-6 text-vetkathia-primary-dark">
+                Servicio online de nutrición veterinaria. No es un servicio de
+                urgencias.
               </p>
               <Button
-                className="mt-7"
-                onClick={() =>
-                  trackCTAClick(
-                    'Ver planes y contratar',
-                    'home final',
-                  )
-                }
+                className="pointer-events-auto mt-7"
+                onClick={() => {
+                  trackCTAClick('Ver planes y contratar', 'home final')
+                  window.setTimeout(() => scrollToHashTarget('planes'), 0)
+                }}
                 rightIcon={
                   <ArrowRight className="h-5 w-5" aria-hidden="true" />
                 }

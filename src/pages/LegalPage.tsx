@@ -109,7 +109,7 @@ export function LegalPage({ page }: LegalPageProps) {
                   </p>
                   <p className="mt-3 leading-7 text-vetkathia-muted">
                     No se han incluido datos inventados como NIF, domicilio,
-                    empresa, número de colegiada o responsable legal.
+                    empresa o responsable legal.
                   </p>
                 </div>
               </div>

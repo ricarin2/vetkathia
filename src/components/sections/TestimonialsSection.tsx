@@ -40,7 +40,7 @@ export function TestimonialsSection() {
   return (
     <Section
       id="casos"
-      className="overflow-hidden bg-[linear-gradient(180deg,#FFF1F5_0%,#FFF9F6_100%)]"
+      className="overflow-hidden bg-[linear-gradient(180deg,#FFF5F0_0%,#FFF9F6_100%)]"
       spacing="compact"
       tone="surface"
     >
@@ -48,19 +48,21 @@ export function TestimonialsSection() {
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-5 lg:grid-cols-[minmax(0,0.86fr)_auto] lg:items-end">
             <SectionHeading
-              eyebrow={hasDemoTestimonialCases ? 'Demo visual' : 'Casos reales'}
+              eyebrow={
+                hasDemoTestimonialCases ? 'Demo visual' : 'Historias reales'
+              }
               size="sm"
               title={
                 hasDemoTestimonialCases
-                  ? 'Ejemplos de cómo se verán los casos.'
-                  : 'Casos compartidos con permiso.'
+                  ? 'Ejemplos visuales de historias'
+                  : 'Familias que revisaron la alimentación con más criterio.'
               }
               variant="landing"
             >
               <p>
                 {hasDemoTestimonialCases
-                  ? 'Formato de ejemplo para revisar la estructura visual antes de publicar casos reales con permiso.'
-                  : 'Historias publicadas con permiso. Cada caso se valora de forma individual y no supone una promesa de resultado.'}
+                  ? 'Contenido demo activado manualmente en desarrollo para revisar el diseño.'
+                  : 'Opiniones compartidas con permiso. Cada animal es distinto y estos casos no suponen una promesa de resultado.'}
               </p>
             </SectionHeading>
 
@@ -69,12 +71,14 @@ export function TestimonialsSection() {
                 className="sm:w-auto"
                 fullWidth
                 onClick={() => trackCTAClick('Ver casos', 'home casos')}
-                rightIcon={<ArrowRight className="h-4 w-4" aria-hidden="true" />}
+                rightIcon={
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                }
                 size="sm"
                 to="/casos"
                 variant="outline"
               >
-                Ver casos
+                Leer historias completas
               </Button>
             </div>
           </div>
@@ -86,14 +90,14 @@ export function TestimonialsSection() {
           <div className="-mx-4 mt-3 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 lg:hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {homeTestimonialCases.map((testimonialCase) => (
               <TestimonialPreviewCard
-                className="min-w-[84vw] snap-start sm:min-w-[21rem]"
+                className="min-w-[80vw] max-w-[20rem] snap-start sm:min-w-[21rem] sm:max-w-none"
                 key={testimonialCase.id}
                 testimonialCase={testimonialCase}
               />
             ))}
           </div>
 
-          <div className="mt-7 hidden items-stretch gap-4 lg:grid lg:grid-cols-3">
+          <div className="mt-7 hidden items-stretch gap-4 lg:grid lg:grid-cols-2">
             {homeTestimonialCases.map((testimonialCase) => (
               <TestimonialPreviewCard
                 key={testimonialCase.id}
@@ -104,8 +108,8 @@ export function TestimonialsSection() {
 
           <p className="mt-4 max-w-4xl text-xs leading-5 text-vetkathia-muted sm:text-sm sm:leading-6">
             {hasDemoTestimonialCases
-              ? 'Estos casos son contenido demo para visualizar el diseño. No son testimonios reales publicados.'
-              : 'Los casos se publican con permiso de las familias. Cada animal es distinto y los resultados pueden variar. Este servicio no sustituye urgencias ni seguimiento clínico habitual.'}
+              ? 'Estos casos solo se muestran en desarrollo cuando la variable de demos está activada.'
+              : 'Experiencias individuales compartidas por sus familias. La evolución depende de cada caso y este servicio no sustituye urgencias ni seguimiento clínico habitual.'}
           </p>
         </div>
       </Container>
@@ -134,7 +138,7 @@ function TestimonialPreviewCard({
     <motion.article
       animate="rest"
       className={cn(
-        'group flex h-full flex-col rounded-[1.35rem] border border-white/72 bg-white/86 p-4 ring-1 ring-vetkathia-border/18 backdrop-blur transition-[border-color,box-shadow] duration-300 hover:border-vetkathia-primary/28 hover:ring-vetkathia-primary/18 lg:min-h-[19rem] lg:p-5',
+        'group flex h-full flex-col rounded-[1.25rem] border border-white/72 bg-white/78 p-4 ring-1 ring-white/70 backdrop-blur transition-[background-color,box-shadow] duration-300 hover:bg-white hover:shadow-card lg:min-h-[19rem] lg:p-5',
         className,
       )}
       initial="rest"
@@ -175,16 +179,13 @@ function TestimonialPreviewCard({
         </span>
       ) : null}
 
-      <blockquote
-        className={cn(
-          'mt-4 border-l-2 border-vetkathia-primary/30 pl-4 font-semibold leading-7 text-vetkathia-text',
-          featured ? 'text-lg' : 'text-base',
-        )}
-      >
-        “{testimonialCase.shortQuote}”
-      </blockquote>
+      <HomeCaseQuote featured={featured} testimonialCase={testimonialCase} />
 
-      <p className="mt-3 line-clamp-1 text-sm leading-6 text-vetkathia-muted">
+      <p className="mt-4 text-sm font-semibold leading-5 text-vetkathia-primary-dark">
+        {testimonialCase.guardianLabel}
+      </p>
+
+      <p className="mt-3 line-clamp-2 text-sm leading-6 text-vetkathia-muted">
         {testimonialCase.context}
       </p>
 
@@ -207,11 +208,32 @@ function TestimonialPreviewCard({
           to="/casos"
           variant="ghost"
         >
-          Ver caso
+          Leer historia
         </Button>
       </div>
     </motion.article>
   )
+}
+
+function HomeCaseQuote({
+  featured,
+  testimonialCase,
+}: {
+  featured: boolean
+  testimonialCase: TestimonialCase
+}) {
+  const quote = testimonialCase.homeQuote ?? testimonialCase.shortQuote
+  const className = cn(
+    'mt-4 line-clamp-3 border-l-2 border-vetkathia-primary/30 pl-4 font-medium leading-7 text-vetkathia-text',
+    featured ? 'text-lg' : 'text-base',
+    testimonialCase.quoteMode === 'summary' ? 'not-italic' : 'italic',
+  )
+
+  if (testimonialCase.quoteMode === 'summary') {
+    return <p className={className}>{quote}</p>
+  }
+
+  return <blockquote className={className}>“{quote}”</blockquote>
 }
 
 function getCaseTags(testimonialCase: TestimonialCase, speciesLabel: string) {

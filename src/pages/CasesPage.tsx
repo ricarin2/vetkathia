@@ -39,7 +39,7 @@ export function CasesPage() {
           isDemoMode
             ? 'Ejemplos visuales para validar el formato de casos de VetKathia antes de publicar historias reales con permiso.'
             : hasPublicTestimonialCases
-              ? 'Casos reales compartidos con permiso por familias que revisaron la alimentación de su perro o gato con criterio veterinario.'
+              ? 'Historias reales compartidas con permiso por familias que revisaron la alimentación de su perro o gato con criterio veterinario.'
               : 'Página no indexable de casos de VetKathia, pendiente de publicar historias reales con permiso.'
         }
         noindex={!hasPublicTestimonialCases}
@@ -47,7 +47,7 @@ export function CasesPage() {
           isDemoMode
             ? 'Casos demo | VetKathia'
             : hasPublicTestimonialCases
-              ? 'Casos reales | VetKathia'
+              ? 'Historias reales | VetKathia'
               : 'Casos | VetKathia'
         }
       />
@@ -56,13 +56,13 @@ export function CasesPage() {
         <Container>
           <div className="mx-auto max-w-4xl text-center">
             <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-vetkathia-primary-dark sm:text-sm">
-              {isDemoMode ? 'Demo visual' : 'Casos'}
+              {isDemoMode ? 'Demo visual' : 'Historias reales'}
             </p>
             <h1 className="mx-auto mt-3 max-w-3xl font-sans text-[2rem] font-black leading-tight text-vetkathia-text sm:text-4xl lg:text-[3rem]">
               {isDemoMode
                 ? 'Ejemplos visuales de casos'
                 : hasPublicTestimonialCases
-                  ? 'Casos reales'
+                  ? 'Familias que revisaron la alimentación con más criterio.'
                   : 'Casos pendientes de publicar'}
             </h1>
             <div className="mx-auto mt-4 max-w-2xl text-base leading-7 text-vetkathia-muted sm:text-lg sm:leading-8">
@@ -70,7 +70,7 @@ export function CasesPage() {
                 {isDemoMode
                   ? 'Ejemplos visuales para revisar el diseño de casos. Sustituir por historias reales cuando haya permiso explícito de las familias.'
                   : hasPublicTestimonialCases
-                    ? 'Historias compartidas con permiso por familias que querían mejorar la alimentación de su perro o gato. Cada caso se valora de forma individual y no supone una promesa de resultado.'
+                    ? 'Opiniones compartidas con permiso. Cada animal es distinto y estos casos no suponen una promesa de resultado.'
                     : 'No hay historias públicas con permiso explícito en este momento. VetKathia no publica casos, nombres ni fotos sin consentimiento.'}
               </p>
             </div>
@@ -134,21 +134,18 @@ export function CasesPage() {
             <h2 className="mt-4 font-sans text-2xl font-black leading-tight text-vetkathia-text sm:text-3xl">
               ¿Quieres revisar su caso con calma?
             </h2>
-	            <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-vetkathia-muted">
-	              Elige un plan, completa la contratación online y después
-                rellena el cuestionario nutricional para preparar el servicio
-                contratado.
-	            </p>
-	            <Button
+            <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-vetkathia-muted">
+              Elige un plan, completa la contratación online y después rellena
+              el cuestionario nutricional para preparar el servicio contratado.
+            </p>
+            <Button
               className="mt-7"
-              onClick={() =>
-	                trackCTAClick('Ver planes', 'casos final')
-	              }
-	              rightIcon={<ArrowRight className="h-5 w-5" aria-hidden="true" />}
-	              to="/#planes"
-	            >
-	              Ver planes
-	            </Button>
+              onClick={() => trackCTAClick('Ver planes', 'casos final')}
+              rightIcon={<ArrowRight className="h-5 w-5" aria-hidden="true" />}
+              to="/#planes"
+            >
+              Ver planes
+            </Button>
           </div>
         </Container>
       </Section>
@@ -215,9 +212,7 @@ function CaseCard({
         <CaseVisual testimonialCase={testimonialCase} />
       </div>
 
-      <blockquote className="mt-5 border-l-2 border-vetkathia-primary/30 pl-4 text-base font-semibold leading-7 text-vetkathia-text">
-        “{testimonialCase.shortQuote}”
-      </blockquote>
+      <CaseQuote testimonialCase={testimonialCase} />
       <p className="mt-2 text-sm font-semibold text-vetkathia-primary-dark">
         {testimonialCase.guardianLabel}
       </p>
@@ -248,6 +243,25 @@ function CaseDetail({ label, text }: { label: string; text: string }) {
       </p>
       <p className="mt-1">{text}</p>
     </div>
+  )
+}
+
+function CaseQuote({
+  testimonialCase,
+}: {
+  testimonialCase: TestimonialCase
+}) {
+  const className =
+    'mt-5 border-l-2 border-vetkathia-primary/30 pl-4 text-base font-semibold leading-7 text-vetkathia-text'
+
+  if (testimonialCase.quoteMode === 'summary') {
+    return <p className={className}>{testimonialCase.shortQuote}</p>
+  }
+
+  return (
+    <blockquote className={className}>
+      “{testimonialCase.shortQuote}”
+    </blockquote>
   )
 }
 

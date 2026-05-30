@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 
 import { mainNavigation, siteConfig } from '../../data/site'
 import { trackCTAClick } from '../../lib/analytics'
+import { scrollToHashTarget } from '../../lib/scrollToHashTarget'
 import { Button, Container } from '../ui'
 import { MobileNav } from './MobileNav'
 
@@ -35,6 +36,12 @@ export function Header() {
             <Link
               className="rounded-full px-4 py-2 text-sm font-semibold text-vetkathia-muted transition-[background-color,color] duration-[360ms] ease-out hover:bg-vetkathia-surface hover:text-vetkathia-text focus:outline-none focus:ring-4 focus:ring-vetkathia-primary-dark/25"
               key={item.href}
+              onClick={() => {
+                if (item.href === '/#planes') {
+                  trackCTAClick('Planes', 'header nav')
+                  window.setTimeout(() => scrollToHashTarget('planes'), 0)
+                }
+              }}
               to={item.href}
             >
               {item.label}
@@ -44,9 +51,10 @@ export function Header() {
 
         <div className="hidden lg:block">
           <Button
-            onClick={() =>
+            onClick={() => {
               trackCTAClick('Elegir plan', 'header desktop')
-            }
+              window.setTimeout(() => scrollToHashTarget('planes'), 0)
+            }}
             size="sm"
             to="/#planes"
           >
@@ -57,7 +65,10 @@ export function Header() {
         <div className="flex items-center gap-2 sm:gap-3 lg:hidden">
           <Button
             className="px-3"
-            onClick={() => trackCTAClick('Planes', 'header mobile')}
+            onClick={() => {
+              trackCTAClick('Planes', 'header mobile')
+              window.setTimeout(() => scrollToHashTarget('planes'), 0)
+            }}
             size="sm"
             to="/#planes"
           >

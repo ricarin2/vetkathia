@@ -50,8 +50,8 @@ export function Accordion({
         return (
           <div
             className={cn(
-              'rounded-[1.35rem] border border-vetkathia-border/58 bg-white/92 px-4 py-2.5 shadow-[0_12px_30px_rgba(59,39,36,0.035)] transition-[background-color,border-color,box-shadow] duration-[380ms] ease-out hover:border-vetkathia-primary/38 hover:bg-white sm:px-5 sm:py-3',
-              isOpen && 'border-vetkathia-primary/45 bg-white shadow-card',
+              'rounded-[1.15rem] border border-vetkathia-border/34 bg-white/76 px-4 py-2.5 transition-[background-color,border-color] duration-[260ms] ease-out hover:border-vetkathia-border/70 hover:bg-white sm:px-5 sm:py-3',
+              isOpen && 'border-vetkathia-border/75 bg-white',
             )}
             key={item.id}
           >
@@ -65,8 +65,8 @@ export function Accordion({
               <span className="pr-2">{item.title}</span>
               <span
                 className={cn(
-                  'flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-vetkathia-border/70 bg-vetkathia-surface/72 text-vetkathia-primary-dark transition-[background-color,border-color] duration-[380ms] ease-out',
-                  isOpen && 'border-vetkathia-primary/60 bg-white',
+                  'flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-vetkathia-border/55 bg-[#FFFDFB] text-vetkathia-primary-dark transition-[background-color,border-color] duration-[260ms] ease-out',
+                  isOpen && 'border-vetkathia-border bg-white',
                 )}
               >
                 <ChevronDown
@@ -85,7 +85,7 @@ export function Accordion({
               )}
               id={panelId}
             >
-              <div className="overflow-hidden border-t border-vetkathia-border/45 pt-3">
+              <div className="overflow-hidden border-t border-vetkathia-border/38 pt-3">
                 <div className="text-sm leading-7 text-vetkathia-muted sm:text-base">
                   {item.content}
                 </div>

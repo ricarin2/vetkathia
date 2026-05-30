@@ -1,7 +1,7 @@
 export const faqItems = [
   {
     content:
-      'Eliges un plan, revisas las condiciones, completas el pago seguro con Stripe, rellenas el cuestionario nutricional y reservas tu cita online con Calendly cuando la agenda está configurada para el plan correspondiente. Después preparo la valoración, el plan nutricional o el acompañamiento contratado.',
+      'Eliges un plan, completas el pago seguro con Stripe, rellenas el cuestionario nutricional y reservas tu cita online con Calendly cuando la agenda está configurada para el plan correspondiente. Después preparo la valoración, el plan de alimentación o el acompañamiento contratado.',
     id: 'contratacion-online',
     title: '¿Cómo funciona la contratación online?',
   },
@@ -31,7 +31,7 @@ export const faqItems = [
   },
   {
     content:
-      'Después de pagar verás los siguientes pasos: completar el cuestionario nutricional y reservar la cita online. La página de pago completado sirve para continuar el onboarding, no para sustituir la confirmación operativa del pago en Stripe.',
+      'Después de pagar continúas con el cuestionario nutricional y la reserva de la cita online. Esa información me ayuda a preparar la consulta o revisión con contexto. La página de retorno desde Stripe sirve para continuar el onboarding, no para sustituir la confirmación operativa del pago en Stripe.',
     id: 'despues-de-pagar',
     title: '¿Qué pasa después de pagar?',
   },
@@ -50,14 +50,14 @@ export const faqItems = [
   },
   {
     content:
-      'La Valoración Nutricional sirve para revisar la alimentación actual y orientarte sobre si conviene cambiar y por dónde empezar. El Plan Personalizado añade una pauta individual con cantidades, transición y recomendaciones prácticas. El Acompañamiento suma revisión posterior, ajustes del plan y seguimiento ampliado para aplicar los cambios con más apoyo.',
+      'La Valoración Nutricional sirve para revisar la alimentación actual y orientarte sobre si conviene cambiar y por dónde empezar. El Plan Personalizado añade un plan de alimentación individual con cantidades, transición y recomendaciones prácticas. El Acompañamiento suma revisión posterior, ajustes del plan y seguimiento ampliado para aplicar los cambios con más apoyo.',
     id: 'diferencia-planes',
     title:
       '¿Qué diferencia hay entre valoración, plan personalizado y acompañamiento?',
   },
   {
     content:
-      'Sí. Puedes pedir ayuda para un gato. Los gatos tienen necesidades nutricionales propias y no deben tratarse como perros pequeños; por eso la pauta debe adaptarse a su especie, edad, salud, digestión y rutina.',
+      'Sí. Puedes pedir ayuda para un gato. Los gatos tienen necesidades nutricionales propias y no deben tratarse como perros pequeños; por eso el plan de alimentación debe adaptarse a su especie, edad, salud, digestión y rutina.',
     id: 'gatos',
     title: '¿Puedo pedir ayuda para un gato?',
   },

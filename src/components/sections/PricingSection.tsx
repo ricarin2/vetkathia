@@ -12,7 +12,6 @@ import { motion, useReducedMotion, type Variants } from 'framer-motion'
 
 import { homePlans } from '../../data/home'
 import { trackCTAClick, trackPlanClick } from '../../lib/analytics'
-import { getIntegrationStatus } from '../../lib/integrations'
 import {
   getPlanKeyFromName,
   isCheckoutConfigured,
@@ -29,49 +28,35 @@ type PlanVisualConfig = {
   SecondaryIcon: LucideIcon
 }
 
-const usefulForAreas = [
-  'gatos',
-  'seniors',
-  'digestión sensible',
-  'transición segura',
-  'dudas sobre cantidades',
-]
-
-const planStartSteps = [
-  'Elige el plan',
-  'Paga o reserva',
-  'Completa el cuestionario',
-  'Recibe valoración, pauta o seguimiento',
-]
-
 const homePlanCtaLabels: Record<PlanKey, string> = {
   accompaniment: 'Contratar acompañamiento',
   personalized: 'Contratar plan personalizado',
-  valuation: 'Reservar valoración',
+  valuation: 'Contratar valoración nutricional',
 }
 
 const planDecisionCopy = {
   accompaniment: {
     idealIf: 'Quieres aplicar cambios con revisión posterior y ajustes.',
     visibleIncludes: [
-      'Todo lo anterior',
+      'Plan de alimentación individual',
+      'Cantidades',
+      'Guía de transición',
       'Revisión posterior',
       'Ajustes del plan',
     ],
   },
   personalized: {
-    idealIf: 'Quieres una pauta completa con cantidades y transición.',
+    idealIf: 'Quieres un plan de alimentación completo con cantidades y transición.',
     visibleIncludes: [
-      'Plan individual',
-      'Cantidades y pautas',
+      'Plan de alimentación individual',
+      'Cantidades',
       'Guía de transición',
     ],
   },
   valuation: {
-    idealIf:
-      'Quieres una primera orientación profesional antes de cambiar la alimentación.',
+    idealIf: 'Quieres orientación inicial antes de cambiar la alimentación.',
     visibleIncludes: [
-      'Cuestionario nutricional',
+      'Cuestionario inicial',
       'Revisión del caso',
       'Orientación profesional',
     ],
@@ -83,6 +68,12 @@ const planDecisionCopy = {
     visibleIncludes: string[]
   }
 >
+
+const mobilePlanOrderClasses: Record<PlanKey, string> = {
+  accompaniment: 'order-3 lg:order-none',
+  personalized: 'order-1 lg:order-none',
+  valuation: 'order-2 lg:order-none',
+}
 
 const visualConfigs: PlanVisualConfig[] = [
   {
@@ -132,19 +123,11 @@ const visualVariants: Variants = {
 export function PricingSection() {
   const reduceMotion = useReducedMotion()
   const checkoutConfigured = isCheckoutConfigured()
-  const integrationStatus = getIntegrationStatus()
-  const calendlyConfiguredForAllPlans = Object.values(
-    integrationStatus.calendlyConfiguredByPlan,
-  ).every(Boolean)
-  const funnelMicrocopy =
-    checkoutConfigured && calendlyConfiguredForAllPlans
-      ? 'Pago seguro con Stripe · Reserva online con Calendly'
-      : 'Pago/reserva antes de iniciar · Cuestionario posterior · Revisión manual del caso'
 
   return (
     <Section
       id="planes"
-      className="overflow-hidden"
+      className="scroll-mt-24 overflow-hidden"
       data-hide-mobile-sticky
       spacing="compact"
       tone="surface"
@@ -155,21 +138,14 @@ export function PricingSection() {
             className="max-w-4xl"
             eyebrow="Planes"
             size="md"
-            title="Planes de nutrición natural veterinaria"
+            title="Elige el plan nutricional según lo que necesitas ahora"
             variant="landing"
           >
             <p>
-              Elige el plan que encaja mejor. Después completarás el
-              cuestionario inicial para revisar el caso con contexto.
-            </p>
-            <p className="mt-3 text-sm font-bold leading-6 text-vetkathia-primary-dark">
-              {funnelMicrocopy}
-            </p>
-            <p className="mt-2 text-sm font-medium leading-6 text-vetkathia-muted">
-              <span className="font-bold text-vetkathia-text">
-                Especial foco:
-              </span>{' '}
-              {usefulForAreas.join(' · ')}
+              Puedes empezar con una valoración para saber por dónde ir,
+              contratar un plan completo con cantidades y transición, o elegir
+              acompañamiento si quieres aplicar los cambios con revisión
+              posterior.
             </p>
           </SectionHeading>
           <div className="hidden lg:block">
@@ -187,6 +163,14 @@ export function PricingSection() {
           </div>
         </div>
 
+        {import.meta.env.DEV && !checkoutConfigured ? (
+          <p className="mt-5 rounded-2xl bg-white/72 px-4 py-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark ring-1 ring-vetkathia-border/45">
+            Desarrollo: la contratación online todavía no está configurada.
+            Los botones llevan a la página de contratación para revisar el
+            flujo.
+          </p>
+        ) : null}
+
         <div className="relative mt-7 grid items-stretch gap-4 sm:mt-8 lg:mt-9 lg:grid-cols-3 lg:gap-5">
           {homePlans.map((plan, index) => {
             const visual = visualConfigs[index] ?? visualConfigs[0]
@@ -203,7 +187,7 @@ export function PricingSection() {
                   plan.isRecommended
                     ? 'border-vetkathia-primary/45 shadow-soft ring-vetkathia-primary/10'
                     : 'border-vetkathia-border/58 shadow-card'
-                }`}
+                } ${mobilePlanOrderClasses[planKey]}`}
                 data-plan-card
                 initial="rest"
                 key={plan.name}
@@ -221,21 +205,11 @@ export function PricingSection() {
                 />
 
                 <div className="flex h-full flex-col p-4 sm:p-5 lg:p-5 xl:p-6">
-                  <div className="grid grid-cols-[1fr_auto] gap-4 lg:min-h-[4.25rem]">
+                  <div className="grid grid-cols-[1fr_auto] gap-4">
                     <div className="min-w-0">
-                      <div className="flex min-h-8 flex-wrap items-center gap-2">
-                        <span className="inline-flex rounded-full bg-vetkathia-surface/72 px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.12em] text-vetkathia-primary-dark ring-1 ring-vetkathia-border/40">
-                          {plan.label}
-                        </span>
-                        {plan.isRecommended ? (
-                          <Badge
-                            className="shrink-0 border-vetkathia-primary/35 bg-vetkathia-primary/10 text-vetkathia-primary-dark shadow-none"
-                            tone="soft"
-                          >
-                            Más recomendado
-                          </Badge>
-                        ) : null}
-                      </div>
+                      <h3 className="font-sans text-xl font-black leading-tight text-vetkathia-text sm:text-[1.4rem]">
+                        {plan.name}
+                      </h3>
                     </div>
                     <PlanVisual
                       config={visual}
@@ -244,10 +218,7 @@ export function PricingSection() {
                     />
                   </div>
 
-                  <div className="mt-3 sm:mt-4 lg:min-h-[6.5rem]">
-                    <h3 className="font-sans text-xl font-black leading-tight text-vetkathia-text sm:text-[1.4rem]">
-                      {plan.name}
-                    </h3>
+                  <div className="mt-3 sm:mt-4">
                     <div className="mt-2.5 flex items-end gap-2">
                       <p className="font-sans text-[2.55rem] font-semibold leading-[0.9] tracking-normal text-vetkathia-primary-dark sm:text-[2.85rem]">
                         {plan.price.replace(' €', '')}
@@ -255,6 +226,19 @@ export function PricingSection() {
                       <span className="pb-1.5 text-lg font-semibold text-vetkathia-primary-dark">
                         €
                       </span>
+                    </div>
+                    <div className="mt-3 flex min-h-8 flex-wrap items-center gap-2">
+                      <span className="inline-flex rounded-full bg-vetkathia-surface/72 px-3 py-1.5 text-[0.68rem] font-bold uppercase tracking-[0.12em] text-vetkathia-primary-dark ring-1 ring-vetkathia-border/40">
+                        {plan.label}
+                      </span>
+                      {plan.isRecommended ? (
+                        <Badge
+                          className="shrink-0 border-vetkathia-primary/35 bg-vetkathia-primary/10 text-vetkathia-primary-dark shadow-none"
+                          tone="soft"
+                        >
+                          Más recomendado
+                        </Badge>
+                      ) : null}
                     </div>
                   </div>
 
@@ -267,7 +251,23 @@ export function PricingSection() {
                     </p>
                   </div>
 
-                  <div className="mt-4 lg:min-h-[6.4rem]">
+                  <div className="pt-5">
+                    <Button
+                      className={`min-h-12 whitespace-normal px-4 text-center text-sm leading-5 sm:text-[0.95rem] ${
+                        plan.isRecommended
+                          ? ''
+                          : 'border-vetkathia-primary/40 text-vetkathia-primary-dark hover:bg-vetkathia-surface/80'
+                      }`}
+                      fullWidth
+                      onClick={() => trackPlanClick(plan.name)}
+                      to={`/contratar?plan=${planKey}`}
+                      variant={plan.isRecommended ? 'primary' : 'outline'}
+                    >
+                      {homePlanCtaLabels[planKey]}
+                    </Button>
+                  </div>
+
+                  <div className="mt-5 lg:min-h-[9.8rem]">
                     <p className="font-sans text-[0.68rem] font-bold uppercase tracking-[0.12em] text-vetkathia-text">
                       Qué recibes
                     </p>
@@ -305,70 +305,10 @@ export function PricingSection() {
                       ))}
                     </div>
                   </details>
-
-                  <div className="mt-auto pt-5">
-                    {import.meta.env.DEV && !checkoutConfigured ? (
-                      <p className="mb-3 rounded-2xl border border-vetkathia-border bg-vetkathia-surface/70 px-3 py-2 text-sm font-semibold leading-5 text-vetkathia-primary-dark">
-                        La contratación online no está configurada todavía.
-                      </p>
-                    ) : null}
-                    <Button
-                      className={`min-h-12 whitespace-normal px-4 text-center text-sm leading-5 sm:text-[0.95rem] ${
-                        plan.isRecommended
-                          ? ''
-                          : 'border-vetkathia-primary/40 text-vetkathia-primary-dark hover:bg-vetkathia-surface/80'
-                      }`}
-                      fullWidth
-                      onClick={() => trackPlanClick(plan.name)}
-                      to={`/contratar?plan=${planKey}`}
-                      variant={plan.isRecommended ? 'primary' : 'outline'}
-                    >
-                      {homePlanCtaLabels[planKey]}
-                    </Button>
-                  </div>
                 </div>
               </motion.article>
             )
           })}
-        </div>
-
-        <div
-          id="como-funciona"
-          className="mt-5 scroll-mt-28 rounded-[1.35rem] border border-white/70 bg-white/70 px-4 py-4 shadow-[0_16px_42px_rgba(59,39,36,0.038)] ring-1 ring-vetkathia-border/16 backdrop-blur sm:mt-6 sm:px-5 lg:mt-7 lg:grid lg:grid-cols-[0.82fr_1.18fr] lg:items-center lg:gap-7 lg:px-5 lg:py-4"
-        >
-          <div>
-            <p className="text-[0.7rem] font-extrabold uppercase tracking-[0.16em] text-vetkathia-primary-dark">
-              Después de elegir tu plan
-            </p>
-            <h3 className="mt-2 font-sans text-[1.35rem] font-black leading-tight text-vetkathia-text sm:text-2xl">
-              Así empieza el servicio
-            </h3>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-vetkathia-muted">
-              El pago o la reserva confirma el inicio del servicio. Después
-              completas el cuestionario inicial para revisar el caso con
-              contexto.
-            </p>
-            <p className="mt-2 max-w-2xl text-xs font-semibold leading-5 text-vetkathia-primary-dark/82">
-              Servicio no urgente. No sustituye urgencias veterinarias ni
-              seguimiento clínico habitual cuando el caso lo requiere.
-            </p>
-          </div>
-
-          <ol className="mt-4 grid grid-cols-2 gap-2 lg:mt-0 lg:grid-cols-4 lg:gap-2.5">
-            {planStartSteps.map((step, index) => (
-              <li
-                className="flex min-h-[4rem] items-center gap-2.5 rounded-2xl bg-[#FFFDFB]/74 px-2.5 py-2.5 ring-1 ring-vetkathia-border/18 lg:min-h-[5rem] lg:flex-col lg:items-start lg:justify-center"
-                key={step}
-              >
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-xs font-black text-vetkathia-primary-dark shadow-[0_8px_18px_rgba(59,39,36,0.04)] ring-1 ring-vetkathia-border/38">
-                  {index + 1}
-                </span>
-                <p className="text-xs font-semibold leading-5 text-vetkathia-text sm:text-sm">
-                  {step}
-                </p>
-              </li>
-            ))}
-          </ol>
         </div>
       </Container>
     </Section>
@@ -396,7 +336,7 @@ function PlanVisual({
       <div
         className={`absolute inset-1 rounded-[2rem] ${config.accent} shadow-[inset_0_1px_0_rgba(255,255,255,0.85)]`}
       />
-      <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_34%_26%,rgba(255,255,255,0.96),rgba(255,249,246,0.58)_48%,rgba(255,241,245,0.62))] ring-1 ring-vetkathia-border/34" />
+      <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_34%_26%,rgba(255,255,255,0.96),rgba(255,249,246,0.58)_48%,rgba(255,245,240,0.62))] ring-1 ring-vetkathia-border/34" />
       <div className="absolute left-1.5 top-2.5 h-9 w-8 rotate-[-8deg] rounded-[0.8rem] bg-white/86 shadow-[0_10px_20px_rgba(59,39,36,0.055)] ring-1 ring-vetkathia-border/28 sm:h-10 sm:w-9 lg:left-2.5 lg:top-3 lg:h-12 lg:w-10">
         <span className="absolute left-2 top-2 h-1.5 w-4 rounded-full bg-vetkathia-primary/24" />
         <span className="absolute left-2 top-5 h-1 w-5 rounded-full bg-vetkathia-muted/16" />

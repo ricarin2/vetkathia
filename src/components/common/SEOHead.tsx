@@ -15,7 +15,7 @@ type SEOHeadProps = {
 
 const defaultOgImage = '/images/vetkathia-hero-pets-1200.jpg'
 const defaultOgImageAlt =
-  'Perro y gato junto a una pauta de nutrición natural veterinaria VetKathia'
+  'Perro y gato junto a un plan de alimentación natural veterinaria VetKathia'
 const defaultOgImageHeight = 900
 const defaultOgImageWidth = 1200
 const fallbackSiteUrl = 'https://vetkathia.com'

@@ -1,12 +1,7 @@
 import {
-  Camera,
   HeartPulse,
-  Mail,
-  Music2,
-  Play,
-  type LucideIcon,
 } from 'lucide-react'
-import type { ReactNode } from 'react'
+import type { ComponentType, ReactNode, SVGProps } from 'react'
 import { Link } from 'react-router'
 
 import {
@@ -27,11 +22,13 @@ type FooterSocialItem = {
   label: SiteSocialLink['label']
 }
 
-const socialIcons: Partial<Record<SiteSocialLink['label'], LucideIcon>> = {
-  Email: Mail,
-  Instagram: Camera,
-  TikTok: Music2,
-  YouTube: Play,
+type SocialIconComponent = ComponentType<SVGProps<SVGSVGElement>>
+
+const socialIcons: Partial<Record<SiteSocialLink['label'], SocialIconComponent>> = {
+  Facebook: FacebookIcon,
+  Instagram: InstagramIcon,
+  TikTok: TikTokIcon,
+  YouTube: YouTubeIcon,
 }
 
 export function Footer() {
@@ -44,7 +41,7 @@ export function Footer() {
       ? [
           {
             href: '/casos',
-            label: hasPublicTestimonialCases ? 'Casos reales' : 'Casos demo',
+            label: hasPublicTestimonialCases ? 'Historias reales' : 'Casos demo',
           },
         ]
       : []),
@@ -58,7 +55,7 @@ export function Footer() {
   const contactEmail = siteConfig.contact.email.trim()
 
   return (
-    <footer className="border-t border-vetkathia-border/55 bg-[linear-gradient(180deg,#FFFDFB_0%,#FFF1F5_100%)]">
+    <footer className="border-t border-vetkathia-border/55 bg-[linear-gradient(180deg,#FFFDFB_0%,#FFF5F0_100%)]">
       <Container className="py-6 sm:py-10 lg:py-14">
         <div className="grid grid-cols-2 gap-x-6 gap-y-5 lg:grid-cols-[1.1fr_0.7fr_0.7fr_1.25fr] lg:gap-9">
           <div className="col-span-2 max-w-md lg:col-span-1">
@@ -79,11 +76,9 @@ export function Footer() {
               </span>
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-6 text-vetkathia-muted sm:text-base sm:leading-7">
-              Nutrición natural veterinaria para perros y gatos, con pautas
-              personalizadas, realistas y planteadas con criterio profesional.
-            </p>
-            <p className="mt-3 max-w-sm border-l-2 border-vetkathia-primary/24 pl-4 text-sm leading-6 text-vetkathia-muted">
-              No sustituye urgencias ni seguimiento clínico habitual.
+              VetKathia ofrece nutrición natural veterinaria para perros y
+              gatos, con planes de alimentación personalizados, realistas y
+              planteados desde un enfoque profesional.
             </p>
           </div>
 
@@ -123,9 +118,9 @@ export function Footer() {
       <div className="border-t border-vetkathia-border/45">
         <Container className="py-4 sm:py-5">
           <p className="max-w-4xl text-xs leading-5 text-vetkathia-muted sm:text-sm sm:leading-6">
-            © {new Date().getFullYear()} VetKathia. Contenido informativo; no
-            sustituye una urgencia veterinaria ni el seguimiento clínico
-            habitual.
+            © {new Date().getFullYear()} VetKathia. Contenido informativo y
+            servicio online de nutrición. No sustituye urgencias veterinarias ni
+            seguimiento clínico habitual.
           </p>
         </Container>
       </div>
@@ -134,23 +129,19 @@ export function Footer() {
 }
 
 function FooterContact({ email }: { email: string }) {
+  if (!email) return null
+
   return (
     <div>
       <h2 className="text-xs font-bold uppercase tracking-[0.14em] text-vetkathia-primary-dark">
         Contacto
       </h2>
-      {email ? (
-        <a
-          className="mt-3 inline-flex w-fit rounded-xl px-2 py-1 text-sm font-semibold text-vetkathia-muted transition-[background-color,color] duration-200 hover:bg-white/80 hover:text-vetkathia-primary-dark focus:outline-none focus:ring-4 focus:ring-vetkathia-primary-dark/25"
-          href={`mailto:${email}`}
-        >
-          {email}
-        </a>
-      ) : (
-        <p className="mt-3 max-w-xs text-sm leading-6 text-vetkathia-muted">
-          {siteConfig.contact.fallback}
-        </p>
-      )}
+      <a
+        className="mt-3 inline-flex w-fit rounded-xl px-2 py-1 text-sm font-semibold text-vetkathia-muted transition-[background-color,color] duration-200 hover:bg-white/80 hover:text-vetkathia-primary-dark focus:outline-none focus:ring-4 focus:ring-vetkathia-primary-dark/25"
+        href={`mailto:${email}`}
+      >
+        {email}
+      </a>
     </div>
   )
 }
@@ -219,11 +210,7 @@ function FooterSocialLinks({
           const Icon = socialIcons[item.label]
           const isExternal = item.href?.startsWith('http') ?? false
           const iconContent = Icon ? (
-            <Icon className="h-4.5 w-4.5" aria-hidden="true" />
-          ) : item.label === 'Facebook' ? (
-            <span className="text-xs font-black" aria-hidden="true">
-              Fb
-            </span>
+            <Icon className="h-5 w-5" aria-hidden="true" />
           ) : (
             <span className="text-xs font-bold">{item.label}</span>
           )
@@ -245,6 +232,84 @@ function FooterSocialLinks({
         })}
       </div>
     </div>
+  )
+}
+
+function InstagramIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      fill="none"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <rect
+        height="14.8"
+        rx="4.4"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        width="14.8"
+        x="4.6"
+        y="4.6"
+      />
+      <circle
+        cx="12"
+        cy="12"
+        r="3.25"
+        stroke="currentColor"
+        strokeWidth="1.8"
+      />
+      <circle cx="16.45" cy="7.55" fill="currentColor" r="1.15" />
+    </svg>
+  )
+}
+
+function FacebookIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      fill="none"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M13.35 21v-7.3h2.48l.4-3.08h-2.88V8.94c0-.83.24-1.4 1.47-1.4h1.55V4.78A20.4 20.4 0 0 0 14.1 4c-2.25 0-3.8 1.35-3.8 3.86v2.76H7.75v3.08h2.55V21h3.05Z"
+        fill="currentColor"
+      />
+    </svg>
+  )
+}
+
+function YouTubeIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      fill="none"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M21.1 8.05a3.25 3.25 0 0 0-2.3-2.28C16.78 5.25 12 5.25 12 5.25s-4.78 0-6.8.52A3.25 3.25 0 0 0 2.9 8.05 33.95 33.95 0 0 0 2.38 12c0 1.34.17 2.66.52 3.95a3.25 3.25 0 0 0 2.3 2.28c2.02.52 6.8.52 6.8.52s4.78 0 6.8-.52a3.25 3.25 0 0 0 2.3-2.28c.35-1.29.52-2.61.52-3.95 0-1.34-.17-2.66-.52-3.95Z"
+        fill="currentColor"
+      />
+      <path d="m10.15 15.05 4.85-3.04-4.85-3.06v6.1Z" fill="#FFFDFB" />
+    </svg>
+  )
+}
+
+function TikTokIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      fill="none"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        d="M15.15 4c.27 2.17 1.55 3.63 3.65 4.08v3.05a7.34 7.34 0 0 1-3.52-.95v5.42A5.38 5.38 0 0 1 9.9 21a5.13 5.13 0 0 1-4.7-3.07 5.05 5.05 0 0 1 1.1-5.54 5.36 5.36 0 0 1 5.18-1.3v3.16a2.2 2.2 0 0 0-2.24.3 2.08 2.08 0 0 0-.83 2.03A2.2 2.2 0 0 0 10.6 18.3a2.16 2.16 0 0 0 2.13-2.23V4h2.42Z"
+        fill="currentColor"
+      />
+    </svg>
   )
 }
 

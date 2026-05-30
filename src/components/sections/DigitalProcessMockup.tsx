@@ -26,7 +26,7 @@ const processItems = [
   },
   {
     icon: CalendarCheck,
-    label: 'Recibes pauta o plan',
+    label: 'Recibes el plan',
     text: 'Con recomendaciones claras y aplicables en casa.',
   },
   {
@@ -40,12 +40,12 @@ export function DigitalProcessMockup() {
   return (
     <div className="relative">
       <div
-        className="absolute -inset-5 rounded-[2.5rem] bg-[linear-gradient(145deg,rgba(255,255,255,0.84),rgba(255,241,245,0.68))]"
+        className="absolute -inset-5 rounded-[2.5rem] bg-[linear-gradient(145deg,rgba(255,255,255,0.84),rgba(255,245,240,0.68))]"
         aria-hidden="true"
       />
       <div className="relative rounded-[2rem] border border-vetkathia-border bg-white/88 p-4 shadow-soft sm:p-5">
         <div className="grid gap-5 lg:grid-cols-[0.86fr_1.14fr] lg:items-stretch">
-          <div className="rounded-[1.65rem] border border-vetkathia-border bg-[linear-gradient(160deg,rgba(255,249,246,0.96),rgba(255,241,245,0.78))] p-4 shadow-card sm:p-5">
+          <div className="rounded-[1.65rem] border border-vetkathia-border bg-[linear-gradient(160deg,rgba(255,249,246,0.96),rgba(255,245,240,0.78))] p-4 shadow-card sm:p-5">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em] text-vetkathia-primary-dark">

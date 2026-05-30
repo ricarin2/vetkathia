@@ -1,7 +1,7 @@
 export const aboutCredentials = {
   education: [],
   focus: 'Nutrición natural para perros y gatos',
-  licenseNumber: '',
+  licenseNumber: '6552476',
   publicExperience: '',
   role: 'Veterinaria',
 }
@@ -56,8 +56,8 @@ export const aboutTrustPillars = [
     title: 'Sin radicalismos',
   },
   {
-    text: 'La pauta debe poder aplicarse en casa, con cantidades, transición y ajustes según el caso.',
-    title: 'Pautas adaptadas',
+    text: 'El plan debe poder aplicarse en casa, con cantidades, transición y ajustes según el caso.',
+    title: 'Planes adaptados',
   },
   {
     text: 'No sustituye urgencias ni el seguimiento clínico habitual cuando hay patologías complejas.',
@@ -69,7 +69,7 @@ export const aboutBlocks = [
   {
     items: [
       'Valoro especie, etapa de vida, salud, alimentación actual y rutina familiar.',
-      'Busco pautas realistas, seguras y aplicables en el día a día.',
+      'Busco planes realistas, seguros y aplicables en el día a día.',
       'Trabajo sin radicalismos: natural no significa improvisado.',
     ],
     title: 'Mi enfoque',
@@ -87,7 +87,7 @@ export const aboutBlocks = [
     items: [
       'No prometo curas ni resultados garantizados.',
       'No sustituyo urgencias veterinarias ni el seguimiento de tu veterinario habitual.',
-      'No uso recetas universales ni pautas copiadas de internet.',
+      'No uso recetas universales ni planes copiados de internet.',
     ],
     title: 'Qué no hago',
   },

@@ -1,28 +1,31 @@
 export const plans = [
   {
     bestFor:
-      'Quieres una primera lectura profesional antes de invertir en una pauta completa.',
+      'Quieres orientación inicial antes de invertir en un plan de alimentación completo.',
     cta: 'Contratar valoración nutricional',
-    description: 'Para quien quiere claridad antes de cambiar nada.',
+    description:
+      'Para orientación inicial. No incluye un plan completo ni cantidades detalladas.',
     includes: [
-      'Cuestionario nutricional',
-      'Consulta online',
-      'Revisión de la alimentación actual',
+      'Cuestionario inicial',
+      'Revisión del caso',
       'Orientación profesional',
     ],
     name: 'Valoración Nutricional',
-    notIncludes: ['Menú completo', 'Cantidades detalladas', 'Seguimiento'],
+    notIncludes: [
+      'Plan de alimentación completo',
+      'Cantidades detalladas',
+      'Seguimiento posterior',
+    ],
     price: '59 €',
   },
   {
     bestFor:
-      'Quieres una pauta con cantidades, transición y recomendaciones que puedas aplicar.',
+      'Quieres un plan de alimentación completo con cantidades, transición y recomendaciones que puedas aplicar.',
     cta: 'Contratar plan personalizado',
-    description: 'Para quien quiere una pauta completa y aplicable.',
+    description: 'Para plan de alimentación completo con cantidades y transición.',
     includes: [
-      'Todo lo anterior',
-      'Plan nutricional individual',
-      'Cantidades y pautas',
+      'Plan de alimentación individual',
+      'Cantidades',
       'Guía de transición',
       'Recomendaciones prácticas',
     ],
@@ -37,11 +40,11 @@ export const plans = [
     cta: 'Contratar acompañamiento',
     description: 'Para quien quiere aplicar el cambio con más seguridad.',
     includes: [
-      'Todo lo anterior',
+      'Plan de alimentación individual',
+      'Cantidades',
+      'Guía de transición',
       'Revisión posterior',
       'Ajustes del plan',
-      'Seguimiento ampliado',
-      'Canal de dudas definido',
     ],
     name: 'Plan con Acompañamiento',
     price: '129 €',
@@ -57,7 +60,7 @@ export const plansFaq = [
   },
   {
     content:
-      'El plan personalizado y el plan con acompañamiento incluyen cantidades y pautas claras. La valoración inicial no incluye un menú completo ni cantidades detalladas.',
+      'El plan personalizado y el plan con acompañamiento incluyen cantidades y un plan de alimentación claro. La valoración inicial no incluye un plan completo ni cantidades detalladas.',
     id: 'cantidades',
     title: '¿El plan incluye cantidades?',
   },
@@ -69,7 +72,7 @@ export const plansFaq = [
   },
   {
     content:
-      'Sí, en el plan con acompañamiento. El plan personalizado incluye la pauta, y el seguimiento ampliado queda reservado para el plan superior.',
+      'Sí, en el plan con acompañamiento. El plan personalizado incluye el plan de alimentación, y el seguimiento ampliado queda reservado para el plan superior.',
     id: 'seguimiento',
     title: '¿Hay seguimiento?',
   },
@@ -81,13 +84,13 @@ export const plansFaq = [
   },
   {
     content:
-      'Sí. La consulta es online para revisar la información, resolver dudas y orientar la pauta de forma práctica.',
+      'Sí. La consulta es online para revisar la información, resolver dudas y orientar el plan de alimentación de forma práctica.',
     id: 'online',
     title: '¿La consulta es online?',
   },
   {
     content:
-      'Si buscas orientación inicial, empieza por la Valoración Nutricional. Si necesitas una pauta completa con cantidades y transición, elige el Plan Personalizado. Si quieres revisión posterior y ajustes, elige Acompañamiento.',
+      'Si buscas orientación inicial, empieza por la Valoración Nutricional. Si necesitas un plan de alimentación completo con cantidades y transición, elige el Plan Personalizado. Si quieres revisión posterior y ajustes, elige Acompañamiento.',
     id: 'no-se-plan',
     title: '¿Qué plan elijo si tengo dudas?',
   },

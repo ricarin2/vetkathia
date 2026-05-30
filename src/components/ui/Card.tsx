@@ -12,9 +12,9 @@ type CardProps = HTMLAttributes<HTMLDivElement> & {
 }
 
 const toneClasses: Record<CardTone, string> = {
-  default: 'border-vetkathia-border/90 bg-white',
-  warm: 'border-vetkathia-border/90 bg-vetkathia-surface',
-  highlight: 'border-vetkathia-primary bg-white shadow-soft',
+  default: 'border-vetkathia-border/55 bg-white/94',
+  warm: 'border-vetkathia-border/55 bg-[#FFFDFB]',
+  highlight: 'border-vetkathia-primary/24 bg-white shadow-soft',
 }
 
 export function Card({
@@ -27,7 +27,7 @@ export function Card({
   return (
     <div
       className={cn(
-        'rounded-[1.75rem] border p-5 shadow-card ring-1 ring-white/70 sm:p-6',
+        'rounded-[1.65rem] border p-5 shadow-card ring-1 ring-white/55 sm:p-6',
         interactive &&
           'transition-[border-color,box-shadow,transform] duration-[260ms] ease-out hover:-translate-y-0.5 hover:border-vetkathia-primary/45 hover:shadow-soft focus-within:border-vetkathia-primary/45 focus-within:shadow-soft motion-reduce:transition-none motion-reduce:hover:translate-y-0',
         toneClasses[tone],

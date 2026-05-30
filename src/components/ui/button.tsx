@@ -33,9 +33,9 @@ const variantClasses: Record<VetKathiaButtonVariant, string> = {
   primary:
     'bg-vetkathia-primary text-white shadow-[0_18px_40px_rgba(232,62,115,0.24)] hover:bg-vetkathia-primary-dark hover:shadow-[0_20px_48px_rgba(190,24,93,0.26)]',
   secondary:
-    'bg-vetkathia-surface text-vetkathia-text hover:bg-vetkathia-border hover:shadow-card',
+    'bg-[#FFFDFB] text-vetkathia-text ring-1 ring-vetkathia-border/55 hover:bg-vetkathia-surface hover:shadow-card',
   outline:
-    'border border-vetkathia-border bg-white text-vetkathia-text hover:border-vetkathia-primary hover:bg-vetkathia-background hover:text-vetkathia-primary-dark hover:shadow-card',
+    'border border-vetkathia-border/70 bg-white text-vetkathia-text hover:border-vetkathia-primary/55 hover:bg-vetkathia-background hover:text-vetkathia-primary-dark hover:shadow-card',
   ghost:
     'bg-transparent text-vetkathia-text hover:bg-vetkathia-surface hover:text-vetkathia-primary-dark',
 }

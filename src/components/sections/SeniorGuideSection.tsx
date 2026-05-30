@@ -12,7 +12,7 @@ export function SeniorGuideSection() {
           tone="highlight"
         >
           <div
-            className="absolute inset-0 bg-[radial-gradient(circle_at_12%_20%,rgba(232,62,115,0.1),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.96),rgba(255,241,245,0.78))]"
+            className="absolute inset-0 bg-[radial-gradient(circle_at_12%_20%,rgba(232,62,115,0.1),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.96),rgba(255,245,240,0.78))]"
             aria-hidden="true"
           />
           <div className="relative grid gap-8 p-5 sm:p-8 lg:grid-cols-[1fr_0.72fr] lg:items-center lg:p-10">

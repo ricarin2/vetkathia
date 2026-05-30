@@ -5,6 +5,8 @@ export type TestimonialCase = {
   ageLabel?: string
   caseType: string
   shortQuote: string
+  homeQuote?: string
+  quoteMode?: 'literal' | 'summary'
   guardianLabel: string
   context: string
   approach: string
@@ -19,6 +21,91 @@ export type TestimonialCase = {
 export const testimonialCases: TestimonialCase[] = [
   {
     approach:
+      'Se revisó la alimentación de partida y se planteó una alternativa nutricional más tolerable para su caso.',
+    caseType: 'Digestión sensible',
+    consentNotes:
+      'Permiso aportado por la familia para publicar la historia.',
+    context:
+      'Su familia buscaba una alternativa porque no toleraba bien distintos piensos.',
+    guardianLabel: 'Liz J. · Tutora de Tirma',
+    hasConsent: true,
+    homeQuote:
+      'Ahora la noto más activa, hace bien sus caquitas y estoy muy contenta.',
+    id: 'tirma',
+    observedChange:
+      'Su familia indicó más actividad, mejores heces y mayor bienestar percibido.',
+    petName: 'Tirma',
+    quoteMode: 'literal',
+    shortQuote:
+      'A mi perro, una pastor alemán de 3 años, no le sentaba bien ningún pienso. Siempre terminaba por tener el estómago flojo, daba igual el pienso. Me recomendaron probar con una nutricionista canina y aquí estoy muy contenta. La perra ahora la noto más activa, hace bien sus caquitas y contenta estoy yo.',
+    species: 'perro',
+    ageLabel: '3 años',
+  },
+  {
+    approach:
+      'Se revisó la alimentación previa y se trabajó una dieta cocinada adaptada al caso.',
+    caseType: 'Diarreas recurrentes',
+    consentNotes:
+      'Permiso aportado por la familia. Se publica como resumen porque el texto original menciona otro nombre profesional.',
+    context:
+      'Caso con problemas digestivos asociados a distintos piensos antes de revisar la alimentación.',
+    guardianLabel: 'Alberto A. · Tutor de Thunder',
+    hasConsent: true,
+    homeQuote:
+      'Con la dieta cocinada, su familia refirió una mejora clara de las diarreas.',
+    id: 'thunder',
+    observedChange:
+      'Su familia refirió una mejora clara de las diarreas tras empezar la dieta cocinada.',
+    petName: 'Thunder',
+    quoteMode: 'summary',
+    shortQuote:
+      'La familia de Thunder estaba preocupada por diarreas recurrentes asociadas a distintos piensos. Tras revisar la alimentación y aplicar una dieta cocinada, refirió una mejora clara.',
+    species: 'perro',
+  },
+  {
+    approach:
+      'Se ofreció orientación nutricional para que la familia pudiera tomar decisiones con más seguridad.',
+    caseType: 'Orientación nutricional',
+    consentNotes:
+      'Permiso aportado por la familia. Se publica como resumen porque el texto original menciona otro nombre profesional.',
+    context:
+      'Familia que buscaba orientación profesional para mejorar la alimentación.',
+    guardianLabel: 'Francisco R. · Tutor de Kenzo',
+    hasConsent: true,
+    homeQuote:
+      'Confiamos en sus conocimientos de nutrición canina y quedamos muy satisfechos.',
+    id: 'kenzo',
+    observedChange:
+      'Su familia expresó satisfacción con la orientación nutricional recibida.',
+    petName: 'Kenzo',
+    quoteMode: 'summary',
+    shortQuote:
+      'La familia de Kenzo buscaba orientación nutricional y destacó la confianza en los conocimientos de nutrición canina y la satisfacción con el acompañamiento.',
+    species: 'perro',
+  },
+  {
+    approach:
+      'Se acompañó la aplicación de cambios alimentarios de forma gradual y revisable.',
+    caseType: 'Aplicación del cambio',
+    consentNotes:
+      'Permiso aportado por la familia para publicar la historia.',
+    context:
+      'Perrita en proceso de aplicar cambios en su alimentación.',
+    guardianLabel: 'Sara F. · Tutora de Roma',
+    hasConsent: true,
+    homeQuote:
+      'Estamos poniendo todo en práctica y ha mejorado sus heces; se ve mucho mejor.',
+    id: 'roma',
+    observedChange:
+      'Su familia indicó mejoría de las heces y mejor aspecto general durante la aplicación.',
+    petName: 'Roma',
+    quoteMode: 'literal',
+    shortQuote:
+      'Estamos poniendo todo en práctica y la perrita ha mejorado sus heces y se ve mucho mejor.',
+    species: 'perro',
+  },
+  {
+    approach:
       'Se revisó alimentación actual, tolerancia digestiva, rutina y recomendaciones clínicas previas.',
     caseType: 'Digestión sensible / caso pancreático',
     consentNotes:
@@ -29,7 +116,7 @@ export const testimonialCases: TestimonialCase[] = [
     hasConsent: false,
     id: 'thor',
     observedChange:
-      'La familia reportó mejor comprensión de la pauta y una transición más ordenada.',
+      'La familia reportó mejor comprensión del plan y una transición más ordenada.',
     petName: 'Thor',
     shortQuote: 'Nos ayudó a entender cómo avanzar sin improvisar.',
     species: 'perro',
@@ -55,11 +142,11 @@ export const testimonialCases: TestimonialCase[] = [
   },
   {
     approach:
-      'Se planteó una pauta con foco en especie, hábitos de ingesta y necesidades propias del gato.',
-    caseType: 'Gato / pauta individual',
+      'Se planteó un plan con foco en especie, hábitos de ingesta y necesidades propias del gato.',
+    caseType: 'Gato / plan individual',
     consentNotes: 'Caso demo para visualizar diseño. Sustituir por caso real con permiso.',
     context:
-      'Caso de ejemplo para mostrar cómo se explicaría una pauta pensada para gato.',
+      'Caso de ejemplo para mostrar cómo se explicaría un plan pensado para gato.',
     guardianLabel: 'Formato demo',
     hasConsent: false,
     id: 'demo-milo',
@@ -74,7 +161,7 @@ export const testimonialCases: TestimonialCase[] = [
   {
     approach:
       'Se revisaron edad, rutina, alimentación actual y margen de cambios realista para casa.',
-    caseType: 'Senior / revisión de pauta',
+    caseType: 'Senior / revisión del plan',
     consentNotes: 'Caso demo para visualizar diseño. Sustituir por caso real con permiso.',
     context:
       'Caso de ejemplo para mostrar cómo se explicaría una revisión en etapa senior.',
@@ -83,7 +170,7 @@ export const testimonialCases: TestimonialCase[] = [
     id: 'demo-nala',
     isDemo: true,
     observedChange:
-      'Se muestra cómo podría explicarse una pauta adaptada a la rutina.',
+      'Se muestra cómo podría explicarse un plan adaptado a la rutina.',
     petName: 'Nala',
     shortQuote: 'Una forma clara de revisar su alimentación.',
     species: 'perro',
@@ -101,7 +188,7 @@ export const demoTestimonialCases = testimonialCases.filter(
 
 const demoCasesFlag = import.meta.env.VITE_SHOW_DEMO_CASES
 const shouldShowDemoCases =
-  import.meta.env.DEV && demoCasesFlag !== 'false'
+  import.meta.env.DEV && demoCasesFlag === 'true'
 
 export const hasPublicTestimonialCases = publicTestimonialCases.length > 0
 export const hasDemoTestimonialCases =
@@ -113,4 +200,4 @@ export const displayTestimonialCases = hasPublicTestimonialCases
     ? demoTestimonialCases
     : []
 
-export const homeTestimonialCases = displayTestimonialCases.slice(0, 3)
+export const homeTestimonialCases = displayTestimonialCases.slice(0, 4)

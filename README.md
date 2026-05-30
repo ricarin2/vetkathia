@@ -21,7 +21,8 @@ tráfico externo -> home/planes -> contratar plan -> pago seguro con Stripe
 
 La web muestra planes y precios antes del cuestionario. El cuestionario recoge
 la información inicial del caso una vez contratado el servicio y permite
-responder manualmente con la valoración, pauta o acompañamiento que corresponda.
+preparar la valoración, el plan de alimentación o el acompañamiento que
+corresponda.
 
 ## Flujo De Contratación Online
 
@@ -160,7 +161,7 @@ Carpetas principales:
 
 ```bash
 VITE_SITE_URL=
-VITE_CONTACT_EMAIL=
+VITE_CONTACT_EMAIL=vetkathia@gmail.com
 VITE_FORMSPREE_ENDPOINT=
 
 VITE_CHECKOUT_ENABLED=
@@ -198,9 +199,8 @@ STRIPE_PRICE_ACCOMPANIMENT=
 
 - `VITE_SITE_URL`: URL pública del sitio para SEO, atribución y retornos de
   integración.
-- `VITE_CONTACT_EMAIL`: email público de contacto legal/operativo. Si está
-  vacío, el footer muestra un texto neutro y la contratación real queda
-  bloqueada aunque Stripe esté configurado.
+- `VITE_CONTACT_EMAIL`: email público de contacto legal/operativo visible en
+  el footer. El contacto actual es `vetkathia@gmail.com`.
 - `VITE_FORMSPREE_ENDPOINT`: endpoint futuro para enviar solicitudes a
   Formspree o a un backend propio.
 - `VITE_CALENDLY_ENABLED`: activa la agenda online cuando vale `true`.

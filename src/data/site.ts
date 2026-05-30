@@ -35,7 +35,6 @@ export const siteConfig: {
   description: string
   contact: {
     email: string
-    fallback: string
   }
   socialLinks?: SiteSocialLink[]
   newsletter?: SiteNewsletter
@@ -53,8 +52,6 @@ export const siteConfig: {
     'Nutrición natural veterinaria online para perros y gatos, con valoración nutricional, planes personalizados y acompañamiento opcional.',
   contact: {
     email: integrations.contactEmail,
-    fallback:
-      'Contacto pendiente de configurar antes de activar contratación online.',
   },
   calendlyEnabled: integrations.calendlyEnabled,
   calendlyValuationUrl: integrations.calendlyUrls.valuation,
@@ -96,6 +93,14 @@ export const siteConfig: {
       href: 'https://www.facebook.com/vetkathia',
       label: 'Facebook',
     },
+    ...(integrations.youtubeUrl.trim()
+      ? [
+          {
+            href: integrations.youtubeUrl.trim(),
+            label: 'YouTube' as const,
+          },
+        ]
+      : []),
   ],
   newsletter: {
     description:
@@ -109,7 +114,6 @@ export const siteConfig: {
 
 export const mainNavigation = [
   { href: '/#nutricion', label: 'Nutrición' },
-  { href: '/#como-funciona', label: 'Cómo funciona' },
   { href: '/#planes', label: 'Planes' },
   { href: '/sobre-mi', label: 'Sobre mí' },
   { href: '/faq', label: 'FAQ' },

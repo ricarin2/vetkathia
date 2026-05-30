@@ -39,11 +39,11 @@ export const symptomOptions = [
 ]
 
 export const nextSteps = [
-  'Eliges el plan.',
-  'Paga el plan de forma segura.',
-  'Rellenas el cuestionario.',
-  'Reserva tu cita online si corresponde.',
-  'Recibes valoración, pauta o seguimiento según corresponda.',
+  'Revisaré la información enviada.',
+  'Si falta algún dato importante, te lo pediré.',
+  'Confirmarás o completarás la reserva online si queda pendiente.',
+  'Prepararé la valoración, el plan de alimentación o el acompañamiento según el plan contratado.',
+  'Si detecto signos que requieren atención clínica presencial, te lo indicaré.',
 ]
 
 export const caseConcernToMainReason: Record<string, string> = {

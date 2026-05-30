@@ -11,9 +11,9 @@ type BadgeProps = HTMLAttributes<HTMLSpanElement> & {
 }
 
 const toneClasses: Record<BadgeTone, string> = {
-  default: 'border-vetkathia-border bg-white text-vetkathia-text',
+  default: 'border-vetkathia-border/65 bg-white text-vetkathia-text',
   primary: 'border-vetkathia-primary-dark bg-vetkathia-primary-dark text-white',
-  soft: 'border-vetkathia-border bg-vetkathia-surface text-vetkathia-primary-dark',
+  soft: 'border-vetkathia-border/55 bg-[#FFFDFB] text-vetkathia-primary-dark',
 }
 
 export function Badge({

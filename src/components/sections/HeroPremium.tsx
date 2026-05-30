@@ -1,4 +1,5 @@
 import {
+  ArrowRight,
   ClipboardCheck,
   HeartPulse,
   ShieldCheck,
@@ -8,6 +9,8 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { type ComponentType } from 'react'
 
 import { cn } from '@/lib/utils'
+import { scrollToHashTarget } from '../../lib/scrollToHashTarget'
+import { Button } from '../ui'
 
 const trustItems = [
   {
@@ -16,9 +19,9 @@ const trustItems = [
     label: 'Criterio veterinario',
   },
   {
-    description: 'Una pauta adaptada a su caso, no una receta estándar.',
+    description: 'Un plan adaptado a su caso, no una receta estándar.',
     icon: ClipboardCheck,
-    label: 'Dieta personalizada',
+    label: 'Plan de alimentación personalizado',
   },
   {
     description: 'Cada etapa se valora de forma distinta.',
@@ -105,7 +108,7 @@ export function HeroPremium({
       )}
     >
       <div
-        className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_10%_10%,rgba(232,62,115,0.12),transparent_30%),radial-gradient(ellipse_at_84%_20%,rgba(255,255,255,0.96),transparent_34%),linear-gradient(180deg,#FFF9F6_0%,#FFF1F5_100%)]"
+        className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_10%_10%,rgba(232,62,115,0.12),transparent_30%),radial-gradient(ellipse_at_84%_20%,rgba(255,255,255,0.96),transparent_34%),linear-gradient(180deg,#FFF9F6_0%,#FFF5F0_100%)]"
         aria-hidden="true"
       />
       <div
@@ -123,7 +126,7 @@ export function HeroPremium({
             className="inline-flex rounded-full border border-vetkathia-border/70 bg-white/80 px-3.5 py-2 text-xs font-semibold text-vetkathia-primary-dark shadow-card sm:px-4 sm:text-sm"
             variants={itemVariants}
           >
-            Nutrición veterinaria online
+            Nutrición natural veterinaria online
           </MotionDiv>
 
           <MotionH1
@@ -140,19 +143,26 @@ export function HeroPremium({
             className="mt-4 max-w-2xl text-[0.95rem] font-medium leading-7 text-vetkathia-text/85 sm:mt-5 sm:text-lg sm:leading-8"
             variants={itemVariants}
           >
-            Reviso qué come ahora tu perro o gato, su salud, digestión, edad y
-            rutina para ayudarte a elegir un plan de alimentación natural
-            seguro, realista y aplicable. Puede ser cocinado, mixto, BARF,
-            natural comercial o una transición gradual desde su alimentación
-            actual.
+            Te ayudo a mejorar la alimentación de tu perro o gato con un plan
+            de alimentación seguro, realista y adaptado a su especie, edad,
+            salud, digestión y rutina.
           </MotionP>
 
-          <MotionP
-            className="mt-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark"
+          <MotionDiv
+            className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center"
             variants={itemVariants}
           >
-            Servicio online · Pago seguro · Cita posterior
-          </MotionP>
+            <Button
+              className="min-h-12 px-5 text-base"
+              onClick={() => {
+                window.setTimeout(() => scrollToHashTarget('planes'), 0)
+              }}
+              rightIcon={<ArrowRight className="h-5 w-5" aria-hidden="true" />}
+              to="/#planes"
+            >
+              Ver planes y contratar
+            </Button>
+          </MotionDiv>
         </MotionDiv>
 
         <MotionDiv
@@ -210,16 +220,16 @@ export function HeroPremium({
         </MotionDiv>
       </div>
       <MotionDiv
-        className="mx-auto mt-5 max-w-7xl rounded-[1.45rem] border border-vetkathia-border/40 bg-[linear-gradient(135deg,rgba(255,249,246,0.92),rgba(255,241,245,0.7))] p-2.5 shadow-[0_18px_46px_rgba(59,39,36,0.055)] ring-1 ring-white/80 sm:mt-7 sm:rounded-[1.65rem] sm:p-3 lg:mt-8"
+        className="mx-auto mt-5 max-w-7xl rounded-[1.45rem] border border-vetkathia-border/40 bg-[linear-gradient(135deg,rgba(255,249,246,0.92),rgba(255,245,240,0.7))] p-2.5 shadow-[0_18px_46px_rgba(59,39,36,0.055)] ring-1 ring-white/80 sm:mt-7 sm:rounded-[1.65rem] sm:p-3 lg:mt-8"
         variants={itemVariants}
         {...motionProps}
       >
         <div className="mb-2 flex flex-col gap-1 px-1.5 sm:mb-3 sm:flex-row sm:items-end sm:justify-between sm:px-2">
           <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-vetkathia-primary-dark">
-            Cómo se decide la pauta
+            Cómo se decide el plan de alimentación
           </p>
           <p className="max-w-2xl text-sm font-semibold leading-6 text-vetkathia-muted">
-            La valoración no parte de una dieta de moda, sino del caso real de
+            El plan de alimentación no parte de una moda, sino del caso real de
             tu perro o gato.
           </p>
         </div>
