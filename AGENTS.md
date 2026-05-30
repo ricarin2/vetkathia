@@ -85,6 +85,14 @@ Mensaje clave:
 - No usar imágenes con copyright.
 - Preparar placeholders para imágenes.
 
+## Git Workflow
+- Trabajar siempre sobre `main`; no crear ramas nuevas para este proyecto salvo
+  petición explícita.
+- Después de completar cambios solicitados, ejecutar las validaciones
+  correspondientes, hacer commit y subir los cambios a `origin/main`.
+- No dejar cambios locales sin subir al terminar una iteración, salvo que el
+  usuario pida explícitamente no hacer commit o no hacer push.
+
 ## Conversion
 Cada página debe responder:
 1. Qué hace VetKathia.

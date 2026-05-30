@@ -7,7 +7,7 @@ import {
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
 
-import { aboutTrustPillars, kathiaProfile } from '../data/about'
+import { kathiaProfile } from '../data/about'
 import {
   homeFaq,
   trustBenefits,
@@ -69,8 +69,6 @@ function KathiaProfileVisual() {
   )
 }
 
-const aboutBadges = ['Veterinaria', 'Nutrición natural', 'Perros y gatos']
-
 const visibleHomeFaqIds = [
   'no-se-plan',
   'pago-web',
@@ -83,19 +81,20 @@ const visibleHomeFaqBase = visibleHomeFaqIds
   .map((id) => homeFaq.find((item) => item.id === id))
   .filter(Boolean) as typeof homeFaq
 
-const homeAboutPillarTitles = new Set([
-  'Enfoque veterinario',
-  'Sin radicalismos',
-  'Límites del servicio',
-])
-
-const homeAboutPillars = aboutTrustPillars.filter((pillar) =>
-  homeAboutPillarTitles.has(pillar.title),
-)
-
-function getHomeAboutPillarTitle(title: string) {
-  return title === 'Límites del servicio' ? 'Límites claros' : title
-}
+const homeAboutMethod = [
+  {
+    text: 'Antes de recomendar cambios, reviso qué come, cómo digiere, su edad, salud y rutina.',
+    title: 'Antes de recomendar',
+  },
+  {
+    text: 'No fuerzo una única dieta. Busco una opción natural que encaje con el animal y con tu día a día.',
+    title: 'Sin dietas únicas',
+  },
+  {
+    text: 'Si veo señales que requieren consulta presencial o seguimiento clínico, te lo diré con claridad.',
+    title: 'Criterio y límites claros',
+  },
+]
 
 export function HomePage() {
   const trustRef = useRef<HTMLDivElement | null>(null)
@@ -288,35 +287,29 @@ export function HomePage() {
                 </p>
               ) : null}
 
-              <div className="mt-5 flex flex-wrap gap-2">
-                {aboutBadges.map((badge) => (
-                  <span
-                    className="rounded-full bg-vetkathia-surface/66 px-3.5 py-2 text-sm font-bold text-vetkathia-text ring-1 ring-vetkathia-border/24"
-                    key={badge}
-                  >
-                    {badge}
-                  </span>
-                ))}
-              </div>
-
               <div className="mx-auto mt-6 w-full max-w-[17rem] sm:max-w-xs lg:hidden">
                 <KathiaProfileVisual />
               </div>
 
-              <div className="mt-6 grid gap-3 lg:grid-cols-3">
-                {homeAboutPillars.map((pillar) => (
-                  <div
-                    className="border-l border-vetkathia-border/70 py-1 pl-4"
-                    key={pillar.title}
-                  >
-                    <p className="font-sans text-base font-black leading-tight text-vetkathia-text">
-                      {getHomeAboutPillarTitle(pillar.title)}
-                    </p>
-                    <p className="mt-2 text-sm leading-6 text-vetkathia-muted">
-                      {pillar.text}
-                    </p>
-                  </div>
-                ))}
+              <div className="mt-6 max-w-3xl border-y border-vetkathia-border/50">
+                <p className="pt-4 text-xs font-extrabold uppercase tracking-[0.16em] text-vetkathia-primary-dark">
+                  Mi forma de trabajar
+                </p>
+                <div className="mt-2 divide-y divide-vetkathia-border/45">
+                  {homeAboutMethod.map((item, index) => (
+                    <div
+                      className="grid gap-2 py-4 sm:grid-cols-[6.75rem_1fr] sm:gap-5"
+                      key={item.title}
+                    >
+                      <p className="font-sans text-sm font-black leading-6 text-vetkathia-text">
+                        {String(index + 1).padStart(2, '0')}. {item.title}
+                      </p>
+                      <p className="text-sm leading-6 text-vetkathia-muted">
+                        {item.text}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div className="mt-7 flex flex-col gap-3 sm:flex-row">
