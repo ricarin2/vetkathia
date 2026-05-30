@@ -34,6 +34,8 @@ export const testimonialCases: TestimonialCase[] = [
     id: 'tirma',
     observedChange:
       'Su familia indicó más actividad, mejores heces y mayor bienestar percibido.',
+    photoAlt: 'Tirma, perra pastor alemán compartida por su familia',
+    photoSrc: '/images/cases/tirma.png',
     petName: 'Tirma',
     quoteMode: 'literal',
     shortQuote:
@@ -56,6 +58,8 @@ export const testimonialCases: TestimonialCase[] = [
     id: 'thunder',
     observedChange:
       'Su familia refirió una mejora clara de las diarreas tras empezar la dieta cocinada.',
+    photoAlt: 'Thunder, perro compartido por su familia',
+    photoSrc: '/images/cases/thunder.png',
     petName: 'Thunder',
     quoteMode: 'summary',
     shortQuote:
@@ -77,6 +81,8 @@ export const testimonialCases: TestimonialCase[] = [
     id: 'kenzo',
     observedChange:
       'Su familia expresó satisfacción con la orientación nutricional recibida.',
+    photoAlt: 'Kenzo, perro compartido por su familia',
+    photoSrc: '/images/cases/kenzo.png',
     petName: 'Kenzo',
     quoteMode: 'summary',
     shortQuote:
@@ -98,6 +104,8 @@ export const testimonialCases: TestimonialCase[] = [
     id: 'roma',
     observedChange:
       'Su familia indicó mejoría de las heces y mejor aspecto general durante la aplicación.',
+    photoAlt: 'Roma, perrita compartida por su familia',
+    photoSrc: '/images/cases/roma.png',
     petName: 'Roma',
     quoteMode: 'literal',
     shortQuote:

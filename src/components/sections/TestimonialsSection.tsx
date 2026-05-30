@@ -138,7 +138,7 @@ function TestimonialPreviewCard({
     <motion.article
       animate="rest"
       className={cn(
-        'group flex h-full flex-col rounded-[1.25rem] border border-white/72 bg-white/78 p-4 ring-1 ring-white/70 backdrop-blur transition-[background-color,box-shadow] duration-300 hover:bg-white hover:shadow-card lg:min-h-[19rem] lg:p-5',
+        'group flex h-[25.5rem] flex-col rounded-[1.25rem] border border-white/72 bg-white/78 p-4 ring-1 ring-white/70 backdrop-blur transition-[background-color,box-shadow] duration-300 hover:bg-white hover:shadow-card lg:h-auto lg:min-h-[19rem] lg:p-5',
         className,
       )}
       initial="rest"
