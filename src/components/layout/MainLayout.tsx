@@ -10,13 +10,21 @@ export function MainLayout() {
   const { hash, pathname } = useLocation()
 
   useEffect(() => {
-    if (!hash) return
-
     const frame = window.requestAnimationFrame(() => {
-      scrollToHashTarget(hash)
+      if (hash) {
+        scrollToHashTarget(hash)
+        return
+      }
+
+      window.scrollTo({
+        left: 0,
+        top: 0,
+      })
     })
     const timeout = window.setTimeout(() => {
-      scrollToHashTarget(hash)
+      if (hash) {
+        scrollToHashTarget(hash)
+      }
     }, 80)
 
     return () => {
