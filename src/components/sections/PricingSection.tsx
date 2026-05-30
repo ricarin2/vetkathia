@@ -158,6 +158,10 @@ export function PricingSection() {
           </div>
         </div>
 
+        <p className="mt-4 inline-flex rounded-full bg-white/72 px-3.5 py-2 text-sm font-bold leading-5 text-vetkathia-primary-dark ring-1 ring-vetkathia-border/30">
+          Pago seguro · Cuestionario inicial · Revisión del caso
+        </p>
+
         <div className="relative mt-7 grid items-stretch gap-4 sm:mt-8 lg:mt-9 lg:grid-cols-3 lg:gap-5">
           {homePlans.map((plan, index) => {
             const visual = visualConfigs[index] ?? visualConfigs[0]

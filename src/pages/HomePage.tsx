@@ -5,7 +5,6 @@ import {
   Stethoscope,
 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router'
 
 import { kathiaProfile } from '../data/about'
 import {
@@ -126,8 +125,7 @@ export function HomePage() {
       <HeroPremium id="nutricion" />
 
       <Section
-        className="overflow-hidden py-12 sm:py-16 lg:py-20"
-        data-hide-mobile-sticky
+        className="overflow-hidden py-8 sm:py-16 lg:py-20"
         tone="surface"
       >
         <Container>
@@ -143,7 +141,7 @@ export function HomePage() {
               className="absolute -right-12 -top-12 h-48 w-48 rounded-full bg-vetkathia-primary/8 blur-3xl"
               aria-hidden="true"
             />
-            <div className="relative grid gap-7 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
+            <div className="relative grid gap-5 lg:grid-cols-[0.82fr_1.18fr] lg:items-center lg:gap-7">
               <div
                 className="max-w-xl"
                 data-reveal
@@ -151,11 +149,16 @@ export function HomePage() {
                 <p className="text-[0.72rem] font-extrabold uppercase tracking-[0.2em] text-vetkathia-primary-dark">
                   Antes de cambiar su alimentación
                 </p>
-                <h2 className="mt-3 font-sans text-[2.05rem] font-black leading-[1.03] text-vetkathia-text sm:text-5xl lg:text-[3.35rem]">
+                <h2 className="mt-3 font-sans text-[1.8rem] font-black leading-[1.05] text-vetkathia-text sm:text-5xl lg:text-[3.35rem]">
                   Mejorar su alimentación debería darte tranquilidad, no más
                   dudas.
                 </h2>
-                <p className="mt-5 max-w-lg text-base leading-7 text-vetkathia-muted sm:text-lg sm:leading-8">
+                <p className="mt-4 max-w-lg text-base leading-7 text-vetkathia-muted sm:hidden">
+                  Entre pienso, croquetas, BARF, comida cocinada y recetas de
+                  internet, es normal no saber por dónde empezar. Primero
+                  reviso su caso; después defino un plan realista.
+                </p>
+                <p className="mt-5 hidden max-w-lg text-lg leading-8 text-vetkathia-muted sm:block">
                   Entre pienso, croquetas o alimento seco, BARF, comida
                   cocinada, suplementos y recetas de internet, es normal no
                   saber por dónde empezar. Aquí no se cambia por moda: primero
@@ -169,32 +172,32 @@ export function HomePage() {
                   className="absolute left-0 right-0 top-11 hidden h-px bg-vetkathia-primary/22 lg:block"
                   aria-hidden="true"
                 />
-                <ol className="grid gap-5 lg:grid-cols-3 lg:gap-6">
+                <ol className="grid gap-3 lg:grid-cols-3 lg:gap-6">
                   {trustBenefits.map((benefit, index) => {
                     const icons = [ClipboardList, Stethoscope, ShieldCheck]
                     const Icon = icons[index]
 
                     return (
                       <li
-                        className="relative grid grid-cols-[auto_1fr] gap-4 lg:block"
+                        className="relative grid grid-cols-[auto_1fr] gap-3 lg:block"
                         data-reveal
                         key={benefit.title}
                       >
                         <div
-                          className="absolute left-5 top-11 h-[calc(100%+1.25rem)] w-px bg-vetkathia-primary/20 lg:hidden"
+                          className="absolute left-4 top-10 h-[calc(100%+0.75rem)] w-px bg-vetkathia-primary/20 lg:hidden"
                           aria-hidden="true"
                         />
-                        <span className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white text-vetkathia-primary-dark shadow-[0_10px_24px_rgba(59,39,36,0.055)] ring-1 ring-vetkathia-border/35 lg:h-12 lg:w-12">
+                        <span className="relative z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white text-vetkathia-primary-dark shadow-[0_10px_24px_rgba(59,39,36,0.055)] ring-1 ring-vetkathia-border/35 lg:h-12 lg:w-12">
                           <Icon className="h-5 w-5" aria-hidden="true" />
                         </span>
                         <div className="pb-2 lg:mt-5 lg:pb-0">
                           <p className="text-xs font-extrabold tracking-[0.2em] text-vetkathia-primary-dark/70">
                             0{index + 1}
                           </p>
-                          <h3 className="mt-2 font-sans text-lg font-black leading-tight text-vetkathia-text sm:text-xl">
+                          <h3 className="mt-1 font-sans text-base font-black leading-tight text-vetkathia-text sm:mt-2 sm:text-xl">
                             {benefit.title}
                           </h3>
-                          <p className="mt-2 text-sm leading-6 text-vetkathia-muted">
+                          <p className="mt-1 text-sm leading-6 text-vetkathia-muted sm:mt-2">
                             {benefit.description}
                           </p>
                         </div>
@@ -208,10 +211,11 @@ export function HomePage() {
         </Container>
       </Section>
 
+      <PricingSection />
+
       <Section
         id="no-es-solo-barf"
         className="overflow-hidden bg-[linear-gradient(180deg,#FFFDFB_0%,#FFF9F6_100%)]"
-        data-hide-mobile-sticky
         spacing="compact"
         tone="cream"
       >
@@ -235,7 +239,7 @@ export function HomePage() {
               que ya come.
             </p>
           </div>
-          <figure className="overflow-hidden rounded-[1.7rem] bg-white/72 shadow-[0_18px_46px_rgba(59,39,36,0.045)] ring-1 ring-vetkathia-border/24">
+          <figure className="hidden overflow-hidden rounded-[1.7rem] bg-white/72 shadow-[0_18px_46px_rgba(59,39,36,0.045)] ring-1 ring-vetkathia-border/24 lg:block">
             <img
               alt="Cuenco de comida natural para perro y gato con ingredientes frescos"
               className="aspect-[4/3] w-full bg-vetkathia-surface object-cover object-[50%_34%]"
@@ -250,8 +254,6 @@ export function HomePage() {
           </figure>
         </Container>
       </Section>
-
-      <PricingSection />
 
       <Section
         id="sobre-mi"
@@ -324,16 +326,18 @@ export function HomePage() {
                 >
                   Conocer mi enfoque
                 </Button>
-                <Button
-                  className="hidden sm:w-auto lg:inline-flex"
-                  fullWidth
-                  onClick={() =>
-                    trackCTAClick('Ver planes', 'home sobre mi')
-                  }
-                  to="/#planes"
-                >
-                  Ver planes
-                </Button>
+                <div className="hidden lg:block">
+                  <Button
+                    className="sm:w-auto"
+                    fullWidth
+                    onClick={() =>
+                      trackCTAClick('Ver planes', 'home sobre mi')
+                    }
+                    to="/#planes"
+                  >
+                    Ver planes
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -372,36 +376,23 @@ export function HomePage() {
         tone="surface"
       >
         <Container size="md">
-          <div className="group relative overflow-hidden rounded-[1.8rem] bg-white/72 px-5 py-8 text-center shadow-[0_18px_48px_rgba(59,39,36,0.055)] ring-1 ring-white/75 transition-[box-shadow,transform] duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_56px_rgba(59,39,36,0.08)] sm:px-8 lg:px-10">
+          <div className="relative overflow-hidden rounded-[1.8rem] bg-white/72 px-5 py-8 text-center shadow-[0_18px_48px_rgba(59,39,36,0.055)] ring-1 ring-white/75 sm:px-8 lg:px-10">
             <div
               className="absolute inset-0 bg-[linear-gradient(145deg,rgba(255,255,255,0.96),rgba(255,245,240,0.58))]"
               aria-hidden="true"
             />
-            <Link
-              aria-label="Ver planes y contratar"
-              className="absolute inset-0 z-10 rounded-[1.8rem] focus:outline-none focus:ring-4 focus:ring-vetkathia-primary-dark/25"
-              onClick={() => {
-                trackCTAClick('Ver planes y contratar', 'home final card')
-                window.setTimeout(() => scrollToHashTarget('planes'), 0)
-              }}
-              to="/#planes"
-            />
-            <div className="pointer-events-none relative z-20">
+            <div className="relative z-20">
               <h2 className="mx-auto max-w-3xl font-sans text-2xl font-black leading-tight text-vetkathia-text sm:text-3xl">
                 ¿Quieres saber qué plan de alimentación encaja mejor con tu
                 perro o gato?
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-vetkathia-muted sm:text-lg sm:leading-8">
-                Elige el plan nutricional que mejor se adapta a lo que
-                necesitas ahora. Después completarás el pago seguro, rellenarás
-                el cuestionario inicial y podrás reservar tu cita online.
-              </p>
-              <p className="mx-auto mt-3 max-w-2xl text-sm font-semibold leading-6 text-vetkathia-primary-dark">
-                Servicio online de nutrición veterinaria. No es un servicio de
-                urgencias.
+                Elige el plan que encaja con lo que necesitas ahora. Después
+                del pago completarás el cuestionario inicial para que Kathia
+                revise el caso con contexto.
               </p>
               <Button
-                className="pointer-events-auto mt-7"
+                className="mt-7"
                 onClick={() => {
                   trackCTAClick('Ver planes y contratar', 'home final')
                   window.setTimeout(() => scrollToHashTarget('planes'), 0)

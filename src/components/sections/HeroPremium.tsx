@@ -14,24 +14,24 @@ import { Button } from '../ui'
 
 const trustItems = [
   {
-    description: 'Se revisan salud, edad y alimentación actual.',
+    description: 'Salud, edad y alimentación actual.',
     icon: Stethoscope,
-    label: 'Criterio veterinario',
+    label: 'Caso real',
   },
   {
-    description: 'Un plan adaptado a su caso, no una receta estándar.',
+    description: 'Sin recetas estándar.',
     icon: ClipboardCheck,
-    label: 'Plan de alimentación personalizado',
+    label: 'Plan adaptado',
   },
   {
-    description: 'Cada etapa se valora de forma distinta.',
+    description: 'Cada etapa se valora distinto.',
     icon: HeartPulse,
-    label: 'Todas las edades',
+    label: 'Edad y especie',
   },
   {
-    description: 'Cambios graduales y aplicables en casa.',
+    description: 'Aplicable en casa.',
     icon: ShieldCheck,
-    label: 'Transición segura',
+    label: 'Cambio gradual',
   },
 ]
 
@@ -220,36 +220,36 @@ export function HeroPremium({
         </MotionDiv>
       </div>
       <MotionDiv
-        className="mx-auto mt-5 max-w-7xl rounded-[1.45rem] border border-vetkathia-border/40 bg-[linear-gradient(135deg,rgba(255,249,246,0.92),rgba(255,245,240,0.7))] p-2.5 shadow-[0_18px_46px_rgba(59,39,36,0.055)] ring-1 ring-white/80 sm:mt-7 sm:rounded-[1.65rem] sm:p-3 lg:mt-8"
+        className="mx-auto mt-4 max-w-7xl rounded-[1.25rem] border border-vetkathia-border/34 bg-[linear-gradient(135deg,rgba(255,249,246,0.92),rgba(255,245,240,0.7))] p-2 shadow-[0_18px_46px_rgba(59,39,36,0.045)] ring-1 ring-white/80 sm:mt-7 sm:rounded-[1.65rem] sm:p-3 lg:mt-8"
         variants={itemVariants}
         {...motionProps}
       >
-        <div className="mb-2 flex flex-col gap-1 px-1.5 sm:mb-3 sm:flex-row sm:items-end sm:justify-between sm:px-2">
+        <div className="mb-2 flex flex-col gap-1 px-1 sm:mb-3 sm:flex-row sm:items-end sm:justify-between sm:px-2">
           <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-vetkathia-primary-dark">
             Cómo se decide el plan de alimentación
           </p>
-          <p className="max-w-2xl text-sm font-semibold leading-6 text-vetkathia-muted">
+          <p className="hidden max-w-2xl text-sm font-semibold leading-6 text-vetkathia-muted sm:block">
             El plan de alimentación no parte de una moda, sino del caso real de
             tu perro o gato.
           </p>
         </div>
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-2.5 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-2 sm:gap-2.5 lg:grid-cols-4">
           {trustItems.map((item) => {
             const Icon = item.icon
 
             return (
               <div
-                className="flex items-start gap-2.5 rounded-[1rem] bg-white/68 px-3 py-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.74)] sm:rounded-[1.15rem] sm:px-3.5 sm:py-3.5"
+                className="flex items-center gap-2 rounded-[0.95rem] bg-white/68 px-2.5 py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.74)] sm:items-start sm:gap-2.5 sm:rounded-[1.15rem] sm:px-3.5 sm:py-3.5"
                 key={item.label}
               >
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-vetkathia-surface text-vetkathia-primary-dark shadow-[0_8px_18px_rgba(232,62,115,0.07)]">
-                  <Icon className="h-4 w-4" aria-hidden="true" />
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-vetkathia-surface text-vetkathia-primary-dark shadow-[0_8px_18px_rgba(232,62,115,0.07)] sm:h-8 sm:w-8">
+                  <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
                 </span>
                 <div>
-                  <p className="text-sm font-black leading-5 text-vetkathia-text">
+                  <p className="text-sm font-black leading-5 text-vetkathia-text sm:text-sm">
                     {item.label}
                   </p>
-                  <p className="mt-1 text-xs font-medium leading-5 text-vetkathia-muted">
+                  <p className="mt-1 hidden text-xs font-medium leading-5 text-vetkathia-muted sm:block">
                     {item.description}
                   </p>
                 </div>

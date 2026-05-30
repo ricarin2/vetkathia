@@ -1,6 +1,6 @@
 import { ArrowRight, HelpCircle } from 'lucide-react'
 
-import { faqItems } from '../data/faq'
+import { faqCategories, faqItems } from '../data/faq'
 import { createFaqPageStructuredData } from '../data/structuredData'
 import { trackCTAClick, trackFAQOpen } from '../lib/analytics'
 import { SEOHead } from '../components/common/SEOHead'
@@ -50,12 +50,25 @@ export function FaqPage() {
 
       <Section className="pt-0">
         <Container>
-          <Accordion
-            className="mx-auto max-w-4xl"
-            defaultOpenFirst
-            items={faqItems}
-            onItemOpen={(item) => trackFAQOpen(item.title)}
-          />
+          <div className="mx-auto grid max-w-4xl gap-8">
+            {faqCategories.map((category, index) => (
+              <section key={category.id}>
+                <div className="mb-4">
+                  <p className="text-xs font-extrabold uppercase tracking-[0.16em] text-vetkathia-primary-dark">
+                    {category.title}
+                  </p>
+                  <p className="mt-2 max-w-2xl text-sm leading-6 text-vetkathia-muted sm:text-base sm:leading-7">
+                    {category.description}
+                  </p>
+                </div>
+                <Accordion
+                  defaultOpenFirst={index === 0}
+                  items={category.items}
+                  onItemOpen={(item) => trackFAQOpen(item.title)}
+                />
+              </section>
+            ))}
+          </div>
         </Container>
       </Section>
 

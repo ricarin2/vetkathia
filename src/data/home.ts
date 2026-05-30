@@ -16,103 +16,6 @@ export const trustBenefits = [
   },
 ]
 
-export const guidedDecisionFactors = [
-  'Edad',
-  'Salud',
-  'Digestión',
-  'Rutina',
-  'Alimentación actual',
-  'Objetivo',
-]
-
-export const idealFor = [
-  'Tienes un perro o un gato y quieres mejorar su alimentación.',
-  'No sabes si su dieta actual cubre sus necesidades.',
-  'Quieres pasar a comida cocinada, natural o BARF con criterio.',
-  'Tu perro o gato tiene digestiones sensibles, sobrepeso o poca energía.',
-  'Tienes un gato y quieres un plan pensado para gatos, no adaptado desde un perro.',
-  'Tienes un animal senior y quieres adaptar su alimentación.',
-  'Buscas un plan claro y acompañamiento profesional.',
-]
-
-export const idealForProfiles = [
-  {
-    description: 'Tienes dudas sobre cantidades, transición o tipo de dieta.',
-    title: 'Quieres empezar con seguridad',
-  },
-  {
-    description:
-      'Digestiones delicadas, sobrepeso, poca energía o cambios que requieren calma.',
-    title: 'Tu animal es senior o sensible',
-  },
-  {
-    description:
-      'El plan debe pensarse para gatos, no adaptarse desde un perro.',
-    title: 'Tienes un gato',
-  },
-  {
-    description:
-      'Recomendaciones claras para casa, según tu rutina real.',
-    title: 'Buscas un plan aplicable',
-  },
-]
-
-export const methodSteps = [
-  {
-    description: 'Escoge el nivel de ayuda que necesita su caso.',
-    title: 'Elige el plan',
-  },
-  {
-    description: 'Stripe gestiona el pago del servicio de forma segura.',
-    title: 'Completa el pago seguro con Stripe',
-  },
-  {
-    description: 'Comparte alimentación, rutina, salud y objetivo para preparar la consulta.',
-    title: 'Rellena el cuestionario nutricional',
-  },
-  {
-    description: 'Elige el horario de la consulta online cuando la agenda esté configurada.',
-    title: 'Reserva tu cita online con Calendly',
-  },
-  {
-    description:
-      'Recibe valoración, plan de alimentación o acompañamiento según el plan contratado.',
-    title: 'Recibe la revisión del caso',
-  },
-]
-
-export const deliverables = [
-  'Revisión del punto de partida y de la alimentación actual.',
-  'Consulta online personalizada para resolver dudas.',
-  'Recomendación del tipo de alimentación que encaja mejor.',
-  'Plan de alimentación individual si eliges un plan completo.',
-  'Seguimiento según plan.',
-]
-
-export const prePlanTrustCards = [
-  {
-    description:
-      'Primero revisamos edad, salud, dieta actual, síntomas y rutina.',
-    title: 'Sin cambios a ciegas',
-  },
-  {
-    description:
-      'La recomendación debe poder aplicarse en casa, sin complicaciones innecesarias.',
-    title: 'Planes realistas',
-  },
-  {
-    description:
-      'No se trata de seguir una moda, sino de elegir una estrategia segura para su caso.',
-    title: 'Criterio veterinario',
-  },
-]
-
-export const familyStoriesPlaceholder = {
-  description:
-    'Cuando tengamos reseñas verificadas, aparecerán aquí con permiso de las familias.',
-  title: 'Experiencias reales',
-}
-
 export const homePlans = [
   {
     bestFor: 'Quieres orientación inicial antes de cambiar la alimentación.',
@@ -224,7 +127,7 @@ export const homeFaq = [
   },
   {
     content:
-      'Sí. Primero eliges el plan y completas el pago seguro. Después rellenas el cuestionario inicial y puedes reservar tu cita online. No necesitas enviar el caso antes de contratar.',
+      'Sí. Primero eliges plan y completas el pago. Después rellenas el cuestionario inicial. No se revisa el caso gratis antes de contratar.',
     id: 'pago-web',
     title: '¿Se paga antes de completar el cuestionario?',
   },
