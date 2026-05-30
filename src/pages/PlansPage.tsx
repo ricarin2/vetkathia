@@ -20,7 +20,6 @@ import {
 import { cn } from '../lib/cn'
 import {
   getPlanKeyFromName,
-  isCheckoutConfigured,
   planCtaLabels,
   type PlanKey,
 } from '../lib/planCheckout'
@@ -109,7 +108,6 @@ const mobilePlanOrderClasses: Record<PlanKey, string> = {
 export function PlansPage() {
   const heroRef = useRef<HTMLDivElement | null>(null)
   const planCardsRef = useRef<HTMLDivElement | null>(null)
-  const checkoutConfigured = isCheckoutConfigured()
 
   useEffect(() => {
     trackViewPlans()
@@ -225,14 +223,6 @@ export function PlansPage() {
               Contratar valoración nutricional
             </Button>
           </Card>
-
-          {import.meta.env.DEV && !checkoutConfigured ? (
-            <p className="mb-5 rounded-2xl bg-white/72 px-4 py-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark ring-1 ring-vetkathia-border/45">
-              Desarrollo: la contratación online todavía no está configurada.
-              Los botones llevan a la página de contratación para revisar el
-              flujo.
-            </p>
-          ) : null}
 
           <div
             className="grid gap-5 lg:grid-cols-3 lg:items-stretch"

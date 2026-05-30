@@ -12,11 +12,7 @@ import { motion, useReducedMotion, type Variants } from 'framer-motion'
 
 import { homePlans } from '../../data/home'
 import { trackCTAClick, trackPlanClick } from '../../lib/analytics'
-import {
-  getPlanKeyFromName,
-  isCheckoutConfigured,
-  type PlanKey,
-} from '../../lib/planCheckout'
+import { getPlanKeyFromName, type PlanKey } from '../../lib/planCheckout'
 import { Badge, Button, Container, Section, SectionHeading } from '../ui'
 
 type PlanVisualKind = 'review' | 'plan' | 'followup'
@@ -122,7 +118,6 @@ const visualVariants: Variants = {
 
 export function PricingSection() {
   const reduceMotion = useReducedMotion()
-  const checkoutConfigured = isCheckoutConfigured()
 
   return (
     <Section
@@ -162,14 +157,6 @@ export function PricingSection() {
             </Button>
           </div>
         </div>
-
-        {import.meta.env.DEV && !checkoutConfigured ? (
-          <p className="mt-5 rounded-2xl bg-white/72 px-4 py-3 text-sm font-semibold leading-6 text-vetkathia-primary-dark ring-1 ring-vetkathia-border/45">
-            Desarrollo: la contratación online todavía no está configurada.
-            Los botones llevan a la página de contratación para revisar el
-            flujo.
-          </p>
-        ) : null}
 
         <div className="relative mt-7 grid items-stretch gap-4 sm:mt-8 lg:mt-9 lg:grid-cols-3 lg:gap-5">
           {homePlans.map((plan, index) => {
