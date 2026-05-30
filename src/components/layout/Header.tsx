@@ -37,10 +37,7 @@ export function Header() {
               className="rounded-full px-4 py-2 text-sm font-semibold text-vetkathia-muted transition-[background-color,color] duration-[360ms] ease-out hover:bg-vetkathia-surface hover:text-vetkathia-text focus:outline-none focus:ring-4 focus:ring-vetkathia-primary-dark/25"
               key={item.href}
               onClick={() => {
-                if (item.href === '/#planes') {
-                  trackCTAClick('Planes', 'header nav')
-                  window.setTimeout(() => scrollToHashTarget('planes'), 0)
-                }
+                trackCTAClick(item.label, 'header nav')
               }}
               to={item.href}
             >
@@ -67,10 +64,9 @@ export function Header() {
             className="px-3"
             onClick={() => {
               trackCTAClick('Planes', 'header mobile')
-              window.setTimeout(() => scrollToHashTarget('planes'), 0)
             }}
             size="sm"
-            to="/#planes"
+            to="/planes"
           >
             Planes
           </Button>

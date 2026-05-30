@@ -114,7 +114,7 @@ export const siteConfig: {
 
 export const mainNavigation = [
   { href: '/#nutricion', label: 'Nutrición' },
-  { href: '/#planes', label: 'Planes' },
+  { href: '/planes', label: 'Planes' },
   { href: '/sobre-mi', label: 'Sobre mí' },
   { href: '/faq', label: 'FAQ' },
 ]
